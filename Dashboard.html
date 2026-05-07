@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教師後台｜N523 輔導系統</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --ink: #1e293b; --ink2: #475569; --ink3: #94a3b8;
+  --paper: #f8fafc; --surface: #ffffff; --border: #e2e8f0; --border2: #cbd5e1;
+  --blue: #3b82f6; --blue-bg: #eff6ff; --blue-dk: #1d4ed8; --blue-bd: #bfdbfe;
+  --teal: #14b8a6; --teal-bg: #f0fdfa; --teal-dk: #0f766e; --teal-bd: #99f6e4;
+  --green: #22c55e; --green-bg: #f0fdf4; --green-dk: #15803d; --green-bd: #bbf7d0;
+  --orange: #f97316; --orange-bg: #fff7ed; --orange-dk: #c2410c; --orange-bd: #fed7aa;
+  --red: #ef4444; --red-bg: #fef2f2; --red-dk: #b91c1c; --red-bd: #fecaca;
+  --purple: #8b5cf6; --purple-bg: #f5f3ff; --purple-dk: #6d28d9; --purple-bd: #ddd6fe;
+  --amber: #f59e0b; --amber-bg: #fffbeb; --amber-dk: #b45309; --amber-bd: #fde68a;
+  --r: 16px; --r-sm: 10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑體",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+
+/* 🟢 風景照融入：登入頁面背景 🟢 */
+.login-wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-color:#f1f5f9;
+  background-image: url('image.png'); /* 讀取同資料夾中的 image.png */
+  background-size: cover;
+  background-position: center;
+  padding:20px;
+  position: relative;
+}
+.login-wrap::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(15,23,42,0.5); /* 黑色遮罩讓白底登入框更明顯 */
+}
+.login-box{position:relative;z-index:1;background:var(--surface);border-radius:24px;padding:48px 40px;width:100%;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,0.1);border:1px solid var(--border)}
+.login-logo{text-align:center;margin-bottom:32px}
+.login-icon{width:64px;height:64px;border-radius:18px;background:var(--blue-bg);color:var(--blue-dk);display:inline-flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:16px;border:1px solid var(--blue-bd)}
+.login-title{font-size:20px;font-weight:900;margin-bottom:6px;color:var(--ink)}
+.login-sub{font-size:13px;color:var(--ink2)}
+.lfield{margin-bottom:20px}
+.lfield label{display:block;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.lfield input{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:15px;font-family:inherit;background:var(--paper);transition:all .2s}
+.lfield input:focus{outline:none;border-color:var(--blue);background:white;box-shadow:0 0 0 3px var(--blue-bg)}
+.btn-login{width:100%;padding:16px;border:none;border-radius:var(--r-sm);background:var(--blue);color:white;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;box-shadow:0 4px 12px rgba(59,130,246,0.2)}
+.btn-login:hover{background:var(--blue-dk);transform:translateY(-1px)}.btn-login:disabled{background:var(--border);box-shadow:none;cursor:not-allowed;transform:none}
+
+#app{display:none}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:60px;position:sticky;top:0;z-index:100}
+.brand{font-size:15px;font-weight:900;color:var(--ink)}
+.topbar-sep{color:var(--border);margin:0 12px}
+.topbar-sub{font-size:13px;color:var(--ink2)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.teacher-chip{font-size:13px;font-weight:700;background:var(--paper);color:var(--ink);padding:6px 14px;border-radius:20px;border:1px solid var(--border)}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;display:inline-block}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.btn-top{font-size:13px;font-weight:600;padding:8px 16px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;color:var(--ink2);cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
+.btn-top:hover{background:var(--paper);color:var(--ink)}.btn-top.red{background:white;color:var(--red);border-color:var(--red-bd)}.btn-top.red:hover{background:var(--red-bg)}
+
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 60px)}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 12px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.nav-sec{font-size:11px;font-weight:700;letter-spacing:.8px;color:var(--ink3);padding:0 12px;margin:16px 0 8px;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:14px;color:var(--ink2);font-weight:500;cursor:pointer;border-radius:var(--r-sm);transition:all .2s;margin-bottom:4px}
+.nav-item:hover{background:var(--paper);color:var(--ink)}
+.nav-item.on{background:var(--blue-bg);color:var(--blue-dk);font-weight:700}
+.nav-item.on.teal{background:var(--teal-bg);color:var(--teal-dk)}
+.nav-badge{font-size:11px;font-weight:700;background:var(--red);color:white;padding:2px 8px;border-radius:20px;margin-left:auto}
+
+.main{padding:32px;overflow-y:auto;background:var(--paper)}
+.page{display:none}.page.on{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.page-title{font-size:24px;font-weight:900;margin-bottom:6px;color:var(--ink)}
+.page-sub{font-size:14px;color:var(--ink2);margin-bottom:24px}
+
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.m-label{font-size:13px;color:var(--ink2);margin-bottom:8px;font-weight:700}
+.m-val{font-size:32px;font-weight:900;line-height:1}
+.m-val.blue{color:var(--blue)}.m-val.green{color:var(--green)}.m-val.teal{color:var(--teal)}.m-val.orange{color:var(--orange)}.m-val.red{color:var(--red)}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:20px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.02)}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:white}
+.card-title{font-size:15px;font-weight:900;color:var(--ink)}
+.card-body{padding:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+thead th{background:var(--paper);font-size:12px;font-weight:700;color:var(--ink2);padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap}
+tbody td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--ink)}
+tbody tr:hover{background:var(--paper)}
+tbody tr:last-child td{border-bottom:none}
+
+.pill{display:inline-flex;align-items:center;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.p-green{background:var(--green-bg);color:var(--green-dk);border:1px solid var(--green-bd)}
+.p-orange{background:var(--orange-bg);color:var(--orange-dk);border:1px solid var(--orange-bd)}
+.p-red{background:var(--red-bg);color:var(--red-dk);border:1px solid var(--red-bd)}
+.p-blue{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
+.p-teal{background:var(--teal-bg);color:var(--teal-dk);border:1px solid var(--teal-bd)}
+.p-purple{background:var(--purple-bg);color:var(--purple-dk);border:1px solid var(--purple-bd)}
+.p-amber{background:var(--amber-bg);color:var(--amber-dk);border:1px solid var(--amber-bd)}
+.p-gray{background:white;color:var(--ink2);border:1px solid var(--border)}
+
+.ai-card{background:white;border:1px solid var(--purple-bd);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(139,92,246,0.05)}
+.ai-name{font-size:15px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;color:var(--ink)}
+.ai-sec{margin-bottom:16px}.ai-sec:last-child{margin-bottom:0}
+.ai-tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:8px}
+.ai-tag-s{background:var(--green-bg);color:var(--green-dk);border:1px solid var(--green-bd)}
+.ai-tag-p{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
+.ai-tag-t{background:var(--purple-bg);color:var(--purple-dk);border:1px solid var(--purple-bd)}
+.ai-text{font-size:14px;line-height:1.6;background:var(--paper);border-radius:var(--r-sm);padding:14px;color:var(--ink);border:1px solid var(--border)}
+
+.parent-card{background:white;border:1px solid var(--teal-bd);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(20,184,166,0.05)}
+.parent-name{font-size:15px;font-weight:900;margin-bottom:16px;color:var(--teal-dk)}
+.pf{margin-bottom:12px;font-size:14px}.pf-label{font-weight:700;color:var(--teal-dk);margin-bottom:6px}
+.pf-val{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px 14px;line-height:1.6;color:var(--ink)}
+
+.overlay{position:fixed;inset:0;background:rgba(15,23,42,0.4);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.overlay.on{display:flex}
+.modal{background:white;border-radius:24px;padding:32px;width:100%;max-width:480px;box-shadow:0 24px 60px rgba(0,0,0,0.1)}
+.modal-title{font-size:18px;font-weight:900;margin-bottom:6px;color:var(--ink)}
+.modal-sub{font-size:14px;color:var(--ink2);margin-bottom:20px}
+.link-box{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);padding:16px;font-size:13px;font-family:monospace;word-break:break-all;margin-bottom:20px;color:var(--blue-dk)}
+.modal-btns{display:flex;gap:12px}
+.btn-copy{flex:1;padding:14px;border:none;border-radius:var(--r-sm);background:var(--blue);color:white;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
+.btn-copy:hover{background:var(--blue-dk)}
+.btn-close-modal{flex:1;padding:14px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;color:var(--ink);font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
+.btn-close-modal:hover{background:var(--paper)}
+
+.compare-grid{display:grid;grid-template-columns:1fr 1px 1fr;gap:0}
+.compare-col{padding:0 20px}
+.compare-sep{background:var(--border)}
+.compare-head{font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border)}
+.compare-head.blue{color:var(--blue-dk)}.compare-head.teal{color:var(--teal-dk)}
+.fu-chat{background:var(--paper);border-radius:var(--r-sm);padding:14px;margin:12px 0;font-size:14px;line-height:1.6;color:var(--ink);border:1px solid var(--border)}
+
+.toolbar{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center}
+.search-inp{padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:14px;font-family:inherit;background:white;width:240px;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
+.search-inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
+select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:14px;font-family:inherit;background:white;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
+.btn-act{font-size:13px;padding:8px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;color:var(--ink);cursor:pointer;font-family:inherit;font-weight:700;transition:all .2s}
+.btn-act:hover{background:var(--paper)}.btn-act.teal{background:var(--teal);color:white;border-color:var(--teal)}.btn-act.teal:hover{background:var(--teal-dk)}
+.spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading-wrap{text-align:center;padding:60px;color:var(--ink2);font-size:14px}
+.empty{text-align:center;padding:48px;color:var(--ink3);font-size:14px}
+.sb{display:inline-block;min-width:28px;height:24px;line-height:24px;text-align:center;border-radius:12px;font-size:12px;font-weight:900}
+.alert-msg{padding:14px 16px;border-radius:var(--r-sm);font-size:14px;margin-bottom:16px}
+.alert-danger{background:var(--danger-bg);color:var(--danger-dk);border:1px solid var(--danger-bd)}
+@media print{.sidebar,.topbar,.toolbar,.btn-top,.overlay{display:none!important}.layout{grid-template-columns:1fr!important}.page{display:block!important}}
+</style>
+</head>
+<body>
+
+<div id="loginWrap" class="login-wrap">
+  <div class="login-box">
+    <div class="login-logo"><div class="login-icon">🏥</div><div class="login-title">教師後台管理系統</div><div class="login-sub">耕莘健康管理專科學校・護理科(宜蘭) N523</div></div>
+    <div id="loginErr"></div>
+    <div class="lfield"><label>帳號</label><input type="text" id="inp_user" autocomplete="username"></div>
+    <div class="lfield"><label>密碼</label><input type="password" id="inp_pass" autocomplete="current-password" onkeydown="if(event.key==='Enter')login()"></div>
+    <button class="btn-login" id="loginBtn" onclick="login()">登入後台</button>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div style="display:flex;align-items:center"><span class="brand">後台管理</span><span class="topbar-sep">|</span><span class="topbar-sub">114-2 N523班 輔導問卷系統</span></div>
+    <div class="topbar-right">
+      <span class="teacher-chip" id="teacherChip">教師</span><span class="sync-dot"></span><span style="font-size:12px;color:var(--green);font-weight:600">即時同步</span>
+      <button class="btn-top" onclick="loadData()">⟳ 重新整理</button>
+      <button class="btn-top red" onclick="logout()">登出</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="sidebar">
+      <div class="nav-sec">學生問卷</div>
+      <div class="nav-item on" onclick="goto('overview')">◈ 總覽儀表板</div>
+      <div class="nav-item" onclick="goto('students')">◉ 填寫狀況</div>
+      <div class="nav-item" onclick="goto('subjects')">◐ 科目分析</div>
+      <div class="nav-item" onclick="goto('stress')">◉ 壓力熱點</div>
+      <div class="nav-item" onclick="goto('ai')">◈ AI 建議庫</div>
+      <div class="nav-sec">家長問卷</div>
+      <div class="nav-item teal" onclick="goto('plinks')">🔗 發送家長連結</div>
+      <div class="nav-item teal" onclick="goto('pfeedback')">📋 家長回饋 <span class="nav-badge" id="pbadge" style="display:none">0</span></div>
+      <div class="nav-item teal" onclick="goto('compare')">⚖️ 學生×家長對照</div>
+    </div>
+    <div class="main" id="mainArea">
+      <div class="loading-wrap" id="globalLoading"><div class="spin"></div>載入資料中…</div>
+      
+      <div class="page" id="page-overview">
+        <div class="page-title">總覽儀表板</div><div class="page-sub">本班填寫概況與關鍵指標</div>
+        <div class="metrics" id="overviewMetrics"></div>
+        <div class="grid2">
+          <div class="card"><div class="card-head"><span class="card-title">不及格科目人數</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cSubject"></canvas></div></div></div>
+          <div class="card"><div class="card-head"><span class="card-title">不及格主因分布</span></div><div class="card-body"><div id="rLegend" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:11px;color:var(--ink2)"></div><div style="position:relative;height:190px"><canvas id="cReason"></canvas></div></div></div>
+        </div>
+        <div class="card"><div class="card-head"><span class="card-title" style="color:var(--red-dk)">⚠ 高風險學生（壓力 ≥ 8 或不及格 ≥ 4 科）</span></div><div class="card-body" id="warningList" style="padding:0"></div></div>
+      </div>
+
+      <div class="page" id="page-students">
+        <div class="page-title">填寫狀況</div><div class="page-sub">追蹤每位學生的問卷進度</div>
+        <div class="toolbar"><input class="search-inp" id="srchSt" placeholder="搜尋姓名…" oninput="renderStudents()"><select class="sel" id="filtSt" onchange="renderStudents()"><option value="">全部</option><option value="done">已填</option><option value="pending">未填</option></select></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title" id="stTitle">學生列表</span></div><div class="tbl-wrap"><table><thead><tr><th>#</th><th>姓名</th><th>學號</th><th>不及格科數</th><th>壓力指數</th><th>填寫時間</th><th>狀況</th><th>AI建議</th></tr></thead><tbody id="stBody"></tbody></table></div></div>
+      </div>
+
+      <div class="page" id="page-subjects">
+        <div class="page-title">科目分析</div><div class="page-sub">各科不及格原因與策略分析</div>
+        <div class="card"><div class="card-head"><span class="card-title">點選科目查看分析</span></div><div class="card-body"><div id="subjBtns" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px"></div><div id="subjDetail"></div></div></div>
+        <div class="grid2">
+          <div class="card"><div class="card-head"><span class="card-title">改進策略分布</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cStrategy"></canvas></div></div></div>
+          <div class="card"><div class="card-head"><span class="card-title">班級自評平均雷達</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cRadar"></canvas></div></div></div>
+        </div>
+      </div>
+
+      <div class="page" id="page-stress">
+        <div class="page-title">壓力熱點分析</div><div class="page-sub">識別高壓學生，及時介入</div>
+        <div class="metrics" id="stressMetrics"></div>
+        <div class="card"><div class="card-head"><span class="card-title">壓力分布直方圖</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cStress"></canvas></div></div></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">高壓學生名單（壓力 ≥ 8）</span></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>壓力</th><th>科數</th><th>盲點</th><th>行動承諾</th></tr></thead><tbody id="stressBody"></tbody></table></div></div>
+      </div>
+
+      <div class="page" id="page-ai">
+        <div class="page-title">AI 輔導建議庫</div><div class="page-sub">AI 生成的三方輔導建議（不顯示給學生）</div>
+        <div class="toolbar"><input class="search-inp" id="srchAI" placeholder="搜尋學生…" oninput="renderAI()"></div>
+        <div id="aiContainer"></div>
+      </div>
+
+      <div class="page" id="page-plinks">
+        <div class="page-title">發送家長連結</div><div class="page-sub">為已填寫學生問卷的學生產生專屬家長連結</div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">選擇學生 → 產生連結</span></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>學號</th><th>科數</th><th>連結狀態</th><th>家長填寫</th><th>操作</th></tr></thead><tbody id="plBody"></tbody></table></div></div>
+      </div>
+
+      <div class="page" id="page-pfeedback">
+        <div class="page-title">家長回饋</div><div class="page-sub">已收到的家長問卷填寫結果</div>
+        <div class="toolbar"><input class="search-inp" id="srchPF" placeholder="搜尋學生…" oninput="renderPF()"></div>
+        <div id="pfContainer"></div>
+      </div>
+
+      <div class="page" id="page-compare">
+        <div class="page-title">學生 × 家長對照</div><div class="page-sub">同時查看學生自填與家長回饋，包含日常作息與各科 AI 解析</div>
+        <div class="toolbar">
+          <select class="sel" id="cmpSel" onchange="renderCompare()" style="width:240px"><option value="">請選擇學生…</option></select>
+          <button class="btn-act purple" id="btnGenAnalysis" onclick="generateAnalysis()" style="display:none;background:var(--purple);color:white;border-color:var(--purple);padding:10px 16px;font-size:14px;box-shadow:0 4px 10px rgba(139,92,246,0.3)">🤖 產生雙方差異綜合分析</button>
+        </div>
+        <div id="cmpAnalysisResult" style="display:none;margin-bottom:16px;background:var(--purple-bg);border:1px solid var(--purple-bd);border-radius:var(--r);padding:20px;color:var(--purple-dk);font-size:14px;line-height:1.8;white-space:pre-wrap"></div>
+        <div id="cmpContent"><div class="empty">請從上方選擇學生</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 產生連結 Modal -->
+<div class="overlay" id="linkModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">🔗 家長專屬連結已產生</div>
+    <div class="modal-sub" id="modalStudentName"></div>
+    <div class="link-box" id="modalLink">產生中…</div>
+    <div class="modal-btns">
+      <button class="btn-copy" onclick="copyLink()">📋 複製連結</button>
+      <button class="btn-close-modal" onclick="closeModal()">關閉</button>
+    </div>
+    <div style="font-size:12px;color:var(--ink3);margin-top:10px;text-align:center">連結不會過期，家長只能填寫一次</div>
+  </div>
+</div>
+
+<!-- 成績詳情 Modal (加大寬度以顯示 AI 分析) -->
+<div class="overlay" id="scoreModal" onclick="if(event.target===this)closeScoreModal()">
+  <div class="modal" style="max-width:700px;">
+    <div class="modal-title" id="scoreModalTitle">成績詳情與分析</div>
+    <div class="modal-sub" id="scoreModalSub" style="margin-bottom:16px"></div>
+    <div id="scoreModalContent"></div>
+    <div class="modal-btns" style="margin-top:24px"><button class="btn-close-modal" onclick="closeScoreModal()" style="width:100%">關閉</button></div>
+  </div>
+</div>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
+const DTOK = new URLSearchParams(location.search).get("token") || "teacher2025";
+let ALL=[], STUDENTS=[], SMAP={}, TOKENS=[], PARENT_DATA=[];
+let teacherName="", currentLink="";
+const charts={};
+const COLORS=["#3b82f6","#ef4444","#f59e0b","#10b981","#8b5cf6","#ec4899","#14b8a6","#f97316"];
+
+// ── 登入 ────────────────────────────────────────────────────
+async function login(){
+  const user=document.getElementById("inp_user").value.trim();
+  const pass=document.getElementById("inp_pass").value;
+  const errDiv=document.getElementById("loginErr");errDiv.innerHTML="";
+  if(!user||!pass){errDiv.innerHTML='<div class="alert-msg alert-danger">請輸入帳號與密碼</div>';return}
+  const btn=document.getElementById("loginBtn");btn.disabled=true;btn.textContent="驗證中…";
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"verifyTeacher",username:user,password:pass})}).then(r=>r.json());
+    if(!d.ok){errDiv.innerHTML=`<div class="alert-msg alert-danger">❌ ${esc(d.msg)}</div>`;btn.disabled=false;btn.textContent="登入後台";return}
+    teacherName=d.displayName;
+    document.getElementById("loginWrap").style.display="none";
+    document.getElementById("app").style.display="block";
+    document.getElementById("teacherChip").textContent=teacherName+" 老師";
+    loadData();
+  }catch(e){errDiv.innerHTML='<div class="alert-msg alert-danger">網路連線問題，請重試</div>';btn.disabled=false;btn.textContent="登入後台"}
+}
+
+function logout(){location.reload();}
+
+// ── 資料 ────────────────────────────────────────────────────
+async function loadData(){
+  document.getElementById("globalLoading").style.display="block";
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"getDashboardData",dashToken:DTOK})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg);
+    ALL=d.feedback||[];STUDENTS=d.students||[];TOKENS=d.tokens||[];PARENT_DATA=d.parentData||[];
+    buildMap();
+    document.getElementById("globalLoading").style.display="none";
+    goto("overview");
+  }catch(e){
+    document.getElementById("globalLoading").innerHTML=`<div style="text-align:center;padding:48px;color:var(--red)">載入失敗：${e.message}<br><br><button class="btn-top" onclick="loadData()">重試</button></div>`;
+  }
+}
+
+function buildMap(){
+  SMAP={};
+
+  STUDENTS.forEach(st=>{
+    const studentId=String(st.studentId||"").trim();
+    const name=String(st.name||"").trim();
+    if(!studentId||!name)return;
+    SMAP[studentId]={
+      studentId,name,timestamp:"",
+      selfRating:{focus:0,review:0,understanding:0,examCoping:0},
+      learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
+      routine:{sleep:"",entertainment:"",extracurricular:""}, followUp:{q:"",a:""}, 
+      aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",
+      allSubjects: st.allSubjects.map(x=>({...x})), subjects: st.allSubjects.filter(x=>x.score<60).map(x=>({...x})), hasFeedback:false
+    };
+  });
+
+  ALL.forEach(r=>{
+    const studentId=String(r.studentId||"").trim();
+    if(!studentId)return;
+    if(!SMAP[studentId]){
+      SMAP[studentId]={
+        studentId,name:r.name||"",timestamp:"",
+        selfRating:{focus:0,review:0,understanding:0,examCoping:0},
+        learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
+        routine:{sleep:"",entertainment:"",extracurricular:""}, followUp:{q:"",a:""}, 
+        aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",
+        allSubjects:[],subjects:[],hasFeedback:false
+      };
+    }
+    let s=SMAP[studentId]; s.hasFeedback=true; s.timestamp=r.timestamp;
+    s.learningBlindSpot=r.learningBlindSpot; s.studyMethod=r.studyMethod; s.actionCommitment=r.actionCommitment; s.stressIndex=+r.stressIndex; s.shortTermGoal=r.shortTermGoal;
+    s.routine=r.routine; s.followUp=r.followUp; s.aiTeacher=r.aiTeacher; s.aiSubject=r.aiSubject;
+    if(r.subject){
+      let exA=s.allSubjects.find(x=>x.subject===r.subject); if(exA){exA.reason=r.reason;exA.strategy=r.strategy}else s.allSubjects.push({subject:r.subject,score:r.score,reason:r.reason,strategy:r.strategy});
+      let exF=s.subjects.find(x=>x.subject===r.subject); if(exF){exF.reason=r.reason;exF.strategy=r.strategy}else if(r.score<60) s.subjects.push({subject:r.subject,score:r.score,reason:r.reason,strategy:r.strategy});
+    }
+  });
+
+  const sel=document.getElementById("cmpSel");const prev=sel.value;
+  sel.innerHTML=`<option value="">請選擇學生…</option>`+Object.values(SMAP).sort((a,b)=>String(a.studentId).localeCompare(String(b.studentId))).map(s=>`<option value="${s.studentId}">${esc(s.name)}</option>`).join("");
+  if(prev)sel.value=prev;
+  
+  const b=document.getElementById("pbadge");const n=PARENT_DATA.length||0;b.textContent=n;b.style.display=n?"inline-block":"none";
+}
+
+// ── 路由 ────────────────────────────────────────────────────
+function goto(name){
+  document.querySelectorAll(".nav-item").forEach(el=>el.classList.remove("on"));
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
+  const nav=document.querySelector(`[onclick="goto('${name}')"]`);if(nav)nav.classList.add("on");
+  const pg=document.getElementById("page-"+name);if(pg)pg.classList.add("on");
+  ({overview:renderOverview,students:renderStudents,subjects:renderSubjects,stress:renderStress,ai:renderAI,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare}[name]||(() => {}))();
+}
+
+// ── 圖表 ────────────────────────────────────────────────────
+function drawChart(id,type,labels,datasets,extra={}){
+  if(charts[id])charts[id].destroy();
+  Chart.defaults.color="#64748b";
+  const el=document.getElementById(id);if(!el)return;
+  charts[id]=new Chart(el,{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},...extra}});
+}
+function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
+function pill(t,c){return `<span class="pill ${c}">${t}</span>`}
+function sb(v){if(!v)return`<span style="color:var(--ink3)">—</span>`;const c=v>=8?"var(--red)":v>=5?"var(--orange)":"var(--green)";return`<span class="sb" style="background:${c}18;color:${c}">${v}</span>`}
+
+// ── 總覽 ────────────────────────────────────────────────────
+function renderOverview(){
+  const ss=Object.values(SMAP);
+  const filled=ss.filter(s=>s.hasFeedback);
+  const avgS=filled.length?(filled.reduce((a,s)=>a+s.stressIndex,0)/filled.length).toFixed(1):0;
+  document.getElementById("overviewMetrics").innerHTML=`
+    <div class="metric blue"><div class="m-label">學生已填人數</div><div class="m-val blue">${filled.length}</div><div class="m-sub">全班 ${ss.length} 人</div></div>
+    <div class="metric teal"><div class="m-label">家長已回填</div><div class="m-val teal">${PARENT_DATA.length}</div><div class="m-sub">份家長問卷</div></div>
+    <div class="metric orange"><div class="m-label">平均壓力指數</div><div class="m-val orange">${avgS}</div><div class="m-sub">/ 10 分</div></div>
+    <div class="metric red"><div class="m-label">高壓預警</div><div class="m-val red">${filled.filter(s=>s.stressIndex>=8).length}</div><div class="m-sub">壓力 ≥ 8</div></div>`;
+  const sc={};ALL.forEach(r=>{if(r.score<60)sc[r.subject]=(sc[r.subject]||0)+1});
+  const sb2=Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  drawChart("cSubject","bar",sb2.map(x=>x[0]),[{data:sb2.map(x=>x[1]),backgroundColor:"#3b82f6",borderRadius:5}],{indexAxis:"y"});
+  const rc={};ALL.forEach(r=>{if(r.reason)rc[r.reason]=(rc[r.reason]||0)+1});
+  const rk=Object.keys(rc);
+  document.getElementById("rLegend").innerHTML=rk.map((l,i)=>`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:${COLORS[i%COLORS.length]};display:inline-block"></span>${l.length>12?l.slice(0,12)+"…":l} ${rc[l]}</span>`).join("");
+  drawChart("cReason","doughnut",rk,[{data:rk.map(k=>rc[k]),backgroundColor:COLORS,borderWidth:0}],{cutout:"55%"});
+  const warns=filled.filter(s=>s.stressIndex>=8||s.subjects.length>=4);
+  document.getElementById("warningList").innerHTML=!warns.length?`<div class="empty">✅ 目前無高風險學生</div>`
+    :`<div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>科數</th><th>壓力</th><th>盲點</th></tr></thead><tbody>${warns.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td><strong>${esc(s.name)}</strong></td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td>${sb(s.stressIndex)}</td><td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.learningBlindSpot)||"—"}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+// ── 填寫狀況 ────────────────────────────────────────────────
+function renderStudents(){
+  const q=(document.getElementById("srchSt")?.value||"").toLowerCase();
+  const fs=document.getElementById("filtSt")?.value||"";
+  const ss=Object.values(SMAP).filter(s=>{
+    const name=String(s.name||"").toLowerCase();
+    const studentId=String(s.studentId||"").toLowerCase();
+    if(q&&!name.includes(q)&&!studentId.includes(q))return false;
+    if(fs==="done"&&!s.hasFeedback)return false;
+    if(fs==="pending"&&s.hasFeedback)return false;
+    return true;
+  });
+  document.getElementById("stTitle").textContent=`學生列表（共 ${ss.length} 人）`;
+  document.getElementById("stBody").innerHTML=!ss.length?`<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--ink2)">無符合條件的學生</td></tr>`
+    :ss.sort((a,b)=>{if(a.hasFeedback!==b.hasFeedback)return a.hasFeedback?-1:1;return String(a.studentId).localeCompare(String(b.studentId));}).map((s,i)=>`<tr>
+      <td style="color:var(--ink3)">${i+1}</td>
+      <td style="cursor:pointer;color:var(--blue-dk);font-weight:900" onclick="showScoreModal('${esc(s.studentId)}','all')" title="點擊查看各科詳細分析"><u style="text-decoration-style:dashed;text-underline-offset:4px">${esc(s.name)}</u></td>
+      <td style="font-size:12px;color:var(--ink2);font-family:monospace">${esc(s.studentId)}</td>
+      <td style="cursor:pointer" onclick="showScoreModal('${esc(s.studentId)}','fail')">${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":s.subjects.length>=2?"p-orange":"p-amber")}</td>
+      <td>${s.hasFeedback?sb(s.stressIndex):`<span style="color:var(--ink3)">—</span>`}</td>
+      <td style="font-size:12px;color:var(--ink3)">${s.timestamp?esc(String(s.timestamp).slice(0,16)):"—"}</td>
+      <td>${pill(s.hasFeedback?"已填寫":"未填寫",s.hasFeedback?"p-green":"p-gray")}</td>
+      <td>${pill(s.aiTeacher?"已生成":"—",s.aiTeacher?"p-purple":"p-gray")}</td>
+    </tr>`).join("");
+}
+
+// ── 彈出單科詳細分析 Modal ─────────────────────────────────────
+function showScoreModal(id, mode) {
+  const s = SMAP[id]; if(!s) return;
+  const isAll = mode === 'all'; const list = isAll ? s.allSubjects : s.subjects;
+  document.getElementById("scoreModalTitle").textContent = isAll ? "📈 所有成績與各科分析" : "⚠️ 不及格科目與各科分析";
+  document.getElementById("scoreModalSub").textContent = `${s.name} (${s.studentId})`;
+
+  let aiSubjObj = {};
+  try { aiSubjObj = JSON.parse(s.aiSubject || "{}"); } catch(e){}
+
+  if(!list.length) {
+    document.getElementById("scoreModalContent").innerHTML = `<div class="empty">無相關資料</div>`;
+  } else {
+     let html = `<div class="tbl-wrap" style="max-height:450px;overflow-y:auto;padding-right:8px;"><table><thead><tr><th style="width:25%">科目 / 分數</th><th>反思、策略與 AI 專屬分析</th></tr></thead><tbody>`;
+     list.forEach(x => {
+       const aiText = aiSubjObj[x.subject] || "";
+       html += `<tr style="background:${x.score>=60?'transparent':'var(--red-bg)'};border-bottom:1px solid var(--border)">
+       <td style="vertical-align:top;padding-top:16px;">
+         <div style="font-weight:900;color:${x.score>=60?'var(--green-dk)':'var(--red-dk)'};font-size:15px;margin-bottom:6px">${esc(x.subject)}</div>
+         <div style="color:${x.score>=60?'var(--green)':'var(--red)'};font-weight:900;font-size:18px">${x.score} 分</div>
+       </td>
+       <td style="font-size:13px;color:var(--ink2);line-height:1.6;padding:16px 12px;">
+         ${x.reason ? `<div style="margin-bottom:6px"><span style="display:inline-block;background:white;padding:4px 8px;border-radius:6px;border:1px solid var(--border);"><strong>💭 學生反思：</strong>${esc(x.reason)}</span></div>` : ''}
+         ${x.strategy ? `<div style="margin-bottom:6px"><span style="display:inline-block;background:white;padding:4px 8px;border-radius:6px;border:1px solid var(--border);"><strong>🎯 改進策略：</strong>${esc(x.strategy)}</span></div>` : ''}
+         ${aiText ? `<div style="color:var(--purple-dk); background:var(--purple-bg); padding:10px 12px; border-radius:8px; border:1px solid var(--purple-bd); margin-top:8px;">🤖 <strong>AI 針對本科建議：</strong><br>${esc(aiText)}</div>` : ''}
+       </td>
+       </tr>`;
+     });
+     document.getElementById("scoreModalContent").innerHTML = html + `</tbody></table></div>`;
+  }
+  document.getElementById("scoreModal").classList.add("on");
+}
+function closeScoreModal(){document.getElementById("scoreModal").classList.remove("on");}
+
+// ── 科目分析 ────────────────────────────────────────────────
+function renderSubjects(){
+  const sc={};ALL.forEach(r=>{if(r.score<60)sc[r.subject]=(sc[r.subject]||0)+1});
+  document.getElementById("subjBtns").innerHTML=Object.keys(sc).sort((a,b)=>sc[b]-sc[a]).map(s=>`<button class="btn-act" onclick="showSubjDetail('${esc(s)}')">${esc(s)} (${sc[s]})</button>`).join("");
+  const stC={};ALL.forEach(r=>{if(r.score<60&&r.strategy)stC[r.strategy]=(stC[r.strategy]||0)+1});
+  const sk=Object.keys(stC).sort((a,b)=>stC[b]-stC[a]);
+  drawChart("cStrategy","bar",sk.map(k=>k.length>14?k.slice(0,14)+"…":k),[{data:sk.map(k=>stC[k]),backgroundColor:"#8b5cf6",borderRadius:6}],{indexAxis:"y"});
+  const stud=Object.values(SMAP).filter(s=>s.selfRating.focus>0);
+  const avg=k=>stud.length?Math.round(stud.reduce((s,st)=>s+st.selfRating[k],0)/stud.length*10)/10:0;
+  drawChart("cRadar","radar",["上課專注","課後落實","專業理解","考試應對"],[{data:[avg("focus"),avg("review"),avg("understanding"),avg("examCoping")],backgroundColor:"rgba(59,130,246,0.15)",borderColor:"#3b82f6",pointBackgroundColor:"#3b82f6"}],{scales:{r:{min:0,max:5,ticks:{stepSize:1}}}});
+}
+function showSubjDetail(subj){
+  const rows=ALL.filter(r=>r.subject===subj&&r.score<60);const rc={};rows.forEach(r=>{if(r.reason)rc[r.reason]=(rc[r.reason]||0)+1});
+  document.getElementById("subjDetail").innerHTML=`<div style="background:var(--blue-bg);padding:16px;border-radius:var(--r-sm);font-size:14px;color:var(--blue-dk);border:1px solid var(--blue-bd)"><strong>${esc(subj)}</strong> — 不及格 ${rows.length} 人<div style="margin-top:10px">${Object.entries(rc).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span style="margin-right:16px"><strong>${n}</strong>人：${esc(r)}</span>`).join("")}</div></div>`;
+}
+
+// ── 壓力熱點 ────────────────────────────────────────────────
+function renderStress(){
+  const ss=Object.values(SMAP).filter(s=>s.hasFeedback);const avg=ss.length?(ss.reduce((a,s)=>a+s.stressIndex,0)/ss.length).toFixed(1):0;const hi=ss.filter(s=>s.stressIndex>=8);
+  document.getElementById("stressMetrics").innerHTML=`
+    <div class="metric orange"><div class="m-label">全班平均壓力</div><div class="m-val orange">${avg}</div><div class="m-sub">/ 10 分</div></div>
+    <div class="metric red"><div class="m-label">高壓人數 (≥8)</div><div class="m-val red">${hi.length}</div><div class="m-sub">需優先關注</div></div>
+    <div class="metric blue"><div class="m-label">低壓人數 (≤4)</div><div class="m-val blue">${ss.filter(s=>s.stressIndex>0&&s.stressIndex<=4).length}</div><div class="m-sub">狀態相對穩定</div></div>`;
+  const bins=Array(10).fill(0);ss.forEach(s=>{if(s.stressIndex>0)bins[s.stressIndex-1]++});
+  drawChart("cStress","bar",["1","2","3","4","5","6","7","8","9","10"],[{data:bins,backgroundColor:bins.map((_,i)=>i>=7?"#ef4444":i>=4?"#f59e0b":"#22c55e"),borderRadius:6}]);
+  document.getElementById("stressBody").innerHTML=!hi.length?`<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--ink2)">無高壓學生</td></tr>`
+    :hi.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td><strong>${esc(s.name)}</strong></td><td>${sb(s.stressIndex)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td style="font-size:13px;max-width:160px">${esc(s.learningBlindSpot)||"—"}</td><td style="font-size:13px;max-width:160px">${esc(s.actionCommitment)||"—"}</td></tr>`).join("");
+}
+
+// ── AI 建議庫 ────────────────────────────────────────────────
+function renderAI(){
+  const q=(document.getElementById("srchAI")?.value||"").toLowerCase();
+  const ss=Object.values(SMAP).filter(s=>s.aiStudent&&(!q||s.name.toLowerCase().includes(q)));
+  const el=document.getElementById("aiContainer");
+  if(!ss.length){el.innerHTML=`<div class="empty">🤖 尚無 AI 建議</div>`;return}
+  el.innerHTML=ss.map(s=>`<div class="ai-card">
+    <div class="ai-name">${esc(s.name)} <span style="font-size:13px;font-weight:700;color:var(--ink2)">壓力${s.stressIndex}/10・${s.subjects.length}科</span><button class="btn-act" style="font-size:11px;padding:6px 12px" onclick="window.print()">列印</button></div>
+    <div class="ai-sec"><span class="ai-tag ai-tag-s">✏️ 給學生</span><div class="ai-text">${esc(s.aiStudent)}</div></div>
+    <div class="ai-sec"><span class="ai-tag ai-tag-p">📮 給家長</span><div class="ai-text">${esc(s.aiParent)}</div></div>
+    <div class="ai-sec"><span class="ai-tag ai-tag-t">📋 導師策略</span><div class="ai-text">${esc(s.aiTeacher)}</div></div>
+  </div>`).join("");
+}
+
+// ── 家長連結 ────────────────────────────────────────────────
+function renderPLinks(){
+  const ss=Object.values(SMAP);
+  document.getElementById("plBody").innerHTML=!ss.length?`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink2)">尚無學生問卷資料</td></tr>`
+    :ss.map(s=>{const tok=TOKENS.filter(t=>t.studentId===s.studentId).pop();const sent=!!tok;const done=tok?.done;return`<tr>
+      <td><strong>${esc(s.name)}</strong></td>
+      <td style="font-size:12px;color:var(--ink3);font-family:monospace">${s.studentId}</td>
+      <td>${pill(s.subjects.length+"科",s.subjects.length>=3?"p-orange":"p-amber")}</td>
+      <td>${sent?pill("已發送","p-teal"):pill("未發送","p-gray")}</td>
+      <td>${done?pill("已填寫","p-green"):sent?pill("待填寫","p-amber"):pill("—","p-gray")}</td>
+      <td><button class="btn-act teal" onclick="genLink('${s.studentId}','${esc(s.name)}')">${sent?"重新產生":"產生連結"}</button></td>
+    </tr>`}).join("");
+}
+
+async function genLink(studentId, studentName){
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"generateParentLink",dashToken:DTOK,studentId,studentName})}).then(r=>r.json());
+    if(!d.ok){alert("產生失敗："+d.msg);return}
+    currentLink=d.link;
+    document.getElementById("modalStudentName").textContent=studentName+" 同學的家長連結";
+    document.getElementById("modalLink").textContent=d.link;
+    document.getElementById("linkModal").classList.add("on");
+    loadData();
+  }catch(e){alert("產生失敗："+e.message)}
+}
+
+async function copyLink(){
+  try{await navigator.clipboard.writeText(currentLink);const b=document.querySelector(".btn-copy");b.textContent="✅ 已複製！";setTimeout(()=>b.textContent="📋 複製連結",2000)}
+  catch{prompt("請手動複製：",currentLink)}
+}
+function closeModal(){document.getElementById("linkModal").classList.remove("on")}
+
+// ── 家長回饋 ────────────────────────────────────────────────
+function renderPF(){
+  const q=(document.getElementById("srchPF")?.value||"").toLowerCase();
+  const pd=PARENT_DATA.filter(p=>!q||p.name.toLowerCase().includes(q));
+  const el=document.getElementById("pfContainer");
+  if(!pd.length){el.innerHTML=`<div class="empty">📋 尚無家長回饋資料</div>`;return}
+  el.innerHTML=pd.map(p=>`<div class="parent-card">
+    <div class="parent-name">👨‍👩‍👧 ${esc(p.name)} 的家長・<span style="font-size:12px;font-weight:400;color:var(--ink3)">${esc(p.timestamp)}</span></div>
+    <div class="pf"><div class="pf-label">壓力與觀察</div><div class="pf-val">壓力: ${esc(p.stressLevel)} <br>觀察: ${esc(p.observation)}</div></div>
+    <div class="pf"><div class="pf-label">支持方式</div><div class="pf-val">${esc(p.supportMethods)}</div></div>
+    ${p.suggestions?`<div class="pf"><div class="pf-label">建議</div><div class="pf-val">${esc(p.suggestions)}</div></div>`:""}
+  </div>`).join("");
+}
+
+// ── 學生×家長對照 (包含各科 AI 分析卡片) ─────────────────────────
+function renderCompare(){
+  const id=document.getElementById("cmpSel").value;const el=document.getElementById("cmpContent");
+  const btn=document.getElementById("btnGenAnalysis");const res=document.getElementById("cmpAnalysisResult");
+  res.style.display="none";
+  if(!id){el.innerHTML=`<div class="empty">請選擇學生</div>`;btn.style.display="none";return}
+  const s=SMAP[id];const p=PARENT_DATA.find(x=>x.studentId===id);
+  
+  btn.style.display = (s && p) ? "inline-block" : "none";
+
+  const aiChatHtml = (s?.followUp?.q) ? `<div class="fu-chat" style="border-left:4px solid var(--purple)">🤖 <strong>AI提問：</strong>${esc(s.followUp.q)}</div><div class="fu-chat" style="border-left:4px solid var(--blue)">👩‍🎓 <strong>學生回答：</strong>${esc(s.followUp.a)}</div>` : "";
+  
+  let aiSubjObj = {};
+  try { aiSubjObj = JSON.parse(s?.aiSubject || "{}"); } catch(e){}
+
+  const subjectsHtml = (s?.allSubjects||[]).map(x => {
+    const aiText = aiSubjObj[x.subject] || "";
+    return `
+      <div style="background:var(--paper); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:10px;">
+        <strong style="color:${x.score>=60?'var(--green-dk)':'var(--red-dk)'}; font-size:14px;">${esc(x.subject)} (${x.score}分)</strong>
+        ${x.reason ? `<div style="font-size:13px; color:var(--ink2); margin-top:6px;"><strong>💭 學生反思：</strong>${esc(x.reason)}</div>` : ''}
+        ${x.strategy ? `<div style="font-size:13px; color:var(--ink2); margin-top:4px;"><strong>🎯 改進策略：</strong>${esc(x.strategy)}</div>` : ''}
+        ${aiText ? `<div style="font-size:13px; color:var(--purple-dk); margin-top:8px; background:var(--purple-bg); padding:8px 10px; border-radius:6px; border:1px solid var(--purple-bd);">🤖 <strong>AI 針對本科建議：</strong><br>${esc(aiText)}</div>` : ''}
+      </div>
+    `;
+  }).join("") || "無成績資料";
+
+  const sHtml=s?`<div style="font-size:14px;line-height:1.8;color:var(--ink)" id="sDataHtml">
+    <div style="margin-bottom:16px;background:var(--surface);border-radius:12px;padding:12px 14px;border:1px solid var(--border)">
+       <strong style="font-size:15px;color:var(--blue-dk)">📌 學生各科詳細分析：</strong><br>
+       <div style="margin-top:10px">${subjectsHtml}</div>
+    </div>
+    <div style="margin-bottom:12px"><strong>日常作息：</strong><br><span style="color:var(--ink2)">睡眠: ${esc(s.routine?.sleep||"未填")} <br>娛樂: ${esc(s.routine?.entertainment||"未填")} <br>外務: ${esc(s.routine?.extracurricular||"未填")}</span></div>
+    <div style="margin-bottom:12px"><strong>讀書方法：</strong><br>${esc(s.studyMethod)||'<span style="color:var(--ink3)">未填</span>'}</div>
+    <div style="margin-bottom:12px"><strong>學習盲點：</strong><br>${esc(s.learningBlindSpot)||'<span style="color:var(--ink3)">未填</span>'}</div>
+    <div style="margin-bottom:12px"><strong>行動承諾：</strong><br>${esc(s.actionCommitment)||'<span style="color:var(--ink3)">未填</span>'}</div>
+    ${aiChatHtml}
+  </div>`:`<div class="empty">未填寫</div>`;
+  
+  const pHtml=p?`<div style="font-size:14px;line-height:1.8;color:var(--ink)" id="pDataHtml">
+    <div style="margin-bottom:12px"><strong>反應：</strong>${esc(p.situation)}</div>
+    <div style="margin-bottom:12px"><strong>壓力：</strong>${esc(p.stressLevel)}</div>
+    <div style="margin-bottom:12px;background:var(--amber-bg);padding:12px;border-radius:var(--r-sm);border:1px solid var(--amber-bd)"><strong>💡 對孩子作息/方法的觀察：</strong><br>${esc(p.observation)||'無'}</div>
+    <div style="margin-bottom:12px"><strong>支持：</strong>${esc(p.supportMethods)}</div>
+    <div style="margin-bottom:12px"><strong>建議：</strong>${esc(p.suggestions)}</div>
+    <div><strong>其他：</strong>${esc(p.additionalConcerns)}</div>
+  </div>`:`<div class="empty">家長未填寫</div>`;
+  
+  el.innerHTML=`<div class="card" style="padding:0"><div class="card-head"><span class="card-title">${esc(s?.name||id)} 雙方對照</span></div>
+    <div class="card-body"><div class="compare-grid"><div class="compare-col"><div class="compare-head blue">📝 學生自填</div>${sHtml}</div><div class="compare-sep"></div><div class="compare-col"><div class="compare-head teal">👨‍👩‍👧 家長回饋</div>${pHtml}</div></div></div></div>
+    ${s?.aiTeacher?`<div class="card" style="padding:0"><div class="card-head"><span class="card-title">📋 導師面談建議 (學生送出時初步生成)</span></div><div class="card-body"><div style="font-size:14px;line-height:1.8;color:var(--ink)">${esc(s.aiTeacher)}</div></div></div>`:""}`;
+}
+
+async function generateAnalysis() {
+  const btn = document.getElementById("btnGenAnalysis");
+  const res = document.getElementById("cmpAnalysisResult");
+  const sHtml = document.getElementById("sDataHtml")?.innerText || "";
+  const pHtml = document.getElementById("pDataHtml")?.innerText || "";
+  
+  if (!sHtml || !pHtml) return;
+  
+  btn.disabled = true;
+  btn.textContent = "🤖 正在深度分析中...";
+  res.style.display = "block";
+  res.innerHTML = '<div class="spin" style="width:24px;height:24px;border-width:3px;display:inline-block;vertical-align:middle;margin:0 8px 0 0"></div> 正在比對雙方資料並產生面談策略...';
+  
+  try {
+    const textPayload = `【學生自填資料】\n${sHtml}\n\n【家長回饋資料】\n${pHtml}`;
+    const d = await fetch(API, {
+      method: "POST", 
+      body: JSON.stringify({ action: "generateCompareAnalysis", dashToken: DTOK, textPayload })
+    }).then(r => r.json());
+    
+    if (d.ok) {
+      res.innerHTML = `<strong style="font-size:16px;">✨ AI 綜合深度分析</strong><br><br>${esc(d.analysis)}`;
+    } else {
+      res.innerHTML = `❌ 分析失敗：${esc(d.msg)}`;
+    }
+  } catch(e) {
+    res.innerHTML = `❌ 網路錯誤：${esc(e.message)}`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "🤖 重新產生綜合分析";
+  }
+}
+</script>
+</body>
+</html>

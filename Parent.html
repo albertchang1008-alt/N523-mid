@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>家長學習支持問卷｜N523</title>
+<style>
+:root{
+  --ink: #1e293b; --ink2: #475569; --ink3: #94a3b8;
+  --paper: #f8fafc; --surface: #ffffff; --border: #e2e8f0;
+  --blue: #3b82f6; --blue-bg: #eff6ff; --blue-dk: #1d4ed8; --blue-bd: #bfdbfe;
+  --teal: #14b8a6; --teal-bg: #f0fdfa; --teal-dk: #0f766e; --teal-bd: #99f6e4;
+  --purple: #8b5cf6; --purple-bg: #f5f3ff; --purple-dk: #6d28d9; --purple-bd: #ddd6fe;
+  --orange: #f97316; --orange-bg: #fff7ed; --orange-dk: #c2410c; --orange-bd: #fed7aa;
+  --danger: #ef4444; --danger-bg: #fef2f2; --danger-bd: #fecaca;
+  --green: #22c55e; --green-bg: #f0fdf4; --green-bd: #bbf7d0;
+  --r: 16px; --r-sm: 10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑體",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+
+/* 🟢 風景照融入：家長版標題背景 🟢 */
+.hero{
+  background-color: var(--teal-dk);
+  background-image: url('image.png'); /* 讀取同資料夾中的 image.png */
+  background-size: cover;
+  background-position: center 60%;
+  padding: 48px 20px 40px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+}
+.hero-inner{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,0.2);padding:6px 14px;border-radius:20px;font-size:12px;margin-bottom:12px;color:white;border:1px solid rgba(255,255,255,0.4);font-weight:700;backdrop-filter:blur(4px)}
+.hero h1{font-size:22px;font-weight:900;margin-bottom:8px;color:white;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+
+.prog-bar{height:4px;background:white}
+.prog-fill{height:100%;background:var(--teal);transition:width .5s}
+.main{max-width:600px;margin:0 auto;padding:24px 16px 60px}
+.card{background:var(--surface);border-radius:var(--r);padding:24px 20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.03);border:1px solid var(--border)}
+.card-title{font-size:18px;font-weight:900;margin-bottom:6px;color:var(--ink)}
+.card-desc{font-size:13px;color:var(--ink2);margin-bottom:20px}
+
+.si-card{background:white;border-radius:var(--r);padding:24px;margin-bottom:16px;border:1px solid var(--blue-bd);box-shadow:0 4px 12px rgba(59,130,246,0.04)}
+.si-header{display:flex;align-items:center;gap:16px;margin-bottom:16px;border-bottom:1px solid var(--border);padding-bottom:16px}
+.si-av{width:56px;height:56px;background:var(--blue-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px}
+.si-name{font-size:18px;font-weight:900;color:var(--ink)}
+.si-id{font-size:13px;color:var(--ink2);margin-top:2px}
+.si-sec{margin-bottom:16px}.si-sec:last-child{margin-bottom:0}
+.si-label{font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px}
+.si-text{font-size:14px;line-height:1.6;background:var(--paper);border-radius:var(--r-sm);padding:14px;color:var(--ink);border:1px solid var(--border)}
+.subj-pill{display:inline-block;font-size:13px;background:white;border:1px solid var(--border);border-radius:20px;padding:6px 12px;margin:0 6px 6px 0;font-weight:700;color:var(--ink)}
+
+.field{margin-bottom:20px}.field:last-child{margin-bottom:0}
+.field-label{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:8px;display:block}
+.field-label .req{color:var(--danger)}
+textarea,select{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:15px;background:var(--surface);color:var(--ink);transition:all .2s;outline:none;font-family:inherit;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
+textarea:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-bg)}
+.radio-group{display:flex;flex-direction:column;gap:8px}
+.radio-opt,.check-opt{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--paper);cursor:pointer;font-size:14px;color:var(--ink2);transition:all .2s}
+.radio-opt:hover,.check-opt:hover{border-color:var(--teal-bd);background:white}
+.radio-opt.on,.check-opt.on{border-color:var(--teal);background:var(--teal-bg);color:var(--teal-dk);font-weight:700}
+.radio-opt input,.check-opt input{margin-top:2px;accent-color:var(--teal)}
+.check-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:420px){.check-group{grid-template-columns:1fr}}
+
+.btn{width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-submit{background:var(--teal);color:white;box-shadow:0 4px 12px rgba(20,184,166,0.2)}
+.btn-submit:hover{background:var(--teal-dk);transform:translateY(-1px)}
+.btn-submit:disabled{background:var(--border);color:var(--ink3);box-shadow:none;cursor:not-allowed;transform:none}
+.alert{padding:14px 16px;border-radius:var(--r-sm);font-size:13.5px;margin-bottom:16px;background:var(--danger-bg);color:var(--danger-dk);border:1px solid var(--danger-bd)}
+.spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading-wrap,.done-wrap,.error-page{display:flex;flex-direction:column;align-items:center;padding:48px 20px;text-align:center;color:var(--ink2)}
+.done-icon,.error-icon{font-size:64px;margin-bottom:16px}
+
+.ai-letter{background:var(--orange-bg);border:1px solid var(--orange-bd);border-radius:var(--r);padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(249,115,22,0.05)}
+.ai-letter-label{font-size:12px;font-weight:900;color:var(--orange-dk);margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.fu-chat{background:var(--paper);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:8px;font-size:14px;line-height:1.6;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🏥 耕莘專校・護理科(宜蘭)</div>
+    <h1>家長學習支持問卷</h1>
+    <p style="font-size:14px;color:rgba(255,255,255,0.9);text-shadow:0 1px 4px rgba(0,0,0,0.3)">感謝您撥冗填寫，您的回饋對孩子的輔導非常重要</p>
+  </div>
+</div>
+<div class="prog-bar"><div class="prog-fill" id="prog" style="width:5%"></div></div>
+
+<div class="main">
+  <div id="sLoading"><div class="card"><div class="loading-wrap"><div class="spin"></div>資料載入中...</div></div></div>
+  <div id="sError" style="display:none"><div class="card"><div class="error-page"><div class="error-icon">🔗</div><div id="errTitle" style="font-size:20px;font-weight:900;color:var(--ink);margin-bottom:8px">連結無效</div><div id="errMsg" style="font-size:14px"></div></div></div></div>
+  <div id="sDone2" style="display:none"><div class="card"><div class="done-wrap"><div class="done-icon">✅</div><div style="font-size:20px;font-weight:900;color:var(--teal-dk);margin-bottom:8px">您已完成填寫</div><div style="font-size:14px">感謝您的協助！</div></div></div></div>
+
+  <div id="sForm" style="display:none">
+    <div class="si-card" id="siCard">
+      <div class="si-header"><div class="si-av">👩‍🎓</div><div><div class="si-name" id="siName"></div><div class="si-id" id="siId"></div></div></div>
+      <div class="si-sec"><div class="si-label">📋 孩子期中考各科成績</div><div id="siSubjects"></div></div>
+      <hr style="border:none;border-top:1px dashed var(--border);margin:20px 0">
+      <div class="si-sec"><div class="si-label">⏰ 孩子自述的日常作息</div><div class="si-text" id="siRoutine"></div></div>
+      <div class="si-sec"><div class="si-label">📖 孩子自述的讀書方法</div><div class="si-text" id="siStudyMethod"></div></div>
+      <div class="si-sec"><div class="si-label">🎯 孩子的具體行動承諾</div><div class="si-text" id="siCommit"></div></div>
+      <div class="si-sec" id="siAiChatSec">
+        <div class="si-label" style="margin-top:20px">💬 老師與孩子的課後討論確認</div>
+        <div id="siAiChat"></div>
+      </div>
+    </div>
+    
+    <div class="ai-letter" id="aiLetter" style="display:none">
+      <div class="ai-letter-label">🤖 來自導師(AI助手)的說明信</div>
+      <div id="aiLetterText" style="font-size:14.5px;line-height:1.8;color:var(--ink)"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">家長視角觀察</div>
+      <div class="card-desc">為幫助我們更精準輔導，請根據您近期的觀察填寫</div>
+      
+      <div class="field">
+        <label class="field-label">1. 您覺得孩子對這次成績的反應如何？ <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-opt" onclick="pick('q_r',0,this)"><input type="radio" name="q_r" value="0"> 很沮喪，有情緒低落</label>
+          <label class="radio-opt" onclick="pick('q_r',1,this)"><input type="radio" name="q_r" value="1"> 有點在意，但很快恢復</label>
+          <label class="radio-opt" onclick="pick('q_r',2,this)"><input type="radio" name="q_r" value="2"> 態度平淡，沒明顯反應</label>
+          <label class="radio-opt" onclick="pick('q_r',3,this)"><input type="radio" name="q_r" value="3"> 積極想改善，主動提補救</label>
+          <label class="radio-opt" onclick="pick('q_r',4,this)"><input type="radio" name="q_r" value="4"> 沒主動提起，我不太清楚</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">2. 您感受到孩子目前的課業壓力？ <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-opt" onclick="pick('q_s',0,this)"><input type="radio" name="q_s" value="0"> 很輕鬆，沒有壓力</label>
+          <label class="radio-opt" onclick="pick('q_s',1,this)"><input type="radio" name="q_s" value="1"> 有一點壓力，在合理範圍</label>
+          <label class="radio-opt" onclick="pick('q_s',2,this)"><input type="radio" name="q_s" value="2"> 壓力頗大，影響情緒作息</label>
+          <label class="radio-opt" onclick="pick('q_s',3,this)"><input type="radio" name="q_s" value="3"> 壓力非常大，我很擔心</label>
+          <label class="radio-opt" onclick="pick('q_s',4,this)"><input type="radio" name="q_s" value="4"> 不確定，孩子不太跟我說</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">3. 針對上方孩子自己填的「作息與讀書方法」，您的實際觀察是？ <span class="req">*</span></label>
+        <textarea id="inp_obs" rows="3" placeholder="例如：孩子說休閒1小時，但我觀察他睡前都在滑手機... 或是：孩子真的很認真但就是考不好..."></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">家庭支持與建議</div>
+      <div class="field">
+        <label class="field-label">您願意或正在提供的協助（可複選）</label>
+        <div class="check-group" id="supportGroup">
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="固定詢問孩子學習狀況"> 詢問學習狀況</label>
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="確保孩子有固定讀書時間"> 確保固定讀書時間</label>
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="協助孩子調整作息與睡眠"> 協助調整作息睡眠</label>
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="給予鼓勵而非責備"> 給予鼓勵不責備</label>
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="提供安靜的讀書環境"> 提供安靜讀書環境</label>
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="協助孩子尋求補習資源"> 尋求外部資源</label>
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="陪同孩子與老師面談"> 陪同與老師面談</label>
+          <label class="check-opt" onclick="tog(this)"><input type="checkbox" value="暫時較難給予支持（工作繁忙）"> 暫時較難給予支持</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">對學校輔導方式的建議或想讓老師知道的事</label>
+        <textarea id="inp_sug" rows="2" placeholder="例如：希望老師能定期通知成績狀況，或孩子近期有身體狀況等..."></textarea>
+      </div>
+    </div>
+
+    <div id="submitErr2"></div>
+    <button class="btn btn-submit" id="submitBtn2" onclick="submitParent()">✅ 送出回饋</button>
+  </div>
+
+  <div id="sDone3" style="display:none">
+    <div class="card"><div class="done-wrap"><div class="done-icon">✨</div><div style="font-size:22px;font-weight:900;color:var(--teal-dk);margin-bottom:8px">回饋已成功送達</div><div style="font-size:15px">感謝您的撥冗填寫，老師將整合資訊提供孩子更完善的支持。</div></div></div>
+  </div>
+</div>
+
+<script>
+// ⚠️ 記得改 API 網址 ⚠️
+const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
+const token = new URLSearchParams(location.search).get("parent_token");
+const RLS   = ["很沮喪，有情緒低落的狀況","有點在意，但很快就恢復","態度平淡，沒有明顯反應","積極想改善，主動提到要補救","孩子沒有主動提起，我不太清楚"];
+const SLS   = ["很輕鬆，沒有壓力","有一點壓力，但在合理範圍","壓力頗大，有時睡眠或情緒受影響","壓力非常大，我很擔心","我不確定，孩子不太跟我說"];
+
+function prog(p){document.getElementById("prog").style.width=p+"%"}
+function show(id){document.getElementById(id).style.display="block"}
+function hide(id){document.getElementById(id).style.display="none"}
+function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
+function err(id,msg){document.getElementById(id).innerHTML=msg?`<div class="alert alert-danger">⚠️ ${esc(msg)}</div>`:""}
+function pick(name,val,label){document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest("label").classList.remove("on"));label.classList.add("on");label.querySelector("input").checked=true}
+function tog(label){const cb=label.querySelector("input");cb.checked=!cb.checked;label.classList.toggle("on",cb.checked)}
+function showErr(title,msg){document.getElementById("errTitle").textContent=title;document.getElementById("errMsg").textContent=msg;hide("sLoading");show("sError")}
+
+async function post(action,body){
+  const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});
+  return r.json();
+}
+
+async function init(){
+  if(!token){showErr("連結無效","此連結不包含有效 token，請聯絡班導師重新取得。");return}
+  try{
+    const d=await post("getParentInfo",{token});
+    if(!d.ok){showErr("無法載入資料",d.msg);return}
+    if(d.alreadyDone){hide("sLoading");show("sDone2");prog(100);return}
+    const s=d.student;
+    document.getElementById("siName").textContent="Hi，"+s.name+" 同學的家長，您好！";
+    document.getElementById("siId").textContent="學號："+s.studentId;
+    const sw=document.getElementById("siSubjects");
+    sw.innerHTML=s.subjects?.length?s.subjects.map(sub=>`<span class="subj-pill" style="${sub.score<60?'border-color:var(--danger-bd);background:var(--danger-bg);color:var(--danger-dk)':''}">${esc(sub.subject)} ${sub.score}分</span>`).join(""):`<span style="font-size:13px;color:var(--ink3)">無成績資料</span>`;
+    if(s.learningBlindSpot){document.getElementById("siBlind").textContent=s.learningBlindSpot}else{hide("siBlindSec")}
+    if(s.actionCommitment){document.getElementById("siCommit").textContent=s.actionCommitment}else{hide("siCommitSec")}
+    
+    document.getElementById("siRoutine").innerHTML=`睡眠：${esc(s.routine?.sleep||"未填")} <br>娛樂：${esc(s.routine?.entertainment||"未填")} <br>外務：${esc(s.routine?.extracurricular||"未填")}`;
+    document.getElementById("siStudyMethod").textContent=s.studyMethod||"未填寫";
+
+    if(s.followUpQ && s.followUpA){
+       document.getElementById("siAiChat").innerHTML=`<div class="fu-chat" style="border-left:4px solid var(--purple)">🤖 ${esc(s.followUpQ)}</div><div class="fu-chat" style="border-left:4px solid var(--blue)">👩‍🎓 ${esc(s.followUpA)}</div>`;
+    }else{
+       hide("siAiChatSec");
+    }
+
+    if(s.aiParentLetter){document.getElementById("aiLetterText").textContent=s.aiParentLetter;show("aiLetter")}
+    hide("sLoading");show("sForm");prog(20);
+  }catch(e){showErr("網路連線問題","請確認網路後重新整理頁面。")}
+}
+
+async function submitParent(){
+  err("submitErr2","");
+  const rEl=document.querySelector("input[name='q_r']:checked");
+  const sEl=document.querySelector("input[name='q_s']:checked");
+  const obs=document.getElementById("inp_obs").value.trim();
+  
+  if(!rEl||!sEl){err("submitErr2","請選擇前兩題單選題");return}
+  if(!obs){err("submitErr2","請填寫第3題：對孩子作息與讀書方法的觀察");return}
+  
+  const supportMethods=[...document.querySelectorAll("#supportGroup input:checked")].map(c=>c.value);
+  const btn=document.getElementById("submitBtn2");btn.disabled=true;btn.textContent="提交中…";prog(80);
+  try{
+    const d=await post("submitParent",{
+      token,
+      awareness:{situation:RLS[+rEl.value],stressLevel:SLS[+sEl.value], observation:obs},
+      supportMethods,
+      suggestions:document.getElementById("inp_sug").value.trim(),
+    });
+    if(d.ok){hide("sForm");show("sDone3");prog(100);window.scrollTo({top:0,behavior:"smooth"})}
+    else{btn.disabled=false;btn.textContent="✅ 送出回饋";err("submitErr2",d.msg)}
+  }catch(e){btn.disabled=false;btn.textContent="✅ 送出回饋";err("submitErr2","提交失敗，請重試。")}
+}
+init();
+</script>
+</body>
+</html>

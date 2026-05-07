@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>114-2 學業成績自我檢視｜N523</title>
+<style>
+:root{
+  --ink: #1e293b; --ink2: #475569; --ink3: #94a3b8;
+  --paper: #f8fafc; --surface: #ffffff; --border: #e2e8f0;
+  --blue: #3b82f6; --blue-bg: #eff6ff; --blue-dk: #1d4ed8; --blue-bd: #bfdbfe;
+  --teal: #14b8a6; --teal-bg: #f0fdfa; --teal-dk: #0f766e; --teal-bd: #99f6e4;
+  --purple: #8b5cf6; --purple-bg: #f5f3ff; --purple-dk: #6d28d9; --purple-bd: #ddd6fe;
+  --orange: #f97316; --orange-bg: #fff7ed; --orange-dk: #c2410c; --orange-bd: #fed7aa;
+  --danger: #ef4444; --danger-bg: #fef2f2; --danger-bd: #fecaca;
+  --green: #22c55e; --green-bg: #f0fdf4; --green-bd: #bbf7d0;
+  --r: 16px; --r-sm: 10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑體",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+
+/* 🟢 風景照融入：設定為上方標題背景 🟢 */
+.hero{
+  background-color: var(--blue-dk);
+  background-image: url('image.png'); /* 讀取同資料夾中的 image.png */
+  background-size: cover;
+  background-position: center 60%;
+  padding: 48px 20px 40px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+/* 加入深色半透明遮罩，確保白色文字清晰易讀 */
+.hero::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45); 
+}
+.hero-inner{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);padding:6px 14px;border-radius:20px;font-size:12px;margin-bottom:12px;color:white;font-weight:700;backdrop-filter:blur(4px)}
+.hero h1{font-size:22px;font-weight:900;line-height:1.45;margin-bottom:6px;color:white;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.hero p{font-size:14px;color:rgba(255,255,255,0.9);text-shadow:0 1px 4px rgba(0,0,0,0.3)}
+
+.prog-bar{height:4px;background:white}
+.prog-fill{height:100%;background:var(--blue);transition:width .5s}
+.main{max-width:640px;margin:0 auto;padding:24px 16px 48px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px 20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.03)}
+.card-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:12px}
+.tag-blue{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
+.tag-teal{background:var(--teal-bg);color:var(--teal-dk);border:1px solid var(--teal-bd)}
+.tag-purple{background:var(--purple-bg);color:var(--purple-dk);border:1px solid var(--purple-bd)}
+.tag-orange{background:var(--orange-bg);color:var(--orange-dk);border:1px solid var(--orange-bd)}
+.card-title{font-size:18px;font-weight:900;margin-bottom:6px}
+.card-desc{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:20px}
+.field{margin-bottom:18px}.field:last-child{margin-bottom:0}
+.field-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:block}
+.field-label .req{color:var(--danger);margin-left:3px}
+input[type=text],select,textarea{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:15px;font-family:inherit;color:var(--ink);background:var(--surface);transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
+select{cursor:pointer;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;appearance:none;-webkit-appearance:none}
+input[type=text]:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg);background:white}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+.hint{font-size:12px;color:var(--ink3);margin-top:6px}
+.radio-group{display:flex;flex-direction:column;gap:8px}
+.radio-opt{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:14px;color:var(--ink2);line-height:1.4;transition:all .2s;background:var(--paper)}
+.radio-opt:hover{border-color:var(--blue-bd);background:white}
+.radio-opt.on{border-color:var(--blue);background:var(--blue-bg);color:var(--blue-dk);font-weight:700}
+.radio-opt input{margin-top:2px;accent-color:var(--blue);flex-shrink:0}
+.likert-q{margin-bottom:20px;padding:16px;background:var(--paper);border-radius:var(--r-sm);border:1px solid var(--border)}.likert-q:last-child{margin-bottom:0}
+.likert-text{font-size:13.5px;font-weight:700;margin-bottom:12px;color:var(--ink);line-height:1.5}
+.likert-row{display:flex;gap:6px}
+.likert-btn{flex:1;padding:12px 4px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;font-size:14px;font-weight:700;color:var(--ink2);cursor:pointer;text-align:center;transition:all .2s}
+.likert-btn:hover{border-color:var(--teal-bd);background:var(--teal-bg);color:var(--teal-dk)}
+.likert-btn.on{border-color:var(--teal);background:var(--teal);color:white;box-shadow:0 2px 8px rgba(20,184,166,0.2)}
+.likert-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-top:8px}
+.stress-wrap{text-align:center;background:var(--paper);padding:24px;border-radius:var(--r-sm);border:1px solid var(--border)}
+input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px 0}
+.stress-num{font-size:42px;font-weight:900;color:var(--blue);margin:8px 0 4px}
+.stress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
+.subject-card{background:white;border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.subject-card.err{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-bg)}
+.subject-head{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.subject-head .sname{font-size:15px;font-weight:900}
+.score-pill{padding:4px 12px;border-radius:20px;font-size:14px;font-weight:900}
+.subject-body{padding:20px}
+.q-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.q-block{margin-bottom:20px;background:var(--paper);padding:16px;border-radius:var(--r-sm);border:1px solid var(--border)}.q-block:last-child{margin-bottom:0}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--blue);color:white;box-shadow:0 4px 12px rgba(59,130,246,0.2)}
+.btn-primary:hover{background:var(--blue-dk);transform:translateY(-1px)}
+.btn-primary:disabled{background:var(--border);color:var(--ink3);cursor:not-allowed;transform:none;box-shadow:none}
+.btn-success{background:var(--teal);color:white;box-shadow:0 4px 12px rgba(20,184,166,0.2)}
+.btn-success:hover{background:var(--teal-dk);transform:translateY(-1px)}
+.btn-success:disabled{background:var(--border);color:var(--ink3);cursor:not-allowed;transform:none;box-shadow:none}
+.alert{padding:14px 16px;border-radius:var(--r-sm);font-size:13.5px;margin-bottom:16px;line-height:1.5}
+.alert-danger{background:var(--danger-bg);color:var(--danger-dk);border:1px solid var(--danger-bd)}
+.err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px var(--danger-bg) !important;background-color:var(--danger-bg) !important;}
+.spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:48px;text-align:center;color:var(--ink2);font-size:14px}
+.done-wrap{text-align:center;padding:48px 20px}
+.done-icon{font-size:72px;margin-bottom:16px}
+.done-title{font-size:24px;font-weight:900;color:var(--teal-dk);margin-bottom:8px}
+.done-msg{font-size:15px;color:var(--ink2);line-height:1.8}
+.banner{background:white;border:1px solid var(--blue-bd);border-radius:var(--r);padding:20px;margin-bottom:16px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 12px rgba(59,130,246,0.05)}
+.banner-av{width:48px;height:48px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.sg-item{padding:12px 10px;border-radius:var(--r-sm);border:1px solid transparent;text-align:center;background:white}
+.sg-subj{font-size:12px;color:var(--ink2);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.sg-score{font-size:20px;font-weight:900}
+.chat-bubble{background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:14px 14px 14px 4px;padding:16px;color:var(--blue-dk);font-size:14.5px;line-height:1.6;margin-bottom:16px;display:inline-block;max-width:95%}
+@media(max-width:380px){.card{padding:20px 16px}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🏥 耕莘專校・護理科(宜蘭)</div>
+    <h1>學業成績自我檢視與計畫</h1>
+    <p>N523班・期中考學習反思問卷</p>
+  </div>
+</div>
+<div class="prog-bar"><div class="prog-fill" id="prog" style="width:8%"></div></div>
+
+<div class="main">
+  <!-- STEP 1 驗證 -->
+  <div id="sVerify">
+    <div class="card">
+      <div class="card-tag tag-blue">🔐 Step 1</div>
+      <div class="card-title">請輸入學號與姓名</div>
+      <div id="verifyErr"></div>
+      <div class="field">
+        <label class="field-label">學號<span class="req">*</span></label>
+        <input type="text" id="inp_id" placeholder="例如：113510575" inputmode="numeric">
+      </div>
+      <div class="field">
+        <label class="field-label">姓名<span class="req">*</span></label>
+        <input type="text" id="inp_name" placeholder="例如：王小明">
+      </div>
+      <button class="btn btn-primary" onclick="verify()">🔍 查詢我的成績</button>
+    </div>
+  </div>
+
+  <div id="sLoading" style="display:none">
+    <div class="card"><div class="loading-wrap"><div class="spin"></div><div id="loadMsg">處理中…</div></div></div>
+  </div>
+
+  <!-- STEP 2 第一階段表單 -->
+  <div id="sForm" style="display:none">
+    <div class="banner">
+      <div class="banner-av">👩‍🎓</div>
+      <div><div style="font-size:18px;font-weight:900;color:var(--blue-dk)" id="bannerName"></div><div style="font-size:13px;color:var(--ink2);margin-top:2px" id="bannerId"></div></div>
+    </div>
+    
+    <div class="card">
+      <div class="card-tag tag-blue">📊 成績總覽</div>
+      <div class="card-title">期中考各科成績</div>
+      <div id="scoreGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:16px;"></div>
+    </div>
+
+    <div id="failBlock">
+      <div class="alert alert-info">📋 每個科目都值得反思，請針對各科狀況選擇敘述。</div>
+      <div id="subjectBlocks"></div>
+      
+      <div class="card">
+        <div class="card-tag tag-teal">📊 第二部分</div>
+        <div class="card-title">學習狀態自評</div>
+        <div class="likert-q">
+          <div class="likert-text">1. 上課專注度：上課能保持清醒，不滑手機。</div>
+          <div class="likert-row" id="lk_focus"></div>
+        </div>
+        <div class="likert-q">
+          <div class="likert-text">2. 課後落實度：能在 48 小時內回顧筆記。</div>
+          <div class="likert-row" id="lk_review"></div>
+        </div>
+        <div class="likert-q">
+          <div class="likert-text">3. 專業理解度：嘗試理解機制，不只死背。</div>
+          <div class="likert-row" id="lk_understanding"></div>
+        </div>
+        <div class="likert-q">
+          <div class="likert-text">4. 考試應對力：能分配時間，不因緊張空白。</div>
+          <div class="likert-row" id="lk_examCoping"></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-tag tag-purple">🔍 第三部分</div>
+        <div class="card-title">深度省思與行動承諾</div>
+        <div class="field">
+          <label class="field-label">你目前的讀書方法是什麼？<span class="req">*</span></label>
+          <textarea id="inp_studyMethod" rows="3" placeholder="例如：考前狂看課本、老師的簡報抄一遍、技術考靠硬背沒有實際模擬操作..."></textarea>
+          <div class="hint">💡 護理科有許多實驗課與技術考，你的練習方式夠「精熟」嗎？</div>
+        </div>
+        <div class="field">
+          <label class="field-label">本次考試最大的學習盲點<span class="req">*</span></label>
+          <textarea id="inp_blind" rows="2" placeholder="例如：專有名詞無法與實際機制連結…"></textarea>
+        </div>
+        <div class="field">
+          <label class="field-label">明天就能開始的一個具體改變<span class="req">*</span></label>
+          <textarea id="inp_commit" rows="2" placeholder="例如：每天晚上9點複習20分鐘…"></textarea>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-tag tag-blue">🕒 第四部分</div>
+        <div class="card-title">日常作息與時間管理</div>
+        <div class="field">
+          <label class="field-label">平均每天睡眠時間<span class="req">*</span></label>
+          <select id="inp_sleep"><option value="">請選擇...</option><option value="不到 5 小時">不到 5 小時</option><option value="5 - 6 小時">5 - 6 小時</option><option value="6 - 7 小時">6 - 7 小時</option><option value="7 - 8 小時">7 - 8 小時</option><option value="8 小時以上">8 小時以上</option></select>
+        </div>
+        <div class="field">
+          <label class="field-label">每天課後滑手機或休閒娛樂時間<span class="req">*</span></label>
+          <select id="inp_ent"><option value="">請選擇...</option><option value="1 小時以內">1 小時以內</option><option value="1 - 2 小時">1 - 2 小時</option><option value="2 - 3 小時">2 - 3 小時</option><option value="3 - 4 小時">3 - 4 小時</option><option value="4 小時以上">4 小時以上</option></select>
+        </div>
+        <div class="field">
+          <label class="field-label">每週打工或參與社團外務的總時間<span class="req">*</span></label>
+          <select id="inp_ext"><option value="">請選擇...</option><option value="無打工或社團">無打工或社團</option><option value="5 小時以內">5 小時以內</option><option value="5 - 10 小時">5 - 10 小時</option><option value="10 - 20 小時">10 - 20 小時</option><option value="20 小時以上">20 小時以上</option></select>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-tag tag-orange">💭 第五部分</div>
+        <div class="card-title">整體狀態</div>
+        <div class="field">
+          <label class="field-label">課業壓力指數（1=輕鬆，10=極大）</label>
+          <div class="stress-wrap">
+            <div id="stressEmoji" style="font-size:36px;margin-bottom:8px">😐</div>
+            <input type="range" id="stressSlider" min="1" max="10" value="5" oninput="updateStress(this.value)">
+            <div class="stress-num" id="stressNum">5</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label">本學期末的短期目標<span class="req">*</span></label>
+          <textarea id="inp_goal" rows="2" placeholder="例如：期末考藥理學達到 70 分…"></textarea>
+        </div>
+      </div>
+      <div id="submitErr"></div>
+      <button class="btn btn-primary" id="btnNext" onclick="goToFollowUp()">繼續下一步 ➡️</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 第二階段：AI 追問 -->
+  <div id="sFollowUp" style="display:none">
+    <div class="card">
+      <div class="card-tag tag-purple">🤖 來自導師的小追問</div>
+      <div class="card-title">讓計畫更具體</div>
+      <div class="card-desc">為了確保這份計畫能順利幫到你，請再回答一個小問題：</div>
+      <div class="chat-bubble" id="aiQuestionText"></div>
+      <div class="field" style="margin-top:8px">
+        <textarea id="inp_followupA" rows="3" placeholder="請在此補充具體細節..."></textarea>
+      </div>
+      <div id="fuErr"></div>
+      <button class="btn btn-success" id="btnFinal" onclick="finalSubmit()">✅ 完成並送出</button>
+    </div>
+  </div>
+
+  <div id="sDone" style="display:none">
+    <div class="card"><div class="done-wrap"><div class="done-icon">🎉</div><div class="done-title">問卷提交成功！</div><div class="done-msg">感謝你認真填寫，老師會依你的回饋安排輔導。<br>期末加油！💪</div></div></div>
+  </div>
+</div>
+
+<script>
+// ⚠️ 記得改 API 網址 ⚠️
+const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
+const LK  = { focus:0, review:0, understanding:0, examCoping:0 };
+const EMOJIS = ["","😊","😌","🙂","😑","😐","😟","😰","😨","😱","🤯"];
+const R_FAIL = ["專有名詞太多，背不起來","機轉/原理無法理解","準備太臨時，考前才開始","上課不夠專心，筆記不完整","考試緊張，臨場失常","課業負擔過重，無暇兼顧","缺乏有效的讀書方法"];
+const S_FAIL = ["每天固定複習 30 分鐘以上","整理錯題本，反覆練習","主動向老師提問或尋求協助","找同學組成讀書小組","搭配教學影片或線上資源","製作心智圖或表格整理重點","提前兩週開始準備考試"];
+const R_PASS = ["上課認真聽講，筆記完整","讀書方法正確，有充分準備","雖然及格，但部分觀念仍不熟","考前臨時抱佛腳，運氣好及格","靠死背硬記，沒有真正理解"];
+const S_PASS = ["繼續保持目前的學習節奏","釐清還不熟的模糊觀念","挑戰更進階的題目或應用","擔任小老師，教導其他同學","將讀書時間分配給弱勢科目"];
+let currentStudent = null;
+let currentFollowUpQ = "";
+
+["focus","review","understanding","examCoping"].forEach(k=>{
+  const w=document.getElementById("lk_"+k);
+  for(let v=1;v<=5;v++){
+    const b=document.createElement("button");b.type="button";b.className="likert-btn";b.textContent=v;
+    b.onclick=()=>{LK[k]=v;w.querySelectorAll(".likert-btn").forEach(x=>x.classList.remove("on"));b.classList.add("on")};
+    w.appendChild(b);
+  }
+});
+
+function prog(p){document.getElementById("prog").style.width=p+"%"}
+function updateStress(v){document.getElementById("stressNum").textContent=v;document.getElementById("stressEmoji").textContent=EMOJIS[+v]||"😐"}
+function show(id){document.getElementById(id).style.display="block"}
+function hide(id){document.getElementById(id).style.display="none"}
+function err(id,msg){document.getElementById(id).innerHTML=msg?`<div class="alert alert-danger">⚠️ ${esc(msg)}</div>`:""}
+function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
+
+async function post(action, body){
+  const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});
+  return r.json();
+}
+
+async function verify(){
+  document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
+  const studentId=document.getElementById("inp_id").value.trim();
+  const name=document.getElementById("inp_name").value.trim();
+  err("verifyErr","");
+  if(!studentId||!name){
+    if(!studentId) document.getElementById("inp_id").classList.add("err-input");
+    if(!name) document.getElementById("inp_name").classList.add("err-input");
+    err("verifyErr","請填寫學號與姓名");
+    return;
+  }
+  hide("sVerify");show("sLoading");prog(20);
+  try{
+    const d=await post("verifyStudent",{studentId,name});
+    if(!d.ok){hide("sLoading");show("sVerify");err("verifyErr",d.msg);prog(8);return}
+    currentStudent=d;
+    hide("sLoading");show("sForm");prog(40);
+    document.getElementById("bannerName").textContent=d.name+" 同學";
+    document.getElementById("bannerId").textContent="學號："+d.studentId;
+    renderOverview(d.allSubjects);
+    renderSubjects(d.allSubjects);
+  }catch(e){hide("sLoading");show("sVerify");err("verifyErr","網路錯誤，請重試");prog(8)}
+}
+
+function renderOverview(subjects) {
+  document.getElementById("scoreGrid").innerHTML = subjects.map(s => {
+    const isPass = s.score >= 60;
+    const bg = isPass ? "border-color:var(--green-bd);background:var(--green-bg)" : "border-color:var(--danger-bd);background:var(--danger-bg)";
+    const color = isPass ? "color:var(--green-dk)" : "color:var(--danger-dk)";
+    return `<div class="sg-item" style="${bg}"><div class="sg-subj" title="${esc(s.subject)}">${esc(s.subject)}</div><div class="sg-score" style="${color}">${s.score}</div></div>`;
+  }).join("");
+}
+
+function renderSubjects(subjects){
+  const wrap=document.getElementById("subjectBlocks");wrap.innerHTML="";
+  subjects.forEach((s,i)=>{
+    const isPass = s.score >= 60;
+    const reasons = isPass ? R_PASS : R_FAIL;
+    const strategies = isPass ? S_PASS : S_FAIL;
+    const c=document.createElement("div");c.className="subject-card";c.id="sc_"+i;
+    c.style = isPass ? "border-color:var(--green-bd)" : "border-color:var(--danger-bd)";
+    c.innerHTML=`<div class="subject-head" style="${isPass?'background:var(--green-bg)':'background:var(--danger-bg)'}">
+      <div class="sname" style="color:${isPass?'var(--green-dk)':'var(--danger-dk)'}">${isPass?'✅':'⚠️'} ${esc(s.subject)}</div>
+      <div class="score-pill" style="${isPass?'background:var(--green);color:white':'background:var(--danger);color:white'}">${s.score} 分</div>
+    </div>
+    <div class="subject-body">
+      <div class="q-block"><div class="q-title" style="color:${isPass?'var(--green-dk)':'var(--danger-dk)'}">${isPass?'學習狀況反思':'主要不及格原因'} <span class="req">*</span></div>
+        <div class="radio-group">${reasons.map((r,ri)=>`<label class="radio-opt" onclick="pick('r${i}',${ri},this)"><input type="radio" name="r${i}" value="${ri}"> ${esc(r)}</label>`).join("")}</div>
+      </div>
+      <div class="q-block"><div class="q-title" style="color:${isPass?'var(--green-dk)':'var(--danger-dk)'}">${isPass?'下一步計畫':'改進策略'} <span class="req">*</span></div>
+        <div class="radio-group">${strategies.map((st,si)=>`<label class="radio-opt" onclick="pick('s${i}',${si},this)"><input type="radio" name="s${i}" value="${si}"> ${esc(st)}</label>`).join("")}</div>
+      </div>
+    </div>`;
+    wrap.appendChild(c);
+  });
+}
+
+function pick(name,val,label){
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest("label").classList.remove("on"));
+  label.classList.add("on");label.querySelector("input").checked=true;
+}
+
+function getFilledSubjects() {
+  const subjects=currentStudent.allSubjects||[];
+  let valid=true; const filled=[];
+  document.querySelectorAll('.subject-card').forEach(c=>c.classList.remove('err'));
+  subjects.forEach((s,i)=>{
+    const re=document.querySelector(`input[name="r${i}"]:checked`);
+    const se=document.querySelector(`input[name="s${i}"]:checked`);
+    const card=document.getElementById("sc_"+i);
+    if(!re||!se){valid=false;card.classList.add("err");}
+    else{card.classList.remove("err"); filled.push({subject:s.subject,score:s.score,reason:(s.score>=60?R_PASS:R_FAIL)[+re.value],strategy:(s.score>=60?S_PASS:S_FAIL)[+se.value]});}
+  });
+  return {valid, filled};
+}
+
+async function goToFollowUp(){
+  document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
+  err("submitErr","");
+  const subRes = getFilledSubjects();
+  if(!subRes.valid){
+    err("submitErr","請完整填寫科目的反思與計畫（已用紅框標示）");
+    document.querySelector('.subject-card.err').scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  for(const k of["focus","review","understanding","examCoping"]){
+    if(!LK[k]){
+      err("submitErr","請填寫「學習狀態自評」");
+      document.getElementById("lk_"+k).parentElement.classList.add("err-input");
+      document.getElementById("lk_"+k).scrollIntoView({behavior:"smooth",block:"center"});
+      return;
+    }
+  }
+  
+  const els = {
+    studyMethod: document.getElementById("inp_studyMethod"),
+    blind: document.getElementById("inp_blind"),
+    commit: document.getElementById("inp_commit"),
+    sleep: document.getElementById("inp_sleep"),
+    ent: document.getElementById("inp_ent"),
+    ext: document.getElementById("inp_ext"),
+    goal: document.getElementById("inp_goal")
+  };
+
+  let hasErr = false;
+  for(const key in els) {
+    if(!els[key].value.trim()) {
+      els[key].classList.add("err-input");
+      hasErr = true;
+    }
+  }
+
+  if(hasErr){
+    err("submitErr","有尚未填寫完整的欄位，請以紅底框標示處進行補充。");
+    document.querySelector('.err-input').scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+
+  const studyMethod=els.studyMethod.value.trim();
+  const blind=els.blind.value.trim();
+  const commit=els.commit.value.trim();
+  const sleep=els.sleep.value;
+  const ent=els.ent.value;
+  const ext=els.ext.value;
+  const goal=els.goal.value.trim();
+
+  const btn=document.getElementById("btnNext");btn.disabled=true;
+  hide("sForm");show("sLoading");document.getElementById("loadMsg").textContent="正在為你準備專屬的下一步...";prog(65);
+  
+  try{
+    const d=await post("askGeminiFollowUp", {
+      blindSpot: blind, 
+      studyMethod: studyMethod,
+      commitment: commit,
+      routine: { sleep: sleep, entertainment: ent, extracurricular: ext }
+    });
+    currentFollowUpQ = d.question;
+    document.getElementById("aiQuestionText").textContent = currentFollowUpQ;
+    hide("sLoading");show("sFollowUp");prog(85);
+  }catch(e){
+    currentFollowUpQ = "太棒了！請問你打算具體安排在每天的『什麼時段』執行，大約執行多久呢？";
+    document.getElementById("aiQuestionText").textContent = currentFollowUpQ;
+    hide("sLoading");show("sFollowUp");prog(85);
+  }
+}
+
+async function finalSubmit() {
+  document.getElementById("inp_followupA").classList.remove("err-input");
+  err("fuErr","");
+  const followUpA = document.getElementById("inp_followupA").value.trim();
+  if(!followUpA){
+    document.getElementById("inp_followupA").classList.add("err-input");
+    err("fuErr","請簡單回答一下上面的問題哦！");
+    document.getElementById("inp_followupA").scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
+  
+  const btn=document.getElementById("btnFinal");btn.disabled=true;
+  hide("sFollowUp");show("sLoading");document.getElementById("loadMsg").textContent="儲存資料中...";prog(95);
+
+  const subRes = getFilledSubjects();
+  try{
+    const d=await post("submitStudent",{
+      studentId:currentStudent.studentId,name:currentStudent.name,subjects:subRes.filled,
+      selfRating:{...LK},
+      learningBlindSpot:document.getElementById("inp_blind").value.trim(),
+      studyMethod:document.getElementById("inp_studyMethod").value.trim(),
+      actionCommitment:document.getElementById("inp_commit").value.trim(),
+      routine:{
+        sleep:document.getElementById("inp_sleep").value,
+        entertainment:document.getElementById("inp_ent").value,
+        extracurricular:document.getElementById("inp_ext").value
+      },
+      stressIndex:+document.getElementById("stressSlider").value,
+      shortTermGoal:document.getElementById("inp_goal").value.trim(),
+      followUpQ: currentFollowUpQ,
+      followUpA: followUpA
+    });
+    hide("sLoading");show("sDone");prog(100);window.scrollTo({top:0,behavior:"smooth"});
+  }catch(e){
+    hide("sLoading");show("sFollowUp");btn.disabled=false;err("fuErr","傳送失敗，請重試");
+  }
+}
+</script>
+</body>
+</html>
