@@ -14,6 +14,7 @@
   --green: #22c55e; --green-bg: #f0fdf4; --green-dk: #15803d; --green-bd: #bbf7d0;
   --orange: #f97316; --orange-bg: #fff7ed; --orange-dk: #c2410c; --orange-bd: #fed7aa;
   --red: #ef4444; --red-bg: #fef2f2; --red-dk: #b91c1c; --red-bd: #fecaca;
+  --danger: var(--red); --danger-bg: var(--red-bg); --danger-dk: var(--red-dk); --danger-bd: var(--red-bd);
   --purple: #8b5cf6; --purple-bg: #f5f3ff; --purple-dk: #6d28d9; --purple-bd: #ddd6fe;
   --amber: #f59e0b; --amber-bg: #fffbeb; --amber-dk: #b45309; --amber-bd: #fde68a;
   --r: 16px; --r-sm: 10px;
@@ -21,14 +22,13 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑體",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
 
-/* 🟢 風景照融入：登入頁面背景 🟢 */
 .login-wrap{
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
   background-color:#f1f5f9;
-  background-image: url('image.png'); /* 讀取同資料夾中的 image.png */
+  background-image: url('image.png'); 
   background-size: cover;
   background-position: center;
   padding:20px;
@@ -38,7 +38,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑�
   content:'';
   position:absolute;
   inset:0;
-  background:rgba(15,23,42,0.5); /* 黑色遮罩讓白底登入框更明顯 */
+  background:rgba(15,23,42,0.5); 
 }
 .login-box{position:relative;z-index:1;background:var(--surface);border-radius:24px;padding:48px 40px;width:100%;max-width:400px;box-shadow:0 10px 40px rgba(0,0,0,0.1);border:1px solid var(--border)}
 .login-logo{text-align:center;margin-bottom:32px}
@@ -71,6 +71,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑�
 .nav-item:hover{background:var(--paper);color:var(--ink)}
 .nav-item.on{background:var(--blue-bg);color:var(--blue-dk);font-weight:700}
 .nav-item.on.teal{background:var(--teal-bg);color:var(--teal-dk)}
+.nav-item.on.purple{background:var(--purple-bg);color:var(--purple-dk)}
 .nav-badge{font-size:11px;font-weight:700;background:var(--red);color:white;padding:2px 8px;border-radius:20px;margin-left:auto}
 
 .main{padding:32px;overflow-y:auto;background:var(--paper)}
@@ -146,7 +147,7 @@ tbody tr:last-child td{border-bottom:none}
 .search-inp:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
 select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:14px;font-family:inherit;background:white;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
 .btn-act{font-size:13px;padding:8px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;color:var(--ink);cursor:pointer;font-family:inherit;font-weight:700;transition:all .2s}
-.btn-act:hover{background:var(--paper)}.btn-act.teal{background:var(--teal);color:white;border-color:var(--teal)}.btn-act.teal:hover{background:var(--teal-dk)}
+.btn-act:hover{background:var(--paper)}.btn-act.teal{background:var(--teal);color:white;border-color:var(--teal)}.btn-act.teal:hover{background:var(--teal-dk)}.btn-act.purple{background:var(--purple);color:white;border-color:var(--purple)}.btn-act.purple:hover{background:var(--purple-dk)}
 .spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .loading-wrap{text-align:center;padding:60px;color:var(--ink2);font-size:14px}
@@ -190,6 +191,8 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
       <div class="nav-item teal" onclick="goto('plinks')">🔗 發送家長連結</div>
       <div class="nav-item teal" onclick="goto('pfeedback')">📋 家長回饋 <span class="nav-badge" id="pbadge" style="display:none">0</span></div>
       <div class="nav-item teal" onclick="goto('compare')">⚖️ 學生×家長對照</div>
+      <div class="nav-sec">進階分析</div>
+      <div class="nav-item purple" onclick="goto('report')">📊 視覺化報表</div> <!-- ✅ 新增 Looker Studio 選單 -->
     </div>
     <div class="main" id="mainArea">
       <div class="loading-wrap" id="globalLoading"><div class="spin"></div>載入資料中…</div>
@@ -248,10 +251,46 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
         <div class="toolbar">
           <select class="sel" id="cmpSel" onchange="renderCompare()" style="width:240px"><option value="">請選擇學生…</option></select>
           <button class="btn-act purple" id="btnGenAnalysis" onclick="generateAnalysis()" style="display:none;background:var(--purple);color:white;border-color:var(--purple);padding:10px 16px;font-size:14px;box-shadow:0 4px 10px rgba(139,92,246,0.3)">🤖 產生雙方差異綜合分析</button>
+          <label id="recordTypeWrap" style="display:none;align-items:center;gap:6px;font-size:13px;color:var(--ink2);font-weight:700">
+            類型
+            <select class="sel" id="recordType" style="padding:10px 12px">
+              <option value="record">輔導紀錄</option>
+              <option value="script">面談腳本</option>
+            </select>
+          </label>
+          <label id="recordWordWrap" style="display:none;align-items:center;gap:6px;font-size:13px;color:var(--ink2);font-weight:700">
+            字數
+            <input class="search-inp" id="recordWords" type="number" min="150" max="1200" step="50" value="200" style="width:96px;padding:10px 12px">
+          </label>
+          <button class="btn-act teal" id="btnGenRecord" onclick="generateCounselingRecord()" style="display:none;padding:10px 16px;font-size:14px">📝 產生紀錄/腳本</button>
         </div>
         <div id="cmpAnalysisResult" style="display:none;margin-bottom:16px;background:var(--purple-bg);border:1px solid var(--purple-bd);border-radius:var(--r);padding:20px;color:var(--purple-dk);font-size:14px;line-height:1.8;white-space:pre-wrap"></div>
+        <div id="counselingRecordResult" style="display:none;margin-bottom:16px;background:white;border:1px solid var(--teal-bd);border-radius:var(--r);padding:20px;color:var(--ink);font-size:14px;line-height:1.8;white-space:pre-wrap;box-shadow:0 4px 12px rgba(20,184,166,0.05)"></div>
         <div id="cmpContent"><div class="empty">請從上方選擇學生</div></div>
       </div>
+      
+      <!-- ✅ 新增 Looker Studio 報表頁面 -->
+      <div class="page" id="page-report">
+        <div class="page-title">視覺化報表 (Looker Studio)</div>
+        <div class="page-sub">透過 Looker Studio 查看班級整體成績與問卷交叉分析</div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">報表設定</span></div>
+          <div class="card-body">
+            <div style="display:flex; gap:10px; margin-bottom: 12px;">
+              <input type="text" id="lookerUrl" class="search-inp" style="flex:1" placeholder="請貼上 Looker Studio 的嵌入網址 (Embed URL)...">
+              <button class="btn-act purple" onclick="saveLookerUrl()">儲存並載入</button>
+            </div>
+            <div style="font-size:12px;color:var(--ink3);line-height:1.6">
+              💡 提示：請在您的 Looker Studio 報表右上角點擊「共用」>「嵌入報表」>「嵌入網址」，將網址複製後貼上即可。<br>
+              設定會保存在您的瀏覽器中，下次登入自動載入。
+            </div>
+          </div>
+        </div>
+        <div class="card" style="padding:0; height: 800px;">
+          <iframe id="lookerIframe" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -281,6 +320,7 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
 </div>
 
 <script>
+// ⚠️ 這裡的 API 請記得換成您剛剛「新部署」出來的網址
 const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
 const DTOK = new URLSearchParams(location.search).get("token") || "teacher2025";
 let ALL=[], STUDENTS=[], SMAP={}, TOKENS=[], PARENT_DATA=[];
@@ -335,8 +375,8 @@ function buildMap(){
       studentId,name,timestamp:"",
       selfRating:{focus:0,review:0,understanding:0,examCoping:0},
       learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
-      routine:{sleep:"",entertainment:"",extracurricular:""}, followUp:{q:"",a:""}, 
-      aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",
+      routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
+      aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
       allSubjects: st.allSubjects.map(x=>({...x})), subjects: st.allSubjects.filter(x=>x.score<60).map(x=>({...x})), hasFeedback:false
     };
   });
@@ -349,14 +389,16 @@ function buildMap(){
         studentId,name:r.name||"",timestamp:"",
         selfRating:{focus:0,review:0,understanding:0,examCoping:0},
         learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
-        routine:{sleep:"",entertainment:"",extracurricular:""}, followUp:{q:"",a:""}, 
-        aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",
+        routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
+        aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
         allSubjects:[],subjects:[],hasFeedback:false
       };
     }
     let s=SMAP[studentId]; s.hasFeedback=true; s.timestamp=r.timestamp;
     s.learningBlindSpot=r.learningBlindSpot; s.studyMethod=r.studyMethod; s.actionCommitment=r.actionCommitment; s.stressIndex=+r.stressIndex; s.shortTermGoal=r.shortTermGoal;
-    s.routine=r.routine; s.followUp=r.followUp; s.aiTeacher=r.aiTeacher; s.aiSubject=r.aiSubject;
+    s.routine=r.routine; s.followUp=r.followUp;
+    s.aiStudent=r.aiStudent; s.aiParent=r.aiParent; s.aiTeacher=r.aiTeacher; s.aiSubject=r.aiSubject;
+    s.dialogHistory=r.dialogHistory||""; s.qualityFlag=r.qualityFlag||"";
     if(r.subject){
       let exA=s.allSubjects.find(x=>x.subject===r.subject); if(exA){exA.reason=r.reason;exA.strategy=r.strategy}else s.allSubjects.push({subject:r.subject,score:r.score,reason:r.reason,strategy:r.strategy});
       let exF=s.subjects.find(x=>x.subject===r.subject); if(exF){exF.reason=r.reason;exF.strategy=r.strategy}else if(r.score<60) s.subjects.push({subject:r.subject,score:r.score,reason:r.reason,strategy:r.strategy});
@@ -376,7 +418,7 @@ function goto(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
   const nav=document.querySelector(`[onclick="goto('${name}')"]`);if(nav)nav.classList.add("on");
   const pg=document.getElementById("page-"+name);if(pg)pg.classList.add("on");
-  ({overview:renderOverview,students:renderStudents,subjects:renderSubjects,stress:renderStress,ai:renderAI,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare}[name]||(() => {}))();
+  ({overview:renderOverview,students:renderStudents,subjects:renderSubjects,stress:renderStress,ai:renderAI,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare,report:renderReport}[name]||(() => {}))();
 }
 
 // ── 圖表 ────────────────────────────────────────────────────
@@ -389,6 +431,36 @@ function drawChart(id,type,labels,datasets,extra={}){
 function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
 function pill(t,c){return `<span class="pill ${c}">${t}</span>`}
 function sb(v){if(!v)return`<span style="color:var(--ink3)">—</span>`;const c=v>=8?"var(--red)":v>=5?"var(--orange)":"var(--green)";return`<span class="sb" style="background:${c}18;color:${c}">${v}</span>`}
+function dialogItems(raw){
+  if(!raw)return[];
+  try{
+    const obj=typeof raw==="string"?JSON.parse(raw):raw;
+    return Object.keys(obj||{}).flatMap(subject=>(obj[subject]||[]).map(qa=>({subject,q:qa.q||"",a:qa.a||""}))).filter(x=>x.q||x.a);
+  }catch(e){return[]}
+}
+function renderDialogHtml(items){
+  return items.map(item=>`
+    <div class="fu-chat" style="border-left:4px solid var(--purple)"><strong>${esc(item.subject)}｜AI提問：</strong>${esc(item.q)}</div>
+    <div class="fu-chat" style="border-left:4px solid var(--blue)"><strong>${esc(item.subject)}｜學生回答：</strong>${esc(item.a)}</div>
+  `).join("");
+}
+
+// ── Looker Studio ───────────────────────────────────────────
+function renderReport() {
+  const url = localStorage.getItem('n523_looker_url');
+  if(url) {
+    document.getElementById('lookerUrl').value = url;
+    document.getElementById('lookerIframe').src = url;
+  }
+}
+
+function saveLookerUrl() {
+  const url = document.getElementById('lookerUrl').value.trim();
+  if(url) {
+    localStorage.setItem('n523_looker_url', url);
+    document.getElementById('lookerIframe').src = url;
+  }
+}
 
 // ── 總覽 ────────────────────────────────────────────────────
 function renderOverview(){
@@ -425,7 +497,7 @@ function renderStudents(){
     return true;
   });
   document.getElementById("stTitle").textContent=`學生列表（共 ${ss.length} 人）`;
-  document.getElementById("stBody").innerHTML=!ss.length?`<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--ink2)">無符合條件的學生</td></tr>`
+  document.getElementById("stBody").innerHTML=!ss.length?`<tr><td colspan=\"8\" style=\"text-align:center;padding:24px;color:var(--ink2)\">無符合條件的學生</td></tr>`
     :ss.sort((a,b)=>{if(a.hasFeedback!==b.hasFeedback)return a.hasFeedback?-1:1;return String(a.studentId).localeCompare(String(b.studentId));}).map((s,i)=>`<tr>
       <td style="color:var(--ink3)">${i+1}</td>
       <td style="cursor:pointer;color:var(--blue-dk);font-weight:900" onclick="showScoreModal('${esc(s.studentId)}','all')" title="點擊查看各科詳細分析"><u style="text-decoration-style:dashed;text-underline-offset:4px">${esc(s.name)}</u></td>
@@ -434,11 +506,10 @@ function renderStudents(){
       <td>${s.hasFeedback?sb(s.stressIndex):`<span style="color:var(--ink3)">—</span>`}</td>
       <td style="font-size:12px;color:var(--ink3)">${s.timestamp?esc(String(s.timestamp).slice(0,16)):"—"}</td>
       <td>${pill(s.hasFeedback?"已填寫":"未填寫",s.hasFeedback?"p-green":"p-gray")}</td>
-      <td>${pill(s.aiTeacher?"已生成":"—",s.aiTeacher?"p-purple":"p-gray")}</td>
+      <td>${s.qualityFlag?.includes("敷衍")?pill("需面談","p-red"):pill(s.aiTeacher?"已生成":"—",s.aiTeacher?"p-purple":"p-gray")}</td>
     </tr>`).join("");
 }
 
-// ── 彈出單科詳細分析 Modal ─────────────────────────────────────
 function showScoreModal(id, mode) {
   const s = SMAP[id]; if(!s) return;
   const isAll = mode === 'all'; const list = isAll ? s.allSubjects : s.subjects;
@@ -472,7 +543,6 @@ function showScoreModal(id, mode) {
 }
 function closeScoreModal(){document.getElementById("scoreModal").classList.remove("on");}
 
-// ── 科目分析 ────────────────────────────────────────────────
 function renderSubjects(){
   const sc={};ALL.forEach(r=>{if(r.score<60)sc[r.subject]=(sc[r.subject]||0)+1});
   document.getElementById("subjBtns").innerHTML=Object.keys(sc).sort((a,b)=>sc[b]-sc[a]).map(s=>`<button class="btn-act" onclick="showSubjDetail('${esc(s)}')">${esc(s)} (${sc[s]})</button>`).join("");
@@ -488,7 +558,6 @@ function showSubjDetail(subj){
   document.getElementById("subjDetail").innerHTML=`<div style="background:var(--blue-bg);padding:16px;border-radius:var(--r-sm);font-size:14px;color:var(--blue-dk);border:1px solid var(--blue-bd)"><strong>${esc(subj)}</strong> — 不及格 ${rows.length} 人<div style="margin-top:10px">${Object.entries(rc).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span style="margin-right:16px"><strong>${n}</strong>人：${esc(r)}</span>`).join("")}</div></div>`;
 }
 
-// ── 壓力熱點 ────────────────────────────────────────────────
 function renderStress(){
   const ss=Object.values(SMAP).filter(s=>s.hasFeedback);const avg=ss.length?(ss.reduce((a,s)=>a+s.stressIndex,0)/ss.length).toFixed(1):0;const hi=ss.filter(s=>s.stressIndex>=8);
   document.getElementById("stressMetrics").innerHTML=`
@@ -501,21 +570,19 @@ function renderStress(){
     :hi.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td><strong>${esc(s.name)}</strong></td><td>${sb(s.stressIndex)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td style="font-size:13px;max-width:160px">${esc(s.learningBlindSpot)||"—"}</td><td style="font-size:13px;max-width:160px">${esc(s.actionCommitment)||"—"}</td></tr>`).join("");
 }
 
-// ── AI 建議庫 ────────────────────────────────────────────────
 function renderAI(){
   const q=(document.getElementById("srchAI")?.value||"").toLowerCase();
-  const ss=Object.values(SMAP).filter(s=>s.aiStudent&&(!q||s.name.toLowerCase().includes(q)));
+  const ss=Object.values(SMAP).filter(s=>(s.aiStudent||s.aiTeacher)&&(!q||s.name.toLowerCase().includes(q)));
   const el=document.getElementById("aiContainer");
-  if(!ss.length){el.innerHTML=`<div class="empty">🤖 尚無 AI 建議</div>`;return}
+  if(!ss.length){el.innerHTML=`<div class="empty">🤖 尚無 AI 建議（學生送出問卷後約 10 秒自動生成）</div>`;return}
   el.innerHTML=ss.map(s=>`<div class="ai-card">
     <div class="ai-name">${esc(s.name)} <span style="font-size:13px;font-weight:700;color:var(--ink2)">壓力${s.stressIndex}/10・${s.subjects.length}科</span><button class="btn-act" style="font-size:11px;padding:6px 12px" onclick="window.print()">列印</button></div>
-    <div class="ai-sec"><span class="ai-tag ai-tag-s">✏️ 給學生</span><div class="ai-text">${esc(s.aiStudent)}</div></div>
-    <div class="ai-sec"><span class="ai-tag ai-tag-p">📮 給家長</span><div class="ai-text">${esc(s.aiParent)}</div></div>
-    <div class="ai-sec"><span class="ai-tag ai-tag-t">📋 導師策略</span><div class="ai-text">${esc(s.aiTeacher)}</div></div>
+    ${s.aiStudent?`<div class="ai-sec"><span class="ai-tag ai-tag-s">✏️ 給學生</span><div class="ai-text">${esc(s.aiStudent)}</div></div>`:''}
+    ${s.aiParent?`<div class="ai-sec"><span class="ai-tag ai-tag-p">📮 給家長</span><div class="ai-text">${esc(s.aiParent)}</div></div>`:''}
+    ${s.aiTeacher?`<div class="ai-sec"><span class="ai-tag ai-tag-t">📋 導師策略</span><div class="ai-text">${esc(s.aiTeacher)}</div></div>`:''}
   </div>`).join("");
 }
 
-// ── 家長連結 ────────────────────────────────────────────────
 function renderPLinks(){
   const ss=Object.values(SMAP);
   document.getElementById("plBody").innerHTML=!ss.length?`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink2)">尚無學生問卷資料</td></tr>`
@@ -547,7 +614,6 @@ async function copyLink(){
 }
 function closeModal(){document.getElementById("linkModal").classList.remove("on")}
 
-// ── 家長回饋 ────────────────────────────────────────────────
 function renderPF(){
   const q=(document.getElementById("srchPF")?.value||"").toLowerCase();
   const pd=PARENT_DATA.filter(p=>!q||p.name.toLowerCase().includes(q));
@@ -561,17 +627,31 @@ function renderPF(){
   </div>`).join("");
 }
 
-// ── 學生×家長對照 (包含各科 AI 分析卡片) ─────────────────────────
 function renderCompare(){
   const id=document.getElementById("cmpSel").value;const el=document.getElementById("cmpContent");
   const btn=document.getElementById("btnGenAnalysis");const res=document.getElementById("cmpAnalysisResult");
+  const recordBtn=document.getElementById("btnGenRecord");
+  const recordWrap=document.getElementById("recordWordWrap");
+  const recordTypeWrap=document.getElementById("recordTypeWrap");
+  const recordRes=document.getElementById("counselingRecordResult");
   res.style.display="none";
-  if(!id){el.innerHTML=`<div class="empty">請選擇學生</div>`;btn.style.display="none";return}
+  recordRes.style.display="none";
+  if(!id){
+    el.innerHTML=`<div class="empty">請選擇學生</div>`;
+    btn.style.display="none";recordBtn.style.display="none";recordWrap.style.display="none";recordTypeWrap.style.display="none";
+    return;
+  }
   const s=SMAP[id];const p=PARENT_DATA.find(x=>x.studentId===id);
   
   btn.style.display = (s && p) ? "inline-block" : "none";
+  recordBtn.style.display = s ? "inline-block" : "none";
+  recordWrap.style.display = s ? "inline-flex" : "none";
+  recordTypeWrap.style.display = s ? "inline-flex" : "none";
 
-  const aiChatHtml = (s?.followUp?.q) ? `<div class="fu-chat" style="border-left:4px solid var(--purple)">🤖 <strong>AI提問：</strong>${esc(s.followUp.q)}</div><div class="fu-chat" style="border-left:4px solid var(--blue)">👩‍🎓 <strong>學生回答：</strong>${esc(s.followUp.a)}</div>` : "";
+  const parsedDialogs = dialogItems(s?.dialogHistory);
+  const legacyDialogs = parsedDialogs.length ? [] : dialogItems(s?.followUp?.q);
+  const dialogHtml = renderDialogHtml(parsedDialogs.length ? parsedDialogs : legacyDialogs);
+  const aiChatHtml = dialogHtml || ((s?.followUp?.q) ? `<div class="fu-chat" style="border-left:4px solid var(--purple)">🤖 <strong>AI提問：</strong>${esc(s.followUp.q)}</div><div class="fu-chat" style="border-left:4px solid var(--blue)">👩‍🎓 <strong>學生回答：</strong>${esc(s.followUp.a)}</div>` : "");
   
   let aiSubjObj = {};
   try { aiSubjObj = JSON.parse(s?.aiSubject || "{}"); } catch(e){}
@@ -588,12 +668,13 @@ function renderCompare(){
     `;
   }).join("") || "無成績資料";
 
+  // ✅ 已在這裡補上 熬夜(allNighter) 顯示
   const sHtml=s?`<div style="font-size:14px;line-height:1.8;color:var(--ink)" id="sDataHtml">
     <div style="margin-bottom:16px;background:var(--surface);border-radius:12px;padding:12px 14px;border:1px solid var(--border)">
        <strong style="font-size:15px;color:var(--blue-dk)">📌 學生各科詳細分析：</strong><br>
        <div style="margin-top:10px">${subjectsHtml}</div>
     </div>
-    <div style="margin-bottom:12px"><strong>日常作息：</strong><br><span style="color:var(--ink2)">睡眠: ${esc(s.routine?.sleep||"未填")} <br>娛樂: ${esc(s.routine?.entertainment||"未填")} <br>外務: ${esc(s.routine?.extracurricular||"未填")}</span></div>
+    <div style="margin-bottom:12px"><strong>日常作息：</strong><br><span style="color:var(--ink2)">睡眠: ${esc(s.routine?.sleep||"未填")} <br>熬夜: ${esc(s.routine?.allNighter||"未填")} <br>娛樂: ${esc(s.routine?.entertainment||"未填")} <br>外務: ${esc(s.routine?.extracurricular||"未填")}</span></div>
     <div style="margin-bottom:12px"><strong>讀書方法：</strong><br>${esc(s.studyMethod)||'<span style="color:var(--ink3)">未填</span>'}</div>
     <div style="margin-bottom:12px"><strong>學習盲點：</strong><br>${esc(s.learningBlindSpot)||'<span style="color:var(--ink3)">未填</span>'}</div>
     <div style="margin-bottom:12px"><strong>行動承諾：</strong><br>${esc(s.actionCommitment)||'<span style="color:var(--ink3)">未填</span>'}</div>
@@ -644,6 +725,44 @@ async function generateAnalysis() {
   } finally {
     btn.disabled = false;
     btn.textContent = "🤖 重新產生綜合分析";
+  }
+}
+
+async function generateCounselingRecord() {
+  const btn = document.getElementById("btnGenRecord");
+  const res = document.getElementById("counselingRecordResult");
+  const sHtml = document.getElementById("sDataHtml")?.innerText || "";
+  const pHtml = document.getElementById("pDataHtml")?.innerText || "";
+  const wordCount = Math.max(150, Math.min(1200, +(document.getElementById("recordWords")?.value || 200)));
+  const recordType = document.getElementById("recordType")?.value || "record";
+  const recordLabel = recordType==="script" ? "面談腳本" : "輔導紀錄";
+  const selected = document.getElementById("cmpSel");
+  const studentName = selected?.selectedOptions?.[0]?.textContent || "";
+
+  if (!sHtml) return;
+
+  btn.disabled = true;
+  btn.textContent = "📝 產生中...";
+  res.style.display = "block";
+  res.innerHTML = `<div class="spin" style="width:24px;height:24px;border-width:3px;display:inline-block;vertical-align:middle;margin:0 8px 0 0"></div> 正在整理學生與家長回應為${recordLabel}...`;
+
+  try {
+    const textPayload = `【學生姓名】${studentName}\n\n【學生自填資料】\n${sHtml}\n\n【家長回饋資料】\n${pHtml || "家長尚未填寫或無資料"}`;
+    const d = await fetch(API, {
+      method: "POST",
+      body: JSON.stringify({ action: "generateCounselingRecord", dashToken: DTOK, textPayload, wordCount, recordType })
+    }).then(r => r.json());
+
+    if (d.ok) {
+      res.innerHTML = `<strong style="font-size:16px;color:var(--teal-dk)">📝 AI ${recordLabel}（約 ${wordCount} 字）</strong><br><br>${esc(d.record)}`;
+    } else {
+      res.innerHTML = `❌ 產生失敗：${esc(d.msg)}`;
+    }
+  } catch(e) {
+    res.innerHTML = `❌ 網路錯誤：${esc(e.message)}`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "📝 重新產生紀錄/腳本";
   }
 }
 </script>

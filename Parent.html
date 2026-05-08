@@ -12,17 +12,16 @@
   --teal: #14b8a6; --teal-bg: #f0fdfa; --teal-dk: #0f766e; --teal-bd: #99f6e4;
   --purple: #8b5cf6; --purple-bg: #f5f3ff; --purple-dk: #6d28d9; --purple-bd: #ddd6fe;
   --orange: #f97316; --orange-bg: #fff7ed; --orange-dk: #c2410c; --orange-bd: #fed7aa;
-  --danger: #ef4444; --danger-bg: #fef2f2; --danger-bd: #fecaca;
+  --danger: #ef4444; --danger-bg: #fef2f2; --danger-dk: #b91c1c; --danger-bd: #fecaca;
   --green: #22c55e; --green-bg: #f0fdf4; --green-bd: #bbf7d0;
   --r: 16px; --r-sm: 10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑體",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
 
-/* 🟢 風景照融入：家長版標題背景 🟢 */
 .hero{
   background-color: var(--teal-dk);
-  background-image: url('image.png'); /* 讀取同資料夾中的 image.png */
+  background-image: url('image.png');
   background-size: cover;
   background-position: center 60%;
   padding: 48px 20px 40px;
@@ -109,6 +108,7 @@ textarea:focus,select:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--
       <hr style="border:none;border-top:1px dashed var(--border);margin:20px 0">
       <div class="si-sec"><div class="si-label">⏰ 孩子自述的日常作息</div><div class="si-text" id="siRoutine"></div></div>
       <div class="si-sec"><div class="si-label">📖 孩子自述的讀書方法</div><div class="si-text" id="siStudyMethod"></div></div>
+      <div class="si-sec"><div class="si-label">🔍 孩子自述的學習盲點</div><div class="si-text" id="siBlind"></div></div>
       <div class="si-sec"><div class="si-label">🎯 孩子的具體行動承諾</div><div class="si-text" id="siCommit"></div></div>
       <div class="si-sec" id="siAiChatSec">
         <div class="si-label" style="margin-top:20px">💬 老師與孩子的課後討論確認</div>
@@ -196,6 +196,19 @@ function err(id,msg){document.getElementById(id).innerHTML=msg?`<div class="aler
 function pick(name,val,label){document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest("label").classList.remove("on"));label.classList.add("on");label.querySelector("input").checked=true}
 function tog(label){const cb=label.querySelector("input");cb.checked=!cb.checked;label.classList.toggle("on",cb.checked)}
 function showErr(title,msg){document.getElementById("errTitle").textContent=title;document.getElementById("errMsg").textContent=msg;hide("sLoading");show("sError")}
+function dialogItems(raw){
+  if(!raw)return[];
+  try{
+    const obj=typeof raw==="string"?JSON.parse(raw):raw;
+    return Object.keys(obj||{}).flatMap(subject=>(obj[subject]||[]).map(qa=>({subject,q:qa.q||"",a:qa.a||""}))).filter(x=>x.q||x.a);
+  }catch(e){return[]}
+}
+function renderDialogHtml(items){
+  return items.map(item=>`
+    <div class="fu-chat" style="border-left:4px solid var(--purple)"><strong>${esc(item.subject)}｜老師追問：</strong>${esc(item.q)}</div>
+    <div class="fu-chat" style="border-left:4px solid var(--blue)"><strong>${esc(item.subject)}｜孩子回答：</strong>${esc(item.a)}</div>
+  `).join("");
+}
 
 async function post(action,body){
   const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});
@@ -213,13 +226,18 @@ async function init(){
     document.getElementById("siId").textContent="學號："+s.studentId;
     const sw=document.getElementById("siSubjects");
     sw.innerHTML=s.subjects?.length?s.subjects.map(sub=>`<span class="subj-pill" style="${sub.score<60?'border-color:var(--danger-bd);background:var(--danger-bg);color:var(--danger-dk)':''}">${esc(sub.subject)} ${sub.score}分</span>`).join(""):`<span style="font-size:13px;color:var(--ink3)">無成績資料</span>`;
-    if(s.learningBlindSpot){document.getElementById("siBlind").textContent=s.learningBlindSpot}else{hide("siBlindSec")}
-    if(s.actionCommitment){document.getElementById("siCommit").textContent=s.actionCommitment}else{hide("siCommitSec")}
+    document.getElementById("siBlind").textContent  = s.learningBlindSpot || "未填寫";
+    document.getElementById("siCommit").textContent = s.actionCommitment  || "未填寫";
     
-    document.getElementById("siRoutine").innerHTML=`睡眠：${esc(s.routine?.sleep||"未填")} <br>娛樂：${esc(s.routine?.entertainment||"未填")} <br>外務：${esc(s.routine?.extracurricular||"未填")}`;
+    // ✅ 在這裡顯示考前熬夜狀況
+    document.getElementById("siRoutine").innerHTML=`睡眠：${esc(s.routine?.sleep||"未填")} <br>考前熬夜：${esc(s.routine?.allNighter||"未填")} <br>娛樂：${esc(s.routine?.entertainment||"未填")} <br>外務：${esc(s.routine?.extracurricular||"未填")}`;
+    
     document.getElementById("siStudyMethod").textContent=s.studyMethod||"未填寫";
 
-    if(s.followUpQ && s.followUpA){
+    const fallbackItems=dialogItems(s.followUpQ);
+    if(s.followUpItems?.length || fallbackItems.length){
+       document.getElementById("siAiChat").innerHTML=renderDialogHtml(s.followUpItems?.length ? s.followUpItems : fallbackItems);
+    }else if(s.followUpQ && s.followUpA){
        document.getElementById("siAiChat").innerHTML=`<div class="fu-chat" style="border-left:4px solid var(--purple)">🤖 ${esc(s.followUpQ)}</div><div class="fu-chat" style="border-left:4px solid var(--blue)">👩‍🎓 ${esc(s.followUpA)}</div>`;
     }else{
        hide("siAiChatSec");

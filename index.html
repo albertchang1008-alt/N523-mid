@@ -12,17 +12,16 @@
   --teal: #14b8a6; --teal-bg: #f0fdfa; --teal-dk: #0f766e; --teal-bd: #99f6e4;
   --purple: #8b5cf6; --purple-bg: #f5f3ff; --purple-dk: #6d28d9; --purple-bd: #ddd6fe;
   --orange: #f97316; --orange-bg: #fff7ed; --orange-dk: #c2410c; --orange-bd: #fed7aa;
-  --danger: #ef4444; --danger-bg: #fef2f2; --danger-bd: #fecaca;
+  --danger: #ef4444; --danger-bg: #fef2f2; --danger-dk: #b91c1c; --danger-bd: #fecaca;
   --green: #22c55e; --green-bg: #f0fdf4; --green-bd: #bbf7d0;
   --r: 16px; --r-sm: 10px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑體",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
 
-/* 🟢 風景照融入：設定為上方標題背景 🟢 */
 .hero{
   background-color: var(--blue-dk);
-  background-image: url('image.png'); /* 讀取同資料夾中的 image.png */
+  background-image: url('image.png');
   background-size: cover;
   background-position: center 60%;
   padding: 48px 20px 40px;
@@ -32,7 +31,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑�
   overflow: hidden;
   border-bottom: 1px solid var(--border);
 }
-/* 加入深色半透明遮罩，確保白色文字清晰易讀 */
 .hero::before{
   content: '';
   position: absolute;
@@ -68,6 +66,9 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .radio-opt:hover{border-color:var(--blue-bd);background:white}
 .radio-opt.on{border-color:var(--blue);background:var(--blue-bg);color:var(--blue-dk);font-weight:700}
 .radio-opt input{margin-top:2px;accent-color:var(--blue);flex-shrink:0}
+.other-input{display:none;margin-top:10px}
+.other-input.on{display:block}
+.multi-hint{font-size:12px;color:var(--ink3);font-weight:600;margin-left:6px}
 .likert-q{margin-bottom:20px;padding:16px;background:var(--paper);border-radius:var(--r-sm);border:1px solid var(--border)}.likert-q:last-child{margin-bottom:0}
 .likert-text{font-size:13.5px;font-weight:700;margin-bottom:12px;color:var(--ink);line-height:1.5}
 .likert-row{display:flex;gap:6px}
@@ -95,7 +96,8 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
 .btn-success:hover{background:var(--teal-dk);transform:translateY(-1px)}
 .btn-success:disabled{background:var(--border);color:var(--ink3);cursor:not-allowed;transform:none;box-shadow:none}
 .alert{padding:14px 16px;border-radius:var(--r-sm);font-size:13.5px;margin-bottom:16px;line-height:1.5}
-.alert-danger{background:var(--danger-bg);color:var(--danger-dk);border:1px solid var(--danger-bd)}
+.alert-danger{background:var(--danger-bg);color:#9f1239;border:1px solid var(--danger-bd)}
+.alert-info{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
 .err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px var(--danger-bg) !important;background-color:var(--danger-bg) !important;}
 .spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -153,6 +155,9 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
       <div><div style="font-size:18px;font-weight:900;color:var(--blue-dk)" id="bannerName"></div><div style="font-size:13px;color:var(--ink2);margin-top:2px" id="bannerId"></div></div>
     </div>
     
+    <!-- ✅ 成績預警/提示區塊 (確保這個 div 存在) -->
+    <div id="gradeWarning" style="display:none; margin-bottom: 16px;"></div>
+
     <div class="card">
       <div class="card-tag tag-blue">📊 成績總覽</div>
       <div class="card-title">期中考各科成績</div>
@@ -200,6 +205,30 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
           <label class="field-label">明天就能開始的一個具體改變<span class="req">*</span></label>
           <textarea id="inp_commit" rows="2" placeholder="例如：每天晚上9點複習20分鐘…"></textarea>
         </div>
+        <div class="field">
+          <label class="field-label">如果老師安排個別談話，你的意願是？<span class="req">*</span></label>
+          <select id="inp_helpWilling">
+            <option value="">請選擇...</option>
+            <option value="願意，想和老師談談">願意，想和老師談談</option>
+            <option value="可以，但希望先用文字說明">可以，但希望先用文字說明</option>
+            <option value="看時間，不排斥">看時間，不排斥</option>
+            <option value="目前不太願意">目前不太願意</option>
+            <option value="不想談，只想自己調整">不想談，只想自己調整</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">你目前最需要老師提供哪些協助？<span class="req">*</span><span class="multi-hint">可複選</span></label>
+          <div class="radio-group" id="supportNeedGroup">
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="重新講解不懂的重點"> 重新講解不懂的重點</label>
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="提供讀書方法或複習安排"> 提供讀書方法或複習安排</label>
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="提供練習題或考前複習方向"> 提供練習題或考前複習方向</label>
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="協助安排固定讀書時間"> 協助安排固定讀書時間</label>
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="安排同學或小組一起讀"> 安排同學或小組一起讀</label>
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="先關心情緒或生活狀況"> 先關心情緒或生活狀況</label>
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="協助和家長溝通"> 協助和家長溝通</label>
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="目前不需要協助"> 目前不需要協助</label>
+          </div>
+        </div>
       </div>
       
       <div class="card">
@@ -208,6 +237,16 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         <div class="field">
           <label class="field-label">平均每天睡眠時間<span class="req">*</span></label>
           <select id="inp_sleep"><option value="">請選擇...</option><option value="不到 5 小時">不到 5 小時</option><option value="5 - 6 小時">5 - 6 小時</option><option value="6 - 7 小時">6 - 7 小時</option><option value="7 - 8 小時">7 - 8 小時</option><option value="8 小時以上">8 小時以上</option></select>
+        </div>
+        <div class="field">
+          <label class="field-label">考前準備的生活情況（是否有熬夜通宵）<span class="req">*</span></label>
+          <select id="inp_allNighter">
+            <option value="">請選擇...</option>
+            <option value="作息正常，沒有熬夜">作息正常，沒有熬夜</option>
+            <option value="有稍微熬夜（比平常晚1-2小時）">有稍微熬夜（比平常晚1-2小時）</option>
+            <option value="嚴重熬夜（睡不到4小時）">嚴重熬夜（睡不到4小時）</option>
+            <option value="完全沒睡（整夜通宵準備）">完全沒睡（整夜通宵準備）</option>
+          </select>
         </div>
         <div class="field">
           <label class="field-label">每天課後滑手機或休閒娛樂時間<span class="req">*</span></label>
@@ -240,19 +279,50 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
     </div>
   </div>
 
-  <!-- STEP 3 第二階段：AI 追問 -->
+  <!-- STEP 3 逐科對話式追問 -->
   <div id="sFollowUp" style="display:none">
-    <div class="card">
-      <div class="card-tag tag-purple">🤖 來自導師的小追問</div>
-      <div class="card-title">讓計畫更具體</div>
-      <div class="card-desc">為了確保這份計畫能順利幫到你，請再回答一個小問題：</div>
-      <div class="chat-bubble" id="aiQuestionText"></div>
-      <div class="field" style="margin-top:8px">
-        <textarea id="inp_followupA" rows="3" placeholder="請在此補充具體細節..."></textarea>
+
+    <!-- 進度指示器 -->
+    <div class="card" style="padding:16px 20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:700;color:var(--ink2)">科目對話進度</div>
+        <div style="font-size:13px;font-weight:900;color:var(--blue)" id="dialogProgress">0 / 0</div>
       </div>
-      <div id="fuErr"></div>
-      <button class="btn btn-success" id="btnFinal" onclick="finalSubmit()">✅ 完成並送出</button>
+      <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+        <div id="dialogProgressBar" style="height:100%;background:var(--blue);border-radius:3px;transition:width .4s;width:0%"></div>
+      </div>
+      <div style="font-size:12px;color:var(--ink3);margin-top:6px" id="dialogSubjectLabel"></div>
     </div>
+
+    <!-- 對話卡片 -->
+    <div class="card" id="dialogCard">
+      <div id="dialogSubjectHeader" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+        <div>
+          <div style="font-size:16px;font-weight:900" id="dialogSubjectTitle"></div>
+          <div style="font-size:13px;color:var(--ink2);margin-top:2px" id="dialogSubjectMeta"></div>
+        </div>
+        <div id="dialogScoreBadge" style="font-size:18px;font-weight:900;padding:4px 14px;border-radius:20px"></div>
+      </div>
+      <!-- AI 鼓勵語（考得好時顯示） -->
+      <div id="dialogEncouragement" style="display:none;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid var(--blue-bd);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:14px;font-weight:700;color:var(--blue-dk);line-height:1.6"></div>
+      <div id="dialogHistory" style="margin-bottom:14px"></div>
+      <div id="dialogQuestionWrap" style="margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;color:var(--purple-dk);margin-bottom:6px;letter-spacing:.5px">💬 老師想多了解一下</div>
+        <div class="chat-bubble" id="dialogQuestion"></div>
+      </div>
+      <div class="field">
+        <textarea id="dialogAnswer" rows="3" placeholder="請在此回答…"></textarea>
+      </div>
+      <div id="dialogErr" style="margin-top:8px"></div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+        <button class="btn btn-primary" id="btnDialogNext" onclick="submitDialogAnswer()">回答並繼續 ➡️</button>
+        <button class="btn" id="btnDialogFinish" onclick="finalSubmit()"
+          style="display:none;background:var(--teal);color:white;box-shadow:0 4px 12px rgba(20,184,166,.2)">
+          ✅ 所有科目都問完了，送出問卷
+        </button>
+      </div>
+    </div>
+
   </div>
 
   <div id="sDone" style="display:none">
@@ -265,12 +335,147 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
 const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
 const LK  = { focus:0, review:0, understanding:0, examCoping:0 };
 const EMOJIS = ["","😊","😌","🙂","😑","😐","😟","😰","😨","😱","🤯"];
-const R_FAIL = ["專有名詞太多，背不起來","機轉/原理無法理解","準備太臨時，考前才開始","上課不夠專心，筆記不完整","考試緊張，臨場失常","課業負擔過重，無暇兼顧","缺乏有效的讀書方法"];
-const S_FAIL = ["每天固定複習 30 分鐘以上","整理錯題本，反覆練習","主動向老師提問或尋求協助","找同學組成讀書小組","搭配教學影片或線上資源","製作心智圖或表格整理重點","提前兩週開始準備考試"];
-const R_PASS = ["上課認真聽講，筆記完整","讀書方法正確，有充分準備","雖然及格，但部分觀念仍不熟","考前臨時抱佛腳，運氣好及格","靠死背硬記，沒有真正理解"];
-const S_PASS = ["繼續保持目前的學習節奏","釐清還不熟的模糊觀念","挑戰更進階的題目或應用","擔任小老師，教導其他同學","將讀書時間分配給弱勢科目"];
+const R_FAIL = [
+  "專有名詞太多，背不起來",
+  "機轉/原理無法理解",
+  "完全沒念，沒有準備",
+  "準備太臨時，考前才開始",
+  "上課不夠專心，筆記不完整",
+  "考試緊張，臨場失常",
+  "課業負擔過重，無暇兼顧",
+  "缺乏有效的讀書方法"
+];
+const S_FAIL = [
+  "每天固定複習 30 分鐘以上",
+  "整理錯題本，反覆練習",
+  "主動向老師提問或尋求協助",
+  "找同學組成讀書小組互相討論",
+  "搭配教學影片或線上資源輔助理解",
+  "製作心智圖或表格整理重點",
+  "提前兩週開始準備，不再臨時抱佛腳"
+];
+const R_PASS = [
+  "這次僥倖及格，部分觀念其實還不太清楚",
+  "靠死背拿分，原理和機轉沒有真正理解",
+  "考前臨時準備，剛好押到題目",
+  "課前預習、課後複習，這次準備算充分",
+  "以上都不太符合，想讓老師多了解一下"
+];
+const S_PASS = [
+  "繼續保持，維持目前的讀書節奏",
+  "找出還不熟的觀念，用圖表或影片補強",
+  "整理容易混淆的重點，避免期末考出錯",
+  "主 নিরাপ動去教同學或講解給同學聽，確認自己真的懂",
+  "將這科的讀書方法複製到其他較弱的科目"
+];
+const R_GREAT = [
+  "有固定複習，沒有只靠考前衝刺",
+  "上課聽得懂，也知道老師強調的重點",
+  "有做題目或練習，熟悉出題方向",
+  "有整理筆記、表格或圖像化重點",
+  "有照授課老師提醒的範圍或數位學習網方向準備",
+  "這科本來就比較有興趣或比較有信心"
+];
+const S_GREAT = [
+  "維持目前有效的準備方式",
+  "把這科的讀書方法複製到較弱科目",
+  "嘗試教同學，確認自己真的理解",
+  "整理成自己的複習模板或錯題本",
+  "期末前提早複習，避免優勢退步"
+];
+const GREAT_SCORE = 80;
+
+function scoreTone(s){
+  const score=+s.score;
+  if(score>=90)return {kind:"excellent",icon:"🌟",border:"var(--blue-bd)",head:"var(--blue-bg)",text:"var(--blue-dk)",pill:"var(--blue)",title:"表現亮眼",msg:`${s.subject} 這次表現很亮眼，代表你一定有做對某些事。先把成功方法找出來，之後可以複製到其他科目。`};
+  if(score>=80)return {kind:"great",icon:"🌟",border:"var(--blue-bd)",head:"var(--blue-bg)",text:"var(--blue-dk)",pill:"var(--blue)",title:"穩定優勢",msg:`${s.subject} 表現穩定，值得肯定。請想想這科讓你比較順的原因，這會是你期末和其他科目的資源。`};
+  if(score>=70)return {kind:"stable",icon:"✅",border:"var(--green-bd)",head:"var(--green-bg)",text:"var(--green-dk)",pill:"var(--green)",title:"穩定保持",msg:`${s.subject} 目前有一定基礎，接下來不是責備自己，而是找出還能更穩的地方，讓期末更安心。`};
+  if(score>=60)return {kind:"pass",icon:"✅",border:"var(--green-bd)",head:"var(--green-bg)",text:"var(--green-dk)",pill:"var(--green)",title:"及格但可加固",msg:`${s.subject} 已經跨過及格線，這是好的起點。接下來一起找出哪裡還不穩，把它補起來。`};
+  if(score>=40)return {kind:"support",icon:"💪",border:"var(--orange-bd)",head:"var(--orange-bg)",text:"var(--orange-dk)",pill:"var(--orange)",title:"一起找原因",msg:`${s.subject} 這次沒有達到及格，但這不是定論。老師想先幫你找出卡住的原因，再一起想最小、最能做到的補救方法。`};
+  return {kind:"care",icon:"🤝",border:"var(--orange-bd)",head:"var(--orange-bg)",text:"var(--orange-dk)",pill:"var(--orange)",title:"先從一小步開始",msg:`${s.subject} 這次分數比較低，先不要急著否定自己。只要找出最主要的困難，先做一個小改變，期末仍然有機會往上拉。`};
+}
 let currentStudent = null;
 let currentFollowUpQ = "";
+let displayedSubjects = [];
+
+function detectEvasive(texts) {
+  const arr = Array.isArray(texts) ? texts : [texts];
+  const evasiveWords = /^(不知道|無|沒有|沒|不會|哈+|嗯+|喔+|好+|算了|隨便|不想|懶|廢話|gg|881|靠|幹|屌|爛|不知|不會啊|不曉得|不清楚|不想念|就這樣|幫助|...|\.\.\.)$/i;
+  return arr.some(t => {
+    const s = String(t || "").trim();
+    if (s.length <= 4)       return true; 
+    if (evasiveWords.test(s)) return true;
+    if (/GG|881|幹|靠|爛|廢|不想|算了|沒在念|不念|不想念/i.test(s)) return true;
+    return false;
+  });
+}
+function needsDeeperProbe(answer){
+  const s=String(answer||"").trim();
+  if(!s)return true;
+  if(s.length<=8)return true;
+  return /(背不住|背不起來|忘了|沒背好|聽不懂|看不懂|不懂|不會|沒念|沒準備|睡覺|太難|不知道|不清楚|就是|都不會|問那麼多|不想告訴|好煩|別再問|不想念|想休學|一直玩|不想耶)/.test(s);
+}
+function answerSignal(answer){
+  const s=String(answer||"").trim();
+  if(/想休學|不想念書|不想念|一直玩|放棄|不讀了/.test(s))return "burnout";
+  if(/問那麼多|不想告訴|好煩|別再問|煩哦|不想耶|干你|關你/.test(s))return "resistance";
+  if(/上課.*沒.*聽|沒在聽|睡覺|滑手機/.test(s))return "classEngagement";
+  if(/背不住|背不起來|忘了|沒背好/.test(s))return "memory";
+  if(/聽不懂|看不懂|不懂|不會|都不會/.test(s))return "understanding";
+  if(/沒念|沒準備/.test(s))return "noPrep";
+  return "";
+}
+function localProbeQuestion(subj, answer){
+  const a=String(answer||"").trim();
+  const signal=answerSignal(a);
+  if(signal==="burnout")return `看到你說「${a}」，老師會有點擔心，也先不急著問成績。這個感覺是最近才出現，還是已經一陣子了？如果可以選一個最主要的原因，是壓力太大、太累、沒興趣，還是有其他事？`;
+  if(signal==="resistance")return `我感覺你現在可能有點煩，或是不太想被一直問，這樣的感受可以直接說。老師想先知道：你比較希望我先聽你說、少一點壓力、幫你整理方法，還是先約時間私下聊？`;
+  if(signal==="classEngagement")return `你說「${a}」，我想了解上課沒聽進去的原因：是太累想睡、聽不懂所以放掉、容易滑手機、老師速度太快，還是你對這科沒興趣？`;
+  if(subj.type==="academic")return "我想再更具體一點：你覺得課業狀態需要改進嗎？如果需要，第一個想改的是上課、複習、讀書方法，還是考前準備？";
+  if(subj.type==="life")return "我想再更具體一點：你覺得生活狀態需要改進嗎？如果需要，第一個想調整的是睡眠、手機娛樂、外務時間，還是情緒壓力？";
+  if(signal==="memory")return `你說「${a}」，我想多了解你是怎麼背的：通常花多少時間？用看課本、抄寫、默背、做題目、畫圖表，還是請同學問你？最常忘的是專有名詞、機轉流程、藥物作用，還是技術步驟？`;
+  if(signal==="understanding")return `你說「${a}」，我想知道你卡在理解的哪一步：老師上課聽不懂、課本看不懂、題目看不懂，還是基礎概念接不起來？你通常卡住後會怎麼處理？`;
+  if(signal==="noPrep")return `你說「${a}」，這很值得先面對。是時間不夠、太累、提不起勁，還是不知道怎麼開始念？如果只能先改一件事，你會選哪一件？`;
+  return `你剛剛回答「${a}」，謝謝你願意寫出來。老師想再多了解一點，才知道怎麼幫你：你覺得這比較像方法問題、時間問題、上課狀態問題，還是心情/動力問題？`;
+}
+function subjectBranch(subj){
+  if(subj.type)return subj.type;
+  const text=`${subj.reason||""} ${subj.strategy||""}`;
+  if(/教師準備方向|數位學習網|老師有說|是否依方向準備|準備方向/.test(text))return "teacherGuidance";
+  if(/完全沒念|沒有準備|沒念|沒準備|臨時|考前才開始/.test(text))return "noPrep";
+  if(/專有名詞|背不起來|背不住|死背|記不起來/.test(text))return "memory";
+  if(/機轉|原理|理解|看不懂|聽不懂|觀念/.test(text))return "understanding";
+  if(/上課不夠專心|筆記不完整|上課|滑手機|睡覺/.test(text))return "classEngagement";
+  if(/課業負擔|無暇兼顧|打工|社團|外務|時間/.test(text))return "timeLoad";
+  if(/緊張|臨場失常|空白|焦慮/.test(text))return "examAnxiety";
+  if(subj.score>=80)return "strength";
+  if(subj.score>=60)return "passUnstable";
+  return "generalFail";
+}
+function branchLabel(branch){
+  return ({
+    teacherGuidance:"教師準備方向", noPrep:"準備不足", memory:"背誦困難", understanding:"理解困難", classEngagement:"上課狀態",
+    timeLoad:"時間負荷", examAnxiety:"考試焦慮", strength:"優勢保持", passUnstable:"及格但不穩", generalFail:"一般補救",
+    academic:"課業整體", life:"生活狀態"
+  })[branch]||"延伸追問";
+}
+function branchQuestion(subj){
+  const branch=subjectBranch(subj);
+  const teacherText=String(subj.reason||"");
+  const q={
+    teacherGuidance:`關於「${subj.subject}」，我們先不責備，先一起看準備方向和實際準備中間差在哪裡。授課老師有說哪些一定要念、數位學習網題目或練習題是不是出題方向？你有照這些方向準備嗎？如果沒有，是哪一步比較難做到？`,
+    noPrep:`關於「${subj.subject}」，你提到準備不足或幾乎沒念。老師想先理解原因，好幫你找一個做得到的起點：是時間不夠、太累、提不起勁、不知道從哪裡開始，還是覺得念了也沒用？`,
+    memory:`關於「${subj.subject}」，你提到背誦或專有名詞困難，這不是只有你會遇到。老師想知道你平常怎麼背、大概花多少時間？是看課本、抄寫、默背、做題目、畫圖表，還是請同學問你？最常忘的是哪一類內容？`,
+    understanding:`關於「${subj.subject}」，你提到機轉、原理或觀念理解困難。這部分可以慢慢拆開看：最卡的是上課聽不懂、課本看不懂、題目不會轉換，還是基礎概念接不起來？卡住時你通常怎麼處理？`,
+    classEngagement:`關於「${subj.subject}」，你提到上課專注或筆記問題。老師不是要責怪你，而是想知道怎麼幫你聽得進去：主要原因是太累、聽不懂所以放掉、容易滑手機、老師速度太快，還是不知道重點在哪？`,
+    timeLoad:`關於「${subj.subject}」，你提到課業負擔或時間不夠。辛苦的地方我們先看清楚：你目前一週最容易被什麼佔掉讀書時間？如果只挪出一小段補救時間，哪一個時段最可能做到？`,
+    examAnxiety:`關於「${subj.subject}」，你提到考試緊張或臨場失常。這可以練，不代表你不會。你是看到題目就空白、時間分配不及、明明會但寫不出來，還是題目一變化就慌？考前你有做過模擬練習嗎？`,
+    strength:`「${subj.subject}」表現不錯，這代表你有可用的方法。老師想知道這科你做對了什麼：你用了哪些準備方式？這些方法有沒有可能複製到其他比較弱的科目？`,
+    passUnstable:`「${subj.subject}」已經有基礎了，接下來是讓它更穩。你覺得期末最容易失分的是哪一塊？如果只先補一個地方，哪一個最值得先處理？`,
+    generalFail:`關於「${subj.subject}」，這次分數沒有達到及格，但我們先把原因找出來就有機會補救。你覺得主要是讀書方法、時間安排、上課吸收、考試技巧，還是心情動力比較影響？`
+  }[branch];
+  return teacherText.includes("教師準備方向") && branch==="teacherGuidance" ? q : q;
+}
 
 ["focus","review","understanding","examCoping"].forEach(k=>{
   const w=document.getElementById("lk_"+k);
@@ -308,63 +513,188 @@ async function verify(){
   try{
     const d=await post("verifyStudent",{studentId,name});
     if(!d.ok){hide("sLoading");show("sVerify");err("verifyErr",d.msg);prog(8);return}
+    
     currentStudent=d;
     hide("sLoading");show("sForm");prog(40);
     document.getElementById("bannerName").textContent=d.name+" 同學";
-    document.getElementById("bannerId").textContent="學號："+d.studentId;
+    
+    // 安全地更新班級排名，避免 HTML 元素遺失造成當機
+    const bannerIdEl = document.getElementById("bannerId");
+    if (bannerIdEl) {
+        bannerIdEl.innerHTML=`學號：${d.studentId} &nbsp;|&nbsp; 班級排名：第 <strong style="color:var(--blue);font-size:15px;">${d.rank || "-"}</strong> 名 / 共 ${d.totalStudents || "?"} 人`;
+    }
+
+    // 安全地更新成績預警區塊
+    const warnDiv = document.getElementById("gradeWarning");
+    if (warnDiv) {
+        if (d.failedCount > 0) {
+            warnDiv.style.display = "block";
+            if (d.isPoorGrades) {
+                warnDiv.innerHTML = `⚠️ <strong>成績預警：</strong> 你這次有 <strong>${d.failedCount}</strong> 科不及格，班級排名落在後段。請務必認真填寫這份問卷，老師會陪你一起找出問題點並進行調整！`;
+                warnDiv.className = "alert alert-danger";
+            } else {
+                warnDiv.innerHTML = `💡 <strong>貼心提醒：</strong> 你這次有 <strong>${d.failedCount}</strong> 科不及格，請在下方針對不及格的科目好好反思喔！`;
+                warnDiv.className = "alert alert-info";
+            }
+        } else {
+            warnDiv.style.display = "none";
+        }
+    }
+
     renderOverview(d.allSubjects);
     renderSubjects(d.allSubjects);
-  }catch(e){hide("sLoading");show("sVerify");err("verifyErr","網路錯誤，請重試");prog(8)}
+    prefetchEncouragements(d.name, d.allSubjects);
+  }catch(e){
+    console.error(e);
+    hide("sLoading");show("sVerify");
+    err("verifyErr","網路錯誤或發生異常：" + e.message);
+    prog(8);
+  }
 }
 
 function renderOverview(subjects) {
-  document.getElementById("scoreGrid").innerHTML = subjects.map(s => {
-    const isPass = s.score >= 60;
-    const bg = isPass ? "border-color:var(--green-bd);background:var(--green-bg)" : "border-color:var(--danger-bd);background:var(--danger-bg)";
-    const color = isPass ? "color:var(--green-dk)" : "color:var(--danger-dk)";
+  const sorted=[...subjects].sort((a,b)=>b.score-a.score);
+  document.getElementById("scoreGrid").innerHTML = sorted.map(s => {
+    const tone = scoreTone(s);
+    const bg = `border-color:${tone.border};background:${tone.head}`;
+    const color = `color:${tone.text}`;
     return `<div class="sg-item" style="${bg}"><div class="sg-subj" title="${esc(s.subject)}">${esc(s.subject)}</div><div class="sg-score" style="${color}">${s.score}</div></div>`;
   }).join("");
 }
 
 function renderSubjects(subjects){
-  const wrap=document.getElementById("subjectBlocks");wrap.innerHTML="";
-  subjects.forEach((s,i)=>{
-    const isPass = s.score >= 60;
-    const reasons = isPass ? R_PASS : R_FAIL;
-    const strategies = isPass ? S_PASS : S_FAIL;
-    const c=document.createElement("div");c.className="subject-card";c.id="sc_"+i;
-    c.style = isPass ? "border-color:var(--green-bd)" : "border-color:var(--danger-bd)";
-    c.innerHTML=`<div class="subject-head" style="${isPass?'background:var(--green-bg)':'background:var(--danger-bg)'}">
-      <div class="sname" style="color:${isPass?'var(--green-dk)':'var(--danger-dk)'}">${isPass?'✅':'⚠️'} ${esc(s.subject)}</div>
-      <div class="score-pill" style="${isPass?'background:var(--green);color:white':'background:var(--danger);color:white'}">${s.score} 分</div>
-    </div>
-    <div class="subject-body">
-      <div class="q-block"><div class="q-title" style="color:${isPass?'var(--green-dk)':'var(--danger-dk)'}">${isPass?'學習狀況反思':'主要不及格原因'} <span class="req">*</span></div>
-        <div class="radio-group">${reasons.map((r,ri)=>`<label class="radio-opt" onclick="pick('r${i}',${ri},this)"><input type="radio" name="r${i}" value="${ri}"> ${esc(r)}</label>`).join("")}</div>
+  const wrap = document.getElementById("subjectBlocks"); wrap.innerHTML = "";
+  displayedSubjects = [...subjects].sort((a,b)=>b.score-a.score);
+  displayedSubjects.forEach((s, i) => {
+    const isPass    = s.score >= 60;
+    const isGreat   = s.score >= GREAT_SCORE;          
+    const reasons   = isGreat ? R_GREAT : isPass ? R_PASS : R_FAIL;
+    const strategies = isGreat ? S_GREAT : isPass ? S_PASS : S_FAIL;
+
+    const tone = scoreTone(s);
+    const borderColor = tone.border;
+    const headBg      = tone.head;
+    const textColor   = tone.text;
+    const pillBg      = tone.pill;
+    const icon        = tone.icon;
+    const r1label     = isGreat ? "成功經驗整理" : isPass ? "學習狀況反思" : "一起找出卡住的地方";
+    const r2label     = isGreat ? "優勢保持與方法複製" : isPass ? "下一步穩定計畫" : "老師想怎麼幫你一起補救";
+    const encourageHtml =
+      `<div style="background:${headBg};border:1px solid ${borderColor};color:${textColor};border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13.5px;font-weight:700;line-height:1.6"><strong>${tone.title}</strong><br>${esc(tone.msg)}</div>`;
+
+    const card = document.createElement("div");
+    card.className = "subject-card"; card.id = "sc_" + i;
+    card.style = `border-color:${borderColor}`;
+    card.innerHTML = `
+      <div class="subject-head" style="background:${headBg}">
+        <div class="sname" style="color:${textColor}">${icon} ${esc(s.subject)}</div>
+        <div class="score-pill" style="background:${pillBg};color:white">${s.score} 分</div>
       </div>
-      <div class="q-block"><div class="q-title" style="color:${isPass?'var(--green-dk)':'var(--danger-dk)'}">${isPass?'下一步計畫':'改進策略'} <span class="req">*</span></div>
-        <div class="radio-group">${strategies.map((st,si)=>`<label class="radio-opt" onclick="pick('s${i}',${si},this)"><input type="radio" name="s${i}" value="${si}"> ${esc(st)}</label>`).join("")}</div>
-      </div>
-    </div>`;
-    wrap.appendChild(c);
+      <div class="subject-body">
+        ${encourageHtml}
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">${r1label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
+          <div class="radio-group">${reasons.map((r,ri) =>
+            `<label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="r${i}" value="${esc(r)}"> ${esc(r)}</label>`
+          ).join("")}
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="r${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+          </div>
+          <input type="text" class="other-input" id="other_r${i}" placeholder="請補充其他原因">
+        </div>
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">${r2label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
+          <div class="radio-group">${strategies.map((st,si2) =>
+            `<label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="s${i}" value="${esc(st)}"> ${esc(st)}</label>`
+          ).join("")}
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="s${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+          </div>
+          <input type="text" class="other-input" id="other_s${i}" placeholder="請補充其他計畫或策略">
+        </div>
+        ${!isPass ? `
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">授課老師提供的考試準備方向 <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
+          <div class="radio-group">
+            ${[
+              "老師有說哪些章節或重點一定要念",
+              "老師有提醒考試題型或出題方向",
+              "老師有提供複習講義、PPT或重點整理",
+              "數位學習網題目或練習題是重要準備方向",
+              "老師有安排考前複習或提示常考內容",
+              "老師沒有特別說明，或我沒有注意到"
+            ].map(t=>`<label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="tg${i}" value="${esc(t)}"> ${esc(t)}</label>`).join("")}
+            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="tg${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+          </div>
+          <input type="text" class="other-input" id="other_tg${i}" placeholder="請補充老師說過的準備方向">
+        </div>
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">你有針對老師說的方向準備嗎？ <span class="req">*</span></div>
+          <select id="prep_${i}">
+            <option value="">請選擇...</option>
+            <option value="有，我大部分都有照方向準備">有，我大部分都有照方向準備</option>
+            <option value="有，但只準備一部分">有，但只準備一部分</option>
+            <option value="知道方向，但沒有實際去準備">知道方向，但沒有實際去準備</option>
+            <option value="不太清楚老師說的方向，所以沒有準備到">不太清楚老師說的方向，所以沒有準備到</option>
+            <option value="我沒有注意老師有沒有說準備方向">我沒有注意老師有沒有說準備方向</option>
+          </select>
+        </div>` : ""}
+      </div>`;
+    wrap.appendChild(card);
   });
 }
-
 function pick(name,val,label){
   document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest("label").classList.remove("on"));
   label.classList.add("on");label.querySelector("input").checked=true;
 }
+function toggleCheck(label){
+  const cb=label.querySelector("input");
+  cb.checked=!cb.checked;
+  label.classList.toggle("on",cb.checked);
+  const key=cb.name;
+  const other=document.getElementById("other_"+key);
+  if(other && cb.value==="__OTHER__"){
+    other.classList.toggle("on",cb.checked);
+    if(cb.checked)setTimeout(()=>other.focus(),0);
+    else other.value="";
+  }
+}
+
+function getCheckedValues(name){
+  const selected=[...document.querySelectorAll(`input[name="${name}"]:checked`)];
+  return selected.map(el=>{
+    if(el.value!=="__OTHER__")return el.value;
+    const other=document.getElementById("other_"+name);
+    return other?.value.trim() ? "其他："+other.value.trim() : "";
+  }).filter(Boolean);
+}
 
 function getFilledSubjects() {
-  const subjects=currentStudent.allSubjects||[];
+  const subjects=displayedSubjects.length?displayedSubjects:(currentStudent.allSubjects||[]);
   let valid=true; const filled=[];
   document.querySelectorAll('.subject-card').forEach(c=>c.classList.remove('err'));
+  document.querySelectorAll('.other-input').forEach(el=>el.classList.remove('err-input'));
   subjects.forEach((s,i)=>{
-    const re=document.querySelector(`input[name="r${i}"]:checked`);
-    const se=document.querySelector(`input[name="s${i}"]:checked`);
+    const reasons=getCheckedValues(`r${i}`);
+    const strategies=getCheckedValues(`s${i}`);
+    const teacherGuidance=s.score<60?getCheckedValues(`tg${i}`):[];
+    const prepSelect=s.score<60?document.getElementById(`prep_${i}`):null;
     const card=document.getElementById("sc_"+i);
-    if(!re||!se){valid=false;card.classList.add("err");}
-    else{card.classList.remove("err"); filled.push({subject:s.subject,score:s.score,reason:(s.score>=60?R_PASS:R_FAIL)[+re.value],strategy:(s.score>=60?S_PASS:S_FAIL)[+se.value]});}
+    const otherReason=document.querySelector(`input[name="r${i}"][value="__OTHER__"]`)?.checked;
+    const otherStrategy=document.querySelector(`input[name="s${i}"][value="__OTHER__"]`)?.checked;
+    const otherTeacherGuidance=document.querySelector(`input[name="tg${i}"][value="__OTHER__"]`)?.checked;
+    if(otherReason && !document.getElementById(`other_r${i}`).value.trim())document.getElementById(`other_r${i}`).classList.add("err-input");
+    if(otherStrategy && !document.getElementById(`other_s${i}`).value.trim())document.getElementById(`other_s${i}`).classList.add("err-input");
+    if(otherTeacherGuidance && !document.getElementById(`other_tg${i}`).value.trim())document.getElementById(`other_tg${i}`).classList.add("err-input");
+    if(prepSelect)prepSelect.classList.remove("err-input");
+    if(prepSelect && !prepSelect.value)prepSelect.classList.add("err-input");
+    if(!reasons.length||!strategies.length||(s.score<60&&!teacherGuidance.length)||(prepSelect&&!prepSelect.value)||document.querySelector(`#sc_${i} .err-input`)){
+      valid=false;card.classList.add("err");
+    }else{
+      card.classList.remove("err");
+      const reasonText=s.score<60
+        ? `${reasons.join("；")}｜教師準備方向：${teacherGuidance.join("；")}｜是否依方向準備：${prepSelect.value}`
+        : reasons.join("；");
+      filled.push({subject:s.subject,score:s.score,reason:reasonText,strategy:strategies.join("；")});
+    }
   });
   return {valid, filled};
 }
@@ -372,6 +702,7 @@ function getFilledSubjects() {
 async function goToFollowUp(){
   document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
   err("submitErr","");
+
   const subRes = getFilledSubjects();
   if(!subRes.valid){
     err("submitErr","請完整填寫科目的反思與計畫（已用紅框標示）");
@@ -386,96 +717,460 @@ async function goToFollowUp(){
       return;
     }
   }
-  
+
   const els = {
     studyMethod: document.getElementById("inp_studyMethod"),
-    blind: document.getElementById("inp_blind"),
-    commit: document.getElementById("inp_commit"),
-    sleep: document.getElementById("inp_sleep"),
-    ent: document.getElementById("inp_ent"),
-    ext: document.getElementById("inp_ext"),
-    goal: document.getElementById("inp_goal")
+    blind:       document.getElementById("inp_blind"),
+    commit:      document.getElementById("inp_commit"),
+    sleep:       document.getElementById("inp_sleep"),
+    allNighter:  document.getElementById("inp_allNighter"),
+    ent:         document.getElementById("inp_ent"),
+    ext:         document.getElementById("inp_ext"),
+    goal:        document.getElementById("inp_goal"),
+    helpWilling: document.getElementById("inp_helpWilling")
   };
-
   let hasErr = false;
-  for(const key in els) {
-    if(!els[key].value.trim()) {
-      els[key].classList.add("err-input");
-      hasErr = true;
-    }
-  }
-
+  for(const key in els){ if(!els[key].value.trim()){ els[key].classList.add("err-input"); hasErr=true; } }
   if(hasErr){
-    err("submitErr","有尚未填寫完整的欄位，請以紅底框標示處進行補充。");
+    err("submitErr","有尚未填寫完整的欄位，請補充紅框標示處。");
     document.querySelector('.err-input').scrollIntoView({behavior:"smooth",block:"center"});
     return;
   }
+  const supportNeeds=getCheckedValues("supportNeed");
+  if(!supportNeeds.length){
+    err("submitErr","請選擇「目前最需要老師提供哪些協助」");
+    document.getElementById("supportNeedGroup").scrollIntoView({behavior:"smooth",block:"center"});
+    return;
+  }
 
-  const studyMethod=els.studyMethod.value.trim();
-  const blind=els.blind.value.trim();
-  const commit=els.commit.value.trim();
-  const sleep=els.sleep.value;
-  const ent=els.ent.value;
-  const ext=els.ext.value;
-  const goal=els.goal.value.trim();
+  DIALOG.formData   = {
+    studyMethod: els.studyMethod.value.trim(),
+    blind:       els.blind.value.trim(),
+    commit:      els.commit.value.trim(),
+    sleep:       els.sleep.value,
+    allNighter:  els.allNighter.value, 
+    ent:         els.ent.value,
+    ext:         els.ext.value,
+    goal:        els.goal.value.trim(),
+    helpWilling: els.helpWilling.value,
+    supportNeeds
+  };
+  DIALOG.subjects   = subRes.filled.concat(createExtraDialogItems());
+  DIALOG.totalCount = DIALOG.subjects.length;
+  DIALOG.currentIdx = 0;
+  DIALOG.history    = [];
+  DIALOG.retryCount = 0;
+  DIALOG.questionCache = {};
+  DIALOG.probeSeq = 0;
+  DIALOG.probeCount = 0;
 
-  const btn=document.getElementById("btnNext");btn.disabled=true;
-  hide("sForm");show("sLoading");document.getElementById("loadMsg").textContent="正在為你準備專屬的下一步...";prog(65);
-  
-  try{
-    const d=await post("askGeminiFollowUp", {
-      blindSpot: blind, 
-      studyMethod: studyMethod,
-      commitment: commit,
-      routine: { sleep: sleep, entertainment: ent, extracurricular: ext }
-    });
-    currentFollowUpQ = d.question;
-    document.getElementById("aiQuestionText").textContent = currentFollowUpQ;
-    hide("sLoading");show("sFollowUp");prog(85);
-  }catch(e){
-    currentFollowUpQ = "太棒了！請問你打算具體安排在每天的『什麼時段』執行，大約執行多久呢？";
-    document.getElementById("aiQuestionText").textContent = currentFollowUpQ;
-    hide("sLoading");show("sFollowUp");prog(85);
+  document.getElementById("btnNext").disabled = true;
+  hide("sForm"); show("sLoading");
+  document.getElementById("loadMsg").textContent = "正在準備逐科追問…"; prog(65);
+  await loadNextSubject();
+}
+
+const ENC_CACHE = {}; 
+
+async function prefetchEncouragements(studentName, allSubjects) {
+  const greatSubjects = allSubjects.filter(s => s.score >= GREAT_SCORE);
+  if (!greatSubjects.length) return;
+  greatSubjects.forEach(async s => {
+    try {
+      const d = await post("prefetchEncouragement", {
+        studentName,
+        subject:  s.subject,
+        score:    s.score
+      });
+      if (d.ok) {
+        ENC_CACHE[s.subject] = {
+          encouragement: d.encouragement || "",
+          question:      d.question      || ""
+        };
+      }
+    } catch(e) {}
+  });
+}
+
+const DIALOG = {
+  subjects: [], totalCount: 0, currentIdx: 0,
+  history: [],  
+  retryCount: 0, 
+  formData: {},
+  questionCache: {},
+  probeSeq: 0,
+  probeCount: 0,
+  maxProbeTotal: 6,
+  maxProbePerSubject: 2
+};
+
+async function loadNextSubject() {
+  if(DIALOG.currentIdx >= DIALOG.totalCount){
+    renderAllDone(); return;
+  }
+
+  const subj = DIALOG.subjects[DIALOG.currentIdx];
+  if(subj.type){
+    const retryQ = subj.type==="academic"
+      ? "我想更具體知道課業上是否需要調整。請直接說：需要或暫時不需要；如果需要，第一個想改的課業習慣是什麼？"
+      : "我想更具體知道生活狀態是否需要調整。請直接說：需要或暫時不需要；如果需要，第一個想改的生活習慣是什麼？";
+    renderSubjectDialog(subj, DIALOG.retryCount > 0 ? retryQ : subj.question, false, "");
+    hide("sLoading"); show("sFollowUp");
+    updateDialogProgress();
+    prog(65 + Math.round(DIALOG.currentIdx / DIALOG.totalCount * 30));
+    prefetchUpcomingQuestions();
+    window.scrollTo({top:0, behavior:"smooth"});
+    return;
+  }
+  const branchQ = DIALOG.retryCount === 0 ? branchQuestion(subj) : "";
+  if(branchQ && subj.score < GREAT_SCORE){
+    renderSubjectDialog(subj, branchQ, detectEvasive([subj.reason, subj.strategy]), "");
+    DIALOG.questionCache[DIALOG.currentIdx]={ready:true,data:{question:branchQ,encouragement:""}};
+    hide("sLoading"); show("sFollowUp");
+    updateDialogProgress();
+    prog(65 + Math.round(DIALOG.currentIdx / DIALOG.totalCount * 30));
+    prefetchUpcomingQuestions();
+    window.scrollTo({top:0, behavior:"smooth"});
+    return;
+  }
+  const cached = DIALOG.retryCount === 0 ? getCachedQuestion(DIALOG.currentIdx) : null;
+  if(cached){
+    renderSubjectDialog(subj, cached.question, detectEvasive([subj.reason, subj.strategy]), cached.encouragement);
+    hide("sLoading"); show("sFollowUp");
+    updateDialogProgress();
+    prog(65 + Math.round(DIALOG.currentIdx / DIALOG.totalCount * 30));
+    prefetchUpcomingQuestions();
+    window.scrollTo({top:0, behavior:"smooth"});
+    return;
+  }
+  const isSubjEvasive = detectEvasive([subj.reason, subj.strategy]);
+  const prevHistory   = DIALOG.history.map(h=>`[${h.subject}] 問：${h.q} 答：${h.a}`).join("\n");
+
+  try {
+    const isGreatSubj   = subj.score >= GREAT_SCORE;
+    const cached        = isGreatSubj && !isSubjEvasive && DIALOG.retryCount === 0
+                          ? ENC_CACHE[subj.subject]
+                          : null;
+
+    let question, encouragement;
+    if (cached) {
+      question      = cached.question;
+      encouragement = cached.encouragement;
+    } else {
+      const d = await post("askSubjectFollowUp", {
+        subject:     subj.subject,
+        score:       subj.score,
+        reason:      subj.reason,
+        strategy:    subj.strategy,
+        isEvasive:   isSubjEvasive,
+        isRetry:     DIALOG.retryCount > 0,
+        formContext: {
+          studyMethod: DIALOG.formData.studyMethod,
+          blind:       DIALOG.formData.blind,
+          commit:      DIALOG.formData.commit,
+          routine:     { sleep: DIALOG.formData.sleep, entertainment: DIALOG.formData.ent, extracurricular: DIALOG.formData.ext }
+        },
+        prevHistory
+      });
+      question      = d.question      || "";
+      encouragement = d.encouragement || "";
+    }
+
+    renderSubjectDialog(subj, question, isSubjEvasive, encouragement);
+    if(DIALOG.retryCount===0)DIALOG.questionCache[DIALOG.currentIdx]={ready:true,data:{question,encouragement}};
+  } catch(e) {
+    const isGreatSubj = subj.score >= GREAT_SCORE;
+    const fallback = isSubjEvasive
+      ? `關於「${subj.subject}」，你填的反思比較簡短，老師想多理解一點，才知道怎麼幫你。能跟我說說這科目前最大的困難是什麼嗎？`
+      : isGreatSubj
+      ? `${subj.subject} 考了 ${subj.score} 分，這科你是怎麼準備的？有什麼方法讓你覺得特別有效嗎？`
+      : `關於「${subj.subject}」，你提到「${subj.reason}」。我們先一起找原因，不急著責備；可以描述一下你在這科準備時最卡關的地方嗎？`;
+    const staticEnc = isGreatSubj
+      ? (subj.score >= 95 ? `哇，${subj.subject} 考了 ${subj.score} 分！真的很厲害 🏆`
+        : subj.score >= 90 ? `${subj.subject} 考了 ${subj.score} 分，非常優秀 🌟`
+        : subj.score >= 85 ? `${subj.subject} 考了 ${subj.score} 分，表現很亮眼 🎉`
+        : `${subj.subject} 考了 ${subj.score} 分，這科有在用功 💪`)
+      : "";
+    renderSubjectDialog(subj, fallback, isSubjEvasive, staticEnc);
+    if(DIALOG.retryCount===0)DIALOG.questionCache[DIALOG.currentIdx]={ready:true,data:{question:fallback,encouragement:staticEnc}};
+  }
+
+  hide("sLoading"); show("sFollowUp");
+  updateDialogProgress();
+  prog(65 + Math.round(DIALOG.currentIdx / DIALOG.totalCount * 30));
+  prefetchUpcomingQuestions();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function getCachedQuestion(index){
+  const item=DIALOG.questionCache[index];
+  return item?.ready ? item.data : null;
+}
+function prefetchUpcomingQuestions(){
+  for(let i=DIALOG.currentIdx+1;i<Math.min(DIALOG.totalCount,DIALOG.currentIdx+4);i++)prefetchQuestion(i);
+}
+function prefetchQuestion(index){
+  if(DIALOG.questionCache[index])return;
+  const subj=DIALOG.subjects[index];
+  if(!subj || subj.type){
+    if(subj)DIALOG.questionCache[index]={ready:true,data:{question:subj.question,encouragement:""}};
+    return;
+  }
+  const branchQ=branchQuestion(subj);
+  if(branchQ && subj.score<GREAT_SCORE){
+    DIALOG.questionCache[index]={ready:true,data:{question:branchQ,encouragement:""}};
+    return;
+  }
+  DIALOG.questionCache[index]={ready:false};
+  const isSubjEvasive=detectEvasive([subj.reason,subj.strategy]);
+  const isGreatSubj=subj.score>=GREAT_SCORE;
+  const cached=isGreatSubj&&!isSubjEvasive?ENC_CACHE[subj.subject]:null;
+  if(cached){
+    DIALOG.questionCache[index]={ready:true,data:{question:cached.question,encouragement:cached.encouragement}};
+    return;
+  }
+  post("askSubjectFollowUp",{
+    subject:subj.subject,
+    score:subj.score,
+    reason:subj.reason,
+    strategy:subj.strategy,
+    isEvasive:isSubjEvasive,
+    isRetry:false,
+    formContext:{
+      studyMethod:DIALOG.formData.studyMethod,
+      blind:DIALOG.formData.blind,
+      commit:DIALOG.formData.commit,
+      routine:{sleep:DIALOG.formData.sleep,entertainment:DIALOG.formData.ent,extracurricular:DIALOG.formData.ext}
+    },
+    prevHistory:DIALOG.history.map(h=>`[${h.subject}] 問：${h.q} 答：${h.a}`).join("\n")
+  }).then(d=>{
+    DIALOG.questionCache[index]={ready:true,data:{question:d.question||fallbackQuestion(subj,isSubjEvasive),encouragement:d.encouragement||""}};
+  }).catch(()=>{
+    DIALOG.questionCache[index]={ready:true,data:{question:fallbackQuestion(subj,isSubjEvasive),encouragement:""}};
+  });
+}
+function fallbackQuestion(subj,isSubjEvasive){
+  if(isSubjEvasive)return `關於「${subj.subject}」，你填的反思比較簡短，老師想多理解一點，才知道怎麼幫你。能跟我說說這科目前最大的困難是什麼嗎？`;
+  if(subj.score>=GREAT_SCORE)return `${subj.subject} 考了 ${subj.score} 分，這科你是怎麼準備的？有什麼方法讓你覺得特別有效嗎？`;
+  const q=branchQuestion(subj);
+  if(q)return q;
+  if(String(subj.reason||"").includes("教師準備方向"))return `關於「${subj.subject}」，你提到的老師準備方向和你的準備情況我看到了。老師想先幫你找出可以補上的地方：你覺得最沒有做到的是看老師指定重點、做數位學習網題目、複習講義，還是不知道怎麼照方向準備？`;
+  return `關於「${subj.subject}」，你提到「${subj.reason}」。我們先一起找原因，不急著責備；可以描述一下你在這科準備時最卡關的地方嗎？`;
+}
+
+function scheduleBackgroundProbe(subj, answer, originalQuestion){
+  const existing=DIALOG.subjects.filter(s=>s.type==="probe"&&s.probeFor===subj.subject).length;
+  if(DIALOG.probeCount>=DIALOG.maxProbeTotal || existing>=DIALOG.maxProbePerSubject)return;
+  subj.probeScheduled=true;
+  DIALOG.probeCount++;
+  const probeId="probe_"+(++DIALOG.probeSeq);
+  const probeItem={
+    type:"probe",
+    probeFor:subj.subject,
+    probeId,
+    subject:`${subj.subject}｜延伸追問`,
+    score:subj.score,
+    reason:"依學生回答延伸追問",
+    strategy:subj.strategy||"",
+    question:localProbeQuestion(subj,answer)
+  };
+  const highCare=["burnout","resistance"].includes(answerSignal(answer));
+  const insertAt=Math.min(DIALOG.currentIdx+(highCare?1:2),DIALOG.subjects.length);
+  DIALOG.subjects.splice(insertAt,0,probeItem);
+  DIALOG.totalCount=DIALOG.subjects.length;
+  Object.keys(DIALOG.questionCache).forEach(k=>{if(+k>=insertAt)delete DIALOG.questionCache[k]});
+  const fallbackProbe=localProbeQuestion(subj,answer);
+  post("askSubjectFollowUp",{
+    subject:subj.subject,
+    score:subj.score,
+    reason:`學生回答：「${answer}」。原先反思：${subj.reason}`,
+    strategy:subj.strategy,
+    isEvasive:false,
+    isRetry:true,
+    formContext:{
+      studyMethod:DIALOG.formData.studyMethod,
+      blind:DIALOG.formData.blind,
+      commit:DIALOG.formData.commit,
+      routine:{sleep:DIALOG.formData.sleep,entertainment:DIALOG.formData.ent,extracurricular:DIALOG.formData.ext}
+    },
+    prevHistory:`上一題：${originalQuestion}\n學生回答：${answer}`
+  }).then(d=>{
+    if(isUsefulProbeQuestion(d?.question,answer))probeItem.question=d.question;
+    else probeItem.question=fallbackProbe;
+  }).catch(()=>{});
+}
+function isUsefulProbeQuestion(question,answer){
+  const q=String(question||"").trim();
+  if(q.length<24)return false;
+  if(/具體的例子|具體例子|多了解你.*狀況|多說說/.test(q))return false;
+  const signal=answerSignal(answer);
+  if(signal==="memory")return /(怎麼背|花多少時間|方法|默背|抄寫|做題|圖表|最常忘)/.test(q);
+  if(signal==="resistance")return /(不想|壓力|面談|老師|幫你|先聽|追問)/.test(q);
+  if(signal==="burnout")return /(休學|不想念|壓力|多久|原因|面談|聊聊|支持)/.test(q);
+  if(signal==="classEngagement")return /(上課|沒聽|睡|手機|速度|聽不懂|興趣)/.test(q);
+  return true;
+}
+
+function renderSubjectDialog(subj, question, isEvasive, encouragement = "") {
+  const isExtra = !!subj.type;
+  const isPass = !isExtra && subj.score >= 60;
+  const color  = isPass ? "var(--green)" : "var(--danger)";
+  const bg     = isPass ? "var(--green-bg)" : "var(--danger-bg)";
+  const label  = isExtra ? (subj.type==="academic" ? "📚 課業整體" : subj.type==="life" ? "🕒 生活狀態" : "🔎 延伸追問") : (isPass ? "✅ 及格" : "⚠️ 不及格");
+
+  document.getElementById("dialogSubjectTitle").textContent = subj.subject;
+  document.getElementById("dialogSubjectMeta").textContent  = isExtra ? label : `${label}　${branchLabel(subjectBranch(subj))}　${subj.reason}`;
+  const badge = document.getElementById("dialogScoreBadge");
+  badge.textContent  = isExtra ? (subj.type==="academic" ? "課業" : subj.type==="life" ? "生活" : "追問") : subj.score + " 分";
+  badge.style.cssText = isExtra
+    ? "font-size:15px;font-weight:900;padding:4px 14px;border-radius:20px;background:var(--purple-bg);color:var(--purple-dk)"
+    : `font-size:18px;font-weight:900;padding:4px 14px;border-radius:20px;background:${bg};color:${color}`;
+
+  const encourageEl = document.getElementById("dialogEncouragement");
+  if (encouragement && subj.score >= GREAT_SCORE) {
+    encourageEl.textContent  = encouragement;
+    encourageEl.style.display = "block";
+  } else {
+    encourageEl.style.display = "none";
+  }
+
+  const histList = DIALOG.history.filter(h => h.subject === subj.subject);
+  document.getElementById("dialogHistory").innerHTML = histList.map(h=>`
+    <div style="margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:var(--purple-dk);margin-bottom:5px">💬 老師的問題</div>
+      <div class="chat-bubble" style="display:inline-block">${esc(h.q)}</div>
+    </div>
+    <div style="text-align:right;margin-bottom:14px">
+      <div style="font-size:11px;font-weight:700;color:var(--blue-dk);margin-bottom:5px">👩‍🎓 你的回答</div>
+      <div style="display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:14px 14px 4px 14px;padding:12px 14px;font-size:14px;line-height:1.6;max-width:90%;color:var(--blue-dk)">${esc(h.a)}</div>
+    </div>
+  `).join("");
+
+  document.getElementById("dialogQuestion").textContent = question;
+  document.getElementById("dialogAnswer").value = "";
+  err("dialogErr", "");
+
+  document.getElementById("dialogQuestionWrap").style.display = "block";
+  document.getElementById("dialogAnswer").style.display       = "block";
+  document.getElementById("btnDialogNext").style.display      = "flex";
+  document.getElementById("btnDialogNext").disabled           = false;
+  document.getElementById("btnDialogNext").textContent        = "回答並繼續 ➡️";
+  document.getElementById("btnDialogFinish").style.display    = "none";
+}
+
+function updateDialogProgress() {
+  const done  = DIALOG.currentIdx;
+  const total = DIALOG.totalCount;
+  document.getElementById("dialogProgress").textContent    = done + " / " + total;
+  document.getElementById("dialogProgressBar").style.width = (done / total * 100) + "%";
+  const subj = DIALOG.subjects[DIALOG.currentIdx];
+  document.getElementById("dialogSubjectLabel").textContent = subj
+    ? (subj.type ? `目前：${subj.subject}` : `目前：${subj.subject}（${subj.score >= 60 ? "及格" : "不及格"} ${subj.score}分）`)
+    : "✅ 全部完成";
+}
+
+function renderAllDone() {
+  document.getElementById("dialogSubjectTitle").textContent = "全部科目問答完成！";
+  document.getElementById("dialogSubjectMeta").textContent  = "";
+  document.getElementById("dialogScoreBadge").textContent   = "🎉";
+  document.getElementById("dialogScoreBadge").style.cssText = "font-size:24px;padding:4px 8px";
+  document.getElementById("dialogHistory").innerHTML = `
+    <div style="text-align:center;padding:20px 0;font-size:15px;color:var(--ink2);line-height:1.8">
+      謝謝你認真回答每一科的問題！<br>
+      <span style="font-size:13px">請按下方按鈕完成送出。</span>
+    </div>`;
+  document.getElementById("dialogQuestionWrap").style.display = "none";
+  document.getElementById("dialogAnswer").style.display       = "none";
+  document.getElementById("btnDialogNext").style.display      = "none";
+  document.getElementById("btnDialogFinish").style.display    = "flex";
+  updateDialogProgress();
+  prog(95);
+  hide("sLoading"); show("sFollowUp");
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+async function submitDialogAnswer() {
+  const answer = document.getElementById("dialogAnswer").value.trim();
+  err("dialogErr", "");
+  if(!answer){
+    err("dialogErr","請簡單回答一下這個問題哦！");
+    document.getElementById("dialogAnswer").focus();
+    return;
+  }
+
+  const subj     = DIALOG.subjects[DIALOG.currentIdx];
+  const question = document.getElementById("dialogQuestion").textContent;
+  const isAnswerEvasive = detectEvasive([answer]);
+  const shouldProbe = needsDeeperProbe(answer);
+
+  DIALOG.history.push({
+    subject: subj.subject, score: subj.score,
+    q: question, a: answer, isEvasive: isAnswerEvasive
+  });
+
+  const btn = document.getElementById("btnDialogNext");
+  btn.disabled = true; btn.textContent = "處理中…";
+
+  if(!subj.type && (isAnswerEvasive || shouldProbe) && !subj.probeScheduled) {
+    scheduleBackgroundProbe(subj, answer, question);
+  }
+
+  DIALOG.currentIdx++;
+  DIALOG.retryCount = 0;
+  if(DIALOG.currentIdx >= DIALOG.totalCount){
+    renderAllDone();
+  } else {
+    const cached=getCachedQuestion(DIALOG.currentIdx);
+    if(cached || DIALOG.subjects[DIALOG.currentIdx]?.type){
+      await loadNextSubject();
+    }else{
+      btn.textContent="同步下一題…";
+      await loadNextSubject();
+    }
   }
 }
 
 async function finalSubmit() {
-  document.getElementById("inp_followupA").classList.remove("err-input");
-  err("fuErr","");
-  const followUpA = document.getElementById("inp_followupA").value.trim();
-  if(!followUpA){
-    document.getElementById("inp_followupA").classList.add("err-input");
-    err("fuErr","請簡單回答一下上面的問題哦！");
-    document.getElementById("inp_followupA").scrollIntoView({behavior:"smooth",block:"center"});
-    return;
-  }
-  
-  const btn=document.getElementById("btnFinal");btn.disabled=true;
-  hide("sFollowUp");show("sLoading");document.getElementById("loadMsg").textContent="儲存資料中...";prog(95);
+  const btn = document.getElementById("btnDialogFinish");
+  btn.disabled = true; btn.textContent = "送出中…";
+  hide("sFollowUp"); show("sLoading");
+  document.getElementById("loadMsg").textContent = "儲存資料中…"; prog(98);
+
+  const dialogSummary = {};
+  DIALOG.history.forEach(h => {
+    if(!dialogSummary[h.subject]) dialogSummary[h.subject] = [];
+    dialogSummary[h.subject].push({ q: h.q, a: h.a });
+  });
 
   const subRes = getFilledSubjects();
-  try{
-    const d=await post("submitStudent",{
-      studentId:currentStudent.studentId,name:currentStudent.name,subjects:subRes.filled,
-      selfRating:{...LK},
-      learningBlindSpot:document.getElementById("inp_blind").value.trim(),
-      studyMethod:document.getElementById("inp_studyMethod").value.trim(),
-      actionCommitment:document.getElementById("inp_commit").value.trim(),
-      routine:{
-        sleep:document.getElementById("inp_sleep").value,
-        entertainment:document.getElementById("inp_ent").value,
-        extracurricular:document.getElementById("inp_ext").value
+  try {
+    await post("submitStudent", {
+      studentId:         currentStudent.studentId,
+      name:              currentStudent.name,
+      subjects:          subRes.filled,
+      selfRating:        {...LK},
+      learningBlindSpot: DIALOG.formData.blind,
+      studyMethod:       DIALOG.formData.studyMethod,
+      actionCommitment:  `${DIALOG.formData.commit}\n面談意願：${DIALOG.formData.helpWilling}\n需要協助：${DIALOG.formData.supportNeeds.join("；")}`,
+      routine: {
+        sleep:           DIALOG.formData.sleep,
+        allNighter:      DIALOG.formData.allNighter,
+        entertainment:   DIALOG.formData.ent,
+        extracurricular: DIALOG.formData.ext
       },
-      stressIndex:+document.getElementById("stressSlider").value,
-      shortTermGoal:document.getElementById("inp_goal").value.trim(),
-      followUpQ: currentFollowUpQ,
-      followUpA: followUpA
+      stressIndex:    +document.getElementById("stressSlider").value,
+      shortTermGoal:   DIALOG.formData.goal,
+      dialogHistory:   dialogSummary 
     });
-    hide("sLoading");show("sDone");prog(100);window.scrollTo({top:0,behavior:"smooth"});
-  }catch(e){
-    hide("sLoading");show("sFollowUp");btn.disabled=false;err("fuErr","傳送失敗，請重試");
+    hide("sLoading"); show("sDone"); prog(100);
+    window.scrollTo({top:0, behavior:"smooth"});
+  } catch(e) {
+    hide("sLoading"); show("sFollowUp");
+    btn.disabled = false; btn.textContent = "✅ 所有科目都問完了，送出問卷";
+    renderAllDone();
   }
 }
+
 </script>
 </body>
 </html>
