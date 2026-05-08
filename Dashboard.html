@@ -444,6 +444,20 @@ function renderDialogHtml(items){
     <div class="fu-chat" style="border-left:4px solid var(--blue)"><strong>${esc(item.subject)}｜學生回答：</strong>${esc(item.a)}</div>
   `).join("");
 }
+function splitReasonParts(reason){
+  const text=String(reason||"");
+  const main=text.split("｜教師準備方向：")[0];
+  return main.split(/[；;]/).map(x=>x.trim()).filter(Boolean);
+}
+function teacherGuidanceParts(reason){
+  const m=String(reason||"").match(/｜教師準備方向：([^｜]+)/);
+  return m ? m[1].split(/[；;]/).map(x=>x.trim()).filter(Boolean) : [];
+}
+function countParts(rows, getter){
+  const out={};
+  rows.forEach(r=>getter(r).forEach(k=>{ out[k]=(out[k]||0)+1; }));
+  return out;
+}
 
 // ── Looker Studio ───────────────────────────────────────────
 function renderReport() {
@@ -475,7 +489,7 @@ function renderOverview(){
   const sc={};ALL.forEach(r=>{if(r.score<60)sc[r.subject]=(sc[r.subject]||0)+1});
   const sb2=Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,8);
   drawChart("cSubject","bar",sb2.map(x=>x[0]),[{data:sb2.map(x=>x[1]),backgroundColor:"#3b82f6",borderRadius:5}],{indexAxis:"y"});
-  const rc={};ALL.forEach(r=>{if(r.reason)rc[r.reason]=(rc[r.reason]||0)+1});
+  const rc=countParts(ALL, r=>splitReasonParts(r.reason));
   const rk=Object.keys(rc);
   document.getElementById("rLegend").innerHTML=rk.map((l,i)=>`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:${COLORS[i%COLORS.length]};display:inline-block"></span>${l.length>12?l.slice(0,12)+"…":l} ${rc[l]}</span>`).join("");
   drawChart("cReason","doughnut",rk,[{data:rk.map(k=>rc[k]),backgroundColor:COLORS,borderWidth:0}],{cutout:"55%"});
