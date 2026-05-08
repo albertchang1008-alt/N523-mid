@@ -65,7 +65,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .radio-opt{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:14px;color:var(--ink2);line-height:1.4;transition:all .2s;background:var(--paper)}
 .radio-opt:hover{border-color:var(--blue-bd);background:white}
 .radio-opt.on{border-color:var(--blue);background:var(--blue-bg);color:var(--blue-dk);font-weight:700}
-.radio-opt input{margin-top:2px;accent-color:var(--blue);flex-shrink:0}
+.radio-opt input{margin-top:2px;accent-color:var(--blue);flex-shrink:0; cursor:pointer;}
 .other-input{display:none;margin-top:10px}
 .other-input.on{display:block}
 .multi-hint{font-size:12px;color:var(--ink3);font-weight:600;margin-left:6px}
@@ -90,12 +90,12 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
 
 /* 🟥 精準錯誤提示框 🟥 */
 .err-block {
-  border: 1px solid var(--danger) !important;
-  box-shadow: 0 0 0 3px var(--danger-bg) !important;
+  border: 2px solid var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
   background-color: var(--danger-bg) !important;
 }
 .field.err-block { padding: 16px; border-radius: var(--r-sm); }
-.err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px var(--danger-bg) !important;background-color:var(--danger-bg) !important;}
+.err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px rgba(239, 68, 68, 0.2) !important;background-color:var(--danger-bg) !important;}
 
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
 .btn-primary{background:var(--blue);color:white;box-shadow:0 4px 12px rgba(59,130,246,0.2)}
@@ -222,14 +222,14 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         <div class="field" id="field_supportNeed">
           <label class="field-label">你目前最需要老師提供哪些協助？<span class="req">*</span><span class="multi-hint">可複選</span></label>
           <div class="radio-group" id="supportNeedGroup">
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="重新講解不懂的重點"> 重新講解不懂的重點</label>
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="提供讀書方法或複習安排"> 提供讀書方法或複習安排</label>
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="提供練習題或考前複習方向"> 提供練習題或考前複習方向</label>
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="協助安排固定讀書時間"> 協助安排固定讀書時間</label>
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="安排同學或小組一起讀"> 安排同學或小組一起讀</label>
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="先關心情緒或生活狀況"> 先關心情緒或生活狀況</label>
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="協助和家長溝通"> 協助和家長溝通</label>
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="目前不需要協助"> 目前不需要協助</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="重新講解不懂的重點" onchange="syncCheck(this)"> 重新講解不懂的重點</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="提供讀書方法或複習安排" onchange="syncCheck(this)"> 提供讀書方法或複習安排</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="提供練習題或考前複習方向" onchange="syncCheck(this)"> 提供練習題或考前複習方向</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="協助安排固定讀書時間" onchange="syncCheck(this)"> 協助安排固定讀書時間</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="安排同學或小組一起讀" onchange="syncCheck(this)"> 安排同學或小組一起讀</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="先關心情緒或生活狀況" onchange="syncCheck(this)"> 先關心情緒或生活狀況</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="協助和家長溝通" onchange="syncCheck(this)"> 協助和家長溝通</label>
+            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="目前不需要協助" onchange="syncCheck(this)"> 目前不需要協助</label>
           </div>
         </div>
       </div>
@@ -541,7 +541,6 @@ async function verify(){
     prefetchEncouragements(d.name, d.allSubjects);
   }catch(e){
     hide("sLoading");show("sVerify");
-    // ✅ 精準報錯，讓老師知道到底是網路斷線還是 Apps Script 當機
     err("verifyErr","系統連線異常 (" + e.message + ")。請老師確認 Apps Script 是否已部署為「新版本」。");
     prog(8);
   }
@@ -555,6 +554,22 @@ function renderOverview(subjects) {
     const color = `color:${tone.text}`;
     return `<div class="sg-item" style="${bg}"><div class="sg-subj" title="${esc(s.subject)}">${esc(s.subject)}</div><div class="sg-score" style="${color}">${s.score}</div></div>`;
   }).join("");
+}
+
+// ✅ 修正：改為標準的 onchange 監聽器，避免手機防呆事件失效
+function syncCheck(cb) {
+  const label = cb.closest('label');
+  label.classList.toggle("on", cb.checked);
+  const key = cb.name;
+  const other = document.getElementById("other_" + key);
+  if (other && cb.value === "__OTHER__") {
+    other.classList.toggle("on", cb.checked);
+    if (cb.checked) {
+      setTimeout(() => other.focus(), 0);
+    } else {
+      other.value = "";
+    }
+  }
 }
 
 function renderSubjects(subjects){
@@ -590,18 +605,18 @@ function renderSubjects(subjects){
         <div class="q-block">
           <div class="q-title" style="color:${textColor}">${r1label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
           <div class="radio-group">${reasons.map((r,ri) =>
-            `<label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="r${i}" value="${esc(r)}"> ${esc(r)}</label>`
+            `<label class="radio-opt"><input type="checkbox" name="r${i}" value="${esc(r)}" onchange="syncCheck(this)"> ${esc(r)}</label>`
           ).join("")}
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="r${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+            <label class="radio-opt"><input type="checkbox" name="r${i}" value="__OTHER__" onchange="syncCheck(this)"> 其他，我想自己填寫</label>
           </div>
           <input type="text" class="other-input" id="other_r${i}" placeholder="請補充其他原因">
         </div>
         <div class="q-block">
           <div class="q-title" style="color:${textColor}">${r2label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
           <div class="radio-group">${strategies.map((st,si2) =>
-            `<label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="s${i}" value="${esc(st)}"> ${esc(st)}</label>`
+            `<label class="radio-opt"><input type="checkbox" name="s${i}" value="${esc(st)}" onchange="syncCheck(this)"> ${esc(st)}</label>`
           ).join("")}
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="s${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+            <label class="radio-opt"><input type="checkbox" name="s${i}" value="__OTHER__" onchange="syncCheck(this)"> 其他，我想自己填寫</label>
           </div>
           <input type="text" class="other-input" id="other_s${i}" placeholder="請補充其他計畫或策略">
         </div>
@@ -616,8 +631,8 @@ function renderSubjects(subjects){
               "數位學習網題目或練習題是重要準備方向",
               "老師有安排考前複習或提示常考內容",
               "老師沒有特別說明，或我沒有注意到"
-            ].map(t=>`<label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="tg${i}" value="${esc(t)}"> ${esc(t)}</label>`).join("")}
-            <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="tg${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+            ].map(t=>`<label class="radio-opt"><input type="checkbox" name="tg${i}" value="${esc(t)}" onchange="syncCheck(this)"> ${esc(t)}</label>`).join("")}
+            <label class="radio-opt"><input type="checkbox" name="tg${i}" value="__OTHER__" onchange="syncCheck(this)"> 其他，我想自己填寫</label>
           </div>
           <input type="text" class="other-input" id="other_tg${i}" placeholder="請補充老師說過的準備方向">
         </div>
@@ -635,22 +650,6 @@ function renderSubjects(subjects){
       </div>`;
     wrap.appendChild(card);
   });
-}
-function pick(name,val,label){
-  document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest("label").classList.remove("on"));
-  label.classList.add("on");label.querySelector("input").checked=true;
-}
-function toggleCheck(label){
-  const cb=label.querySelector("input");
-  cb.checked=!cb.checked;
-  label.classList.toggle("on",cb.checked);
-  const key=cb.name;
-  const other=document.getElementById("other_"+key);
-  if(other && cb.value==="__OTHER__"){
-    other.classList.toggle("on",cb.checked);
-    if(cb.checked)setTimeout(()=>other.focus(),0);
-    else other.value="";
-  }
 }
 
 function getCheckedValues(name){
@@ -675,13 +674,16 @@ function getFilledSubjects() {
     const reasons=getCheckedValues(`r${i}`);
     const strategies=getCheckedValues(`s${i}`);
     
-    const qBlockR = document.querySelector(`input[name="r${i}"]`).closest('.q-block');
-    const qBlockS = document.querySelector(`input[name="s${i}"]`).closest('.q-block');
+    // 安全地尋找對應的問題區塊 (q-block)
+    const radioR = document.querySelector(`input[name="r${i}"]`);
+    const qBlockR = radioR ? radioR.closest('.q-block') : null;
+    const radioS = document.querySelector(`input[name="s${i}"]`);
+    const qBlockS = radioS ? radioS.closest('.q-block') : null;
     
     let cardValid = true;
     
-    if(!reasons.length) { valid=false; cardValid=false; qBlockR.classList.add('err-block'); }
-    if(!strategies.length) { valid=false; cardValid=false; qBlockS.classList.add('err-block'); }
+    if(!reasons.length) { valid=false; cardValid=false; if(qBlockR) qBlockR.classList.add('err-block'); }
+    if(!strategies.length) { valid=false; cardValid=false; if(qBlockS) qBlockS.classList.add('err-block'); }
     
     const otherReasonCheck = document.querySelector(`input[name="r${i}"][value="__OTHER__"]`)?.checked;
     const otherReasonInput = document.getElementById(`other_r${i}`);
@@ -700,9 +702,11 @@ function getFilledSubjects() {
     if(s.score<60){
        teacherGuidance=getCheckedValues(`tg${i}`);
        prepSelect=document.getElementById(`prep_${i}`);
-       const qBlockTg = document.querySelector(`input[name="tg${i}"]`).closest('.q-block');
        
-       if(!teacherGuidance.length) { valid=false; cardValid=false; qBlockTg.classList.add('err-block'); }
+       const radioTg = document.querySelector(`input[name="tg${i}"]`);
+       const qBlockTg = radioTg ? radioTg.closest('.q-block') : null;
+       
+       if(!teacherGuidance.length) { valid=false; cardValid=false; if(qBlockTg) qBlockTg.classList.add('err-block'); }
        
        const otherTgCheck = document.querySelector(`input[name="tg${i}"][value="__OTHER__"]`)?.checked;
        const otherTgInput = document.getElementById(`other_tg${i}`);
@@ -710,7 +714,11 @@ function getFilledSubjects() {
           valid=false; cardValid=false; otherTgInput.classList.add('err-input');
        }
        
-       if(prepSelect && !prepSelect.value) { valid=false; cardValid=false; prepSelect.classList.add('err-input'); }
+       if(prepSelect && !prepSelect.value) { 
+          valid=false; cardValid=false; prepSelect.classList.add('err-input'); 
+          const qBlockPrep = prepSelect.closest('.q-block');
+          if(qBlockPrep) qBlockPrep.classList.add('err-block');
+       }
     }
     
     if (cardValid) {
@@ -730,9 +738,11 @@ async function goToFollowUp(){
 
   const subRes = getFilledSubjects();
   if(!subRes.valid){
-    err("submitErr","請完整填寫科目的反思與計畫（已用紅底線框標示）");
+    err("submitErr","請完整填寫科目的反思與計畫（已用紅框標示）");
     const firstErr = document.querySelector('.err-block, .err-input');
-    if(firstErr) firstErr.scrollIntoView({behavior:"smooth",block:"center"});
+    if(firstErr) {
+       setTimeout(() => firstErr.scrollIntoView({behavior:"smooth",block:"center"}), 100);
+    }
     return;
   }
   
@@ -744,8 +754,9 @@ async function goToFollowUp(){
     }
   }
   if(hasLikertErr) {
-    err("submitErr","請填寫「學習狀態自評」（已用紅底線框標示）");
-    document.querySelector('.err-block').scrollIntoView({behavior:"smooth",block:"center"});
+    err("submitErr","請填寫「學習狀態自評」（已用紅框標示）");
+    const firstErr = document.querySelector('.err-block');
+    if(firstErr) setTimeout(() => firstErr.scrollIntoView({behavior:"smooth",block:"center"}), 100);
     return;
   }
 
@@ -771,7 +782,8 @@ async function goToFollowUp(){
 
   if(hasErr){
     err("submitErr","有尚未填寫完整的欄位，請補充紅色框標示處。");
-    document.querySelector('.err-input, .err-block').scrollIntoView({behavior:"smooth",block:"center"});
+    const firstErr = document.querySelector('.err-input, .err-block');
+    if(firstErr) setTimeout(() => firstErr.scrollIntoView({behavior:"smooth",block:"center"}), 100);
     return;
   }
 
