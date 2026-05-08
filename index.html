@@ -38,86 +38,91 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑�
   background: rgba(15, 23, 42, 0.45); 
 }
 .hero-inner{position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);padding:6px 14px;border-radius:20px;font-size:12px;margin-bottom:12px;color:white;font-weight:700;backdrop-filter:blur(4px)}
-.hero h1{font-size:22px;font-weight:900;line-height:1.45;margin-bottom:6px;color:white;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
-.hero p{font-size:14px;color:rgba(255,255,255,0.9);text-shadow:0 1px 4px rgba(0,0,0,0.3)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.4);padding:6px 14px;border-radius:20px;font-size:13px;margin-bottom:12px;color:white;font-weight:700;backdrop-filter:blur(4px)}
+.hero h1{font-size:24px;font-weight:900;line-height:1.45;margin-bottom:6px;color:white;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
+.hero p{font-size:15px;color:rgba(255,255,255,0.9);text-shadow:0 1px 4px rgba(0,0,0,0.3)}
 
 .prog-bar{height:4px;background:white}
 .prog-fill{height:100%;background:var(--blue);transition:width .5s}
 .main{max-width:640px;margin:0 auto;padding:24px 16px 48px}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px 20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,0.03)}
-.card-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:12px}
+.card-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:12px}
 .tag-blue{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
 .tag-teal{background:var(--teal-bg);color:var(--teal-dk);border:1px solid var(--teal-bd)}
 .tag-purple{background:var(--purple-bg);color:var(--purple-dk);border:1px solid var(--purple-bd)}
 .tag-orange{background:var(--orange-bg);color:var(--orange-dk);border:1px solid var(--orange-bd)}
-.card-title{font-size:18px;font-weight:900;margin-bottom:6px}
-.card-desc{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:20px}
+.card-title{font-size:20px;font-weight:900;margin-bottom:6px} /* 放大了標題 */
+.card-desc{font-size:15px;color:var(--ink2);line-height:1.6;margin-bottom:20px} /* 放大了敘述 */
 .field{margin-bottom:18px; transition: all 0.3s;}.field:last-child{margin-bottom:0}
-.field-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:block}
+.field-label{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;display:block} /* 放大了問題文字 */
 .field-label .req{color:var(--danger);margin-left:3px}
-input[type=text],select,textarea{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:15px;font-family:inherit;color:var(--ink);background:var(--surface);transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
+input[type=text],select,textarea{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:16px;font-family:inherit;color:var(--ink);background:var(--surface);transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,0.02)} /* 放大了輸入框文字 */
 select{cursor:pointer;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;appearance:none;-webkit-appearance:none}
 input[type=text]:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg);background:white}
 textarea{resize:vertical;min-height:80px;line-height:1.6}
-.hint{font-size:12px;color:var(--ink3);margin-top:6px}
+.hint{font-size:13px;color:var(--ink3);margin-top:6px}
 .radio-group{display:flex;flex-direction:column;gap:8px; transition: all 0.3s;}
-.radio-opt{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:14px;color:var(--ink2);line-height:1.4;transition:all .2s;background:var(--paper)}
+.radio-opt{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:16px;color:var(--ink2);line-height:1.4;transition:all .2s;background:var(--paper)} /* 放大了選項文字 */
 .radio-opt:hover{border-color:var(--blue-bd);background:white}
 .radio-opt.on{border-color:var(--blue);background:var(--blue-bg);color:var(--blue-dk);font-weight:700}
 .radio-opt input{margin-top:2px;accent-color:var(--blue);flex-shrink:0; cursor:pointer;}
 .other-input{display:none;margin-top:10px}
 .other-input.on{display:block}
-.multi-hint{font-size:12px;color:var(--ink3);font-weight:600;margin-left:6px}
+.multi-hint{font-size:13px;color:var(--ink3);font-weight:600;margin-left:6px}
 .likert-q{margin-bottom:20px;padding:16px;background:var(--paper);border-radius:var(--r-sm);border:1px solid var(--border); transition: all 0.3s;}.likert-q:last-child{margin-bottom:0}
-.likert-text{font-size:13.5px;font-weight:700;margin-bottom:12px;color:var(--ink);line-height:1.5}
+.likert-text{font-size:15px;font-weight:700;margin-bottom:12px;color:var(--ink);line-height:1.5} /* 放大了李克特量表文字 */
 .likert-row{display:flex;gap:6px}
-.likert-btn{flex:1;padding:12px 4px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;font-size:14px;font-weight:700;color:var(--ink2);cursor:pointer;text-align:center;transition:all .2s}
+.likert-btn{flex:1;padding:12px 4px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;font-size:16px;font-weight:700;color:var(--ink2);cursor:pointer;text-align:center;transition:all .2s} /* 放大了數字按鈕 */
 .likert-btn:hover{border-color:var(--teal-bd);background:var(--teal-bg);color:var(--teal-dk)}
 .likert-btn.on{border-color:var(--teal);background:var(--teal);color:white;box-shadow:0 2px 8px rgba(20,184,166,0.2)}
-.likert-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-top:8px}
+.likert-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);margin-top:8px}
 .stress-wrap{text-align:center;background:var(--paper);padding:24px;border-radius:var(--r-sm);border:1px solid var(--border)}
 input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px 0}
 .stress-num{font-size:42px;font-weight:900;color:var(--blue);margin:8px 0 4px}
 .stress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
 .subject-card{background:white;border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
-.subject-head{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
-.subject-head .sname{font-size:15px;font-weight:900}
-.score-pill{padding:4px 12px;border-radius:20px;font-size:14px;font-weight:900}
+.subject-head{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.subject-head .sname{font-size:18px;font-weight:900} /* 放大了科目名稱 */
+.score-pill{padding:6px 14px;border-radius:20px;font-size:16px;font-weight:900} /* 放大了分數 */
 .subject-body{padding:20px}
-.q-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.q-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:10px} /* 放大了問題小標 */
 .q-block{margin-bottom:20px;background:var(--paper);padding:16px;border-radius:var(--r-sm);border:1px solid var(--border); transition: all 0.3s;}.q-block:last-child{margin-bottom:0}
 
-/* 🟥 精準錯誤提示框 🟥 */
+/* 🟥 精準錯誤提示框 (鎖定具體問題區塊) 🟥 */
 .err-block {
   border: 2px solid var(--danger) !important;
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15) !important;
   background-color: var(--danger-bg) !important;
 }
 .field.err-block { padding: 16px; border-radius: var(--r-sm); }
-.err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px rgba(239, 68, 68, 0.2) !important;background-color:var(--danger-bg) !important;}
+.err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px rgba(239, 68, 68, 0.15) !important;}
 
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
+/* 按鈕群組 (上一步、下一步) */
+.btn-group { display: flex; gap: 12px; margin-top: 20px; }
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;flex:1;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
 .btn-primary{background:var(--blue);color:white;box-shadow:0 4px 12px rgba(59,130,246,0.2)}
 .btn-primary:hover{background:var(--blue-dk);transform:translateY(-1px)}
 .btn-primary:disabled{background:var(--border);color:var(--ink3);cursor:not-allowed;transform:none;box-shadow:none}
-.alert{padding:14px 16px;border-radius:var(--r-sm);font-size:13.5px;margin-bottom:16px;line-height:1.5}
+.btn-secondary{background:white;color:var(--ink2);border:1px solid var(--border);box-shadow:0 2px 4px rgba(0,0,0,0.02)}
+.btn-secondary:hover{background:var(--paper)}
+
+.alert{padding:16px 18px;border-radius:var(--r-sm);font-size:15px;margin-bottom:16px;line-height:1.5} /* 放大了提示框 */
 .alert-danger{background:var(--danger-bg);color:#9f1239;border:1px solid var(--danger-bd)}
 .alert-info{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
 
 .spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
 @keyframes sp{to{transform:rotate(360deg)}}
-.loading-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:48px;text-align:center;color:var(--ink2);font-size:14px}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:48px;text-align:center;color:var(--ink2);font-size:15px}
 .done-wrap{text-align:center;padding:48px 20px}
 .done-icon{font-size:72px;margin-bottom:16px}
 .done-title{font-size:24px;font-weight:900;color:var(--teal-dk);margin-bottom:8px}
-.done-msg{font-size:15px;color:var(--ink2);line-height:1.8}
+.done-msg{font-size:16px;color:var(--ink2);line-height:1.8}
 .banner{background:white;border:1px solid var(--blue-bd);border-radius:var(--r);padding:20px;margin-bottom:16px;display:flex;align-items:center;gap:16px;box-shadow:0 4px 12px rgba(59,130,246,0.05)}
 .banner-av{width:48px;height:48px;border-radius:50%;background:var(--blue-bg);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
 .sg-item{padding:12px 10px;border-radius:var(--r-sm);border:1px solid transparent;text-align:center;background:white}
-.sg-subj{font-size:12px;color:var(--ink2);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
-.sg-score{font-size:20px;font-weight:900}
-.chat-bubble{background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:14px 14px 14px 4px;padding:16px;color:var(--blue-dk);font-size:14.5px;line-height:1.6;margin-bottom:16px;display:inline-block;max-width:95%}
+.sg-subj{font-size:13px;color:var(--ink2);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.sg-score{font-size:22px;font-weight:900}
+.chat-bubble{background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:14px 14px 14px 4px;padding:16px;color:var(--blue-dk);font-size:15px;line-height:1.6;margin-bottom:16px;display:inline-block;max-width:95%}
 @media(max-width:380px){.card{padding:20px 16px}}
 </style>
 </head>
@@ -132,6 +137,7 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
 <div class="prog-bar"><div class="prog-fill" id="prog" style="width:8%"></div></div>
 
 <div class="main">
+  <!-- STEP 1 驗證 -->
   <div id="sVerify">
     <div class="card">
       <div class="card-tag tag-blue">🔐 Step 1</div>
@@ -145,7 +151,7 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         <label class="field-label">姓名<span class="req">*</span></label>
         <input type="text" id="inp_name" placeholder="例如：王小明">
       </div>
-      <button class="btn btn-primary" onclick="verify()">🔍 查詢我的成績</button>
+      <button class="btn btn-primary" onclick="verify()" style="margin-top: 10px;">🔍 查詢我的成績</button>
     </div>
   </div>
 
@@ -153,23 +159,33 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
     <div class="card"><div class="loading-wrap"><div class="spin"></div><div id="loadMsg">處理中…</div></div></div>
   </div>
 
+  <!-- STEP 2 分頁精靈表單 (Wizard) -->
   <div id="sForm" style="display:none">
     <div class="banner">
       <div class="banner-av">👩‍🎓</div>
-      <div><div style="font-size:18px;font-weight:900;color:var(--blue-dk)" id="bannerName"></div><div style="font-size:13px;color:var(--ink2);margin-top:2px" id="bannerId"></div></div>
+      <div><div style="font-size:18px;font-weight:900;color:var(--blue-dk)" id="bannerName"></div><div style="font-size:14px;color:var(--ink2);margin-top:2px" id="bannerId"></div></div>
     </div>
     
     <div id="gradeWarning" style="display:none; margin-bottom: 16px;"></div>
 
-    <div class="card">
-      <div class="card-tag tag-blue">📊 成績總覽</div>
-      <div class="card-title">期中考各科成績</div>
-      <div id="scoreGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:16px;"></div>
+    <!-- 步驟：總覽 -->
+    <div class="wizard-step" id="step_overview">
+      <div class="card">
+        <div class="card-tag tag-blue">📊 成績總覽</div>
+        <div class="card-title">期中考各科成績</div>
+        <div id="scoreGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-top:16px;"></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="nextStep()">開始填寫各科反思 ➡️</button>
+      </div>
     </div>
 
-    <div id="failBlock">
-      <div class="alert alert-info">📋 每個科目都值得反思，請針對各科狀況選擇敘述。</div>
-      <div id="subjectBlocks"></div>
+    <!-- 步驟：各科問卷區塊 (透過 JS 動態產生) -->
+    <div id="subjectBlocks"></div>
+    
+    <!-- 步驟：綜合問卷區塊 -->
+    <div class="wizard-step" id="step_general" style="display:none">
+      <div class="alert alert-info" style="font-weight:bold; text-align:center;">📝 最後階段：綜合自評與作息</div>
       
       <div class="card">
         <div class="card-tag tag-teal">📊 第二部分</div>
@@ -222,14 +238,14 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         <div class="field" id="field_supportNeed">
           <label class="field-label">你目前最需要老師提供哪些協助？<span class="req">*</span><span class="multi-hint">可複選</span></label>
           <div class="radio-group" id="supportNeedGroup">
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="重新講解不懂的重點" onchange="syncCheck(this)"> 重新講解不懂的重點</label>
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="提供讀書方法或複習安排" onchange="syncCheck(this)"> 提供讀書方法或複習安排</label>
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="提供練習題或考前複習方向" onchange="syncCheck(this)"> 提供練習題或考前複習方向</label>
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="協助安排固定讀書時間" onchange="syncCheck(this)"> 協助安排固定讀書時間</label>
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="安排同學或小組一起讀" onchange="syncCheck(this)"> 安排同學或小組一起讀</label>
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="先關心情緒或生活狀況" onchange="syncCheck(this)"> 先關心情緒或生活狀況</label>
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="協助和家長溝通" onchange="syncCheck(this)"> 協助和家長溝通</label>
-            <label class="radio-opt"><input type="checkbox" name="supportNeed" value="目前不需要協助" onchange="syncCheck(this)"> 目前不需要協助</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="重新講解不懂的重點"> 重新講解不懂的重點</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="提供讀書方法或複習安排"> 提供讀書方法或複習安排</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="提供練習題或考前複習方向"> 提供練習題或考前複習方向</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="協助安排固定讀書時間"> 協助安排固定讀書時間</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="安排同學或小組一起讀"> 安排同學或小組一起讀</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="先關心情緒或生活狀況"> 先關心情緒或生活狀況</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="協助和家長溝通"> 協助和家長溝通</label>
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="supportNeed" value="目前不需要協助"> 目前不需要協助</label>
           </div>
         </div>
       </div>
@@ -267,7 +283,7 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         <div class="field">
           <label class="field-label">課業壓力指數（1=輕鬆，10=極大）</label>
           <div class="stress-wrap">
-            <div id="stressEmoji" style="font-size:36px;margin-bottom:8px">😐</div>
+            <div id="stressEmoji" style="font-size:42px;margin-bottom:8px">😐</div>
             <input type="range" id="stressSlider" min="1" max="10" value="5" oninput="updateStress(this.value)">
             <div class="stress-num" id="stressNum">5</div>
           </div>
@@ -277,35 +293,40 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
           <textarea id="inp_goal" rows="2" placeholder="例如：期末考藥理學達到 70 分…"></textarea>
         </div>
       </div>
-      <div id="submitErr"></div>
-      <button class="btn btn-primary" id="btnNext" onclick="goToFollowUp()">繼續下一步 ➡️</button>
+      
+      <div id="submitErr_general"></div>
+      <div class="btn-group">
+        <button class="btn btn-secondary" onclick="prevStep()">⬅️ 上一步</button>
+        <button class="btn btn-primary" onclick="nextStep()" id="btnGoToDialogue">確認並進入對話 ➡️</button>
+      </div>
     </div>
   </div>
 
+  <!-- STEP 3 逐科對話式追問 -->
   <div id="sFollowUp" style="display:none">
     <div class="card" style="padding:16px 20px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <div style="font-size:13px;font-weight:700;color:var(--ink2)">科目對話進度</div>
-        <div style="font-size:13px;font-weight:900;color:var(--blue)" id="dialogProgress">0 / 0</div>
+        <div style="font-size:14px;font-weight:700;color:var(--ink2)">對話進度</div>
+        <div style="font-size:14px;font-weight:900;color:var(--blue)" id="dialogProgress">0 / 0</div>
       </div>
       <div style="height:6px;background:var(--border);border-radius:3px;overflow:hidden">
         <div id="dialogProgressBar" style="height:100%;background:var(--blue);border-radius:3px;transition:width .4s;width:0%"></div>
       </div>
-      <div style="font-size:12px;color:var(--ink3);margin-top:6px" id="dialogSubjectLabel"></div>
+      <div style="font-size:13px;color:var(--ink3);margin-top:6px" id="dialogSubjectLabel"></div>
     </div>
 
     <div class="card" id="dialogCard">
       <div id="dialogSubjectHeader" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)">
         <div>
-          <div style="font-size:16px;font-weight:900" id="dialogSubjectTitle"></div>
-          <div style="font-size:13px;color:var(--ink2);margin-top:2px" id="dialogSubjectMeta"></div>
+          <div style="font-size:18px;font-weight:900" id="dialogSubjectTitle"></div>
+          <div style="font-size:14px;color:var(--ink2);margin-top:2px" id="dialogSubjectMeta"></div>
         </div>
         <div id="dialogScoreBadge" style="font-size:18px;font-weight:900;padding:4px 14px;border-radius:20px"></div>
       </div>
-      <div id="dialogEncouragement" style="display:none;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid var(--blue-bd);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:14px;font-weight:700;color:var(--blue-dk);line-height:1.6"></div>
+      <div id="dialogEncouragement" style="display:none;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid var(--blue-bd);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:15px;font-weight:700;color:var(--blue-dk);line-height:1.6"></div>
       <div id="dialogHistory" style="margin-bottom:14px"></div>
       <div id="dialogQuestionWrap" style="margin-bottom:14px">
-        <div style="font-size:11px;font-weight:700;color:var(--purple-dk);margin-bottom:6px;letter-spacing:.5px">💬 老師想多了解一下</div>
+        <div style="font-size:12px;font-weight:700;color:var(--purple-dk);margin-bottom:6px;letter-spacing:.5px">💬 老師想多了解一下</div>
         <div class="chat-bubble" id="dialogQuestion"></div>
       </div>
       <div class="field">
@@ -316,7 +337,7 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         <button class="btn btn-primary" id="btnDialogNext" onclick="submitDialogAnswer()">回答並繼續 ➡️</button>
         <button class="btn" id="btnDialogFinish" onclick="finalSubmit()"
           style="display:none;background:var(--teal);color:white;box-shadow:0 4px 12px rgba(20,184,166,.2)">
-          ✅ 所有科目都問完了，送出問卷
+          ✅ 全部問答完成，點此送出問卷
         </button>
       </div>
     </div>
@@ -332,53 +353,33 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
 const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
 const LK  = { focus:0, review:0, understanding:0, examCoping:0 };
 const EMOJIS = ["","😊","😌","🙂","😑","😐","😟","😰","😨","😱","🤯"];
+
 const R_FAIL = [
-  "專有名詞太多，背不起來",
-  "機轉/原理無法理解",
-  "完全沒念，沒有準備",
-  "準備太臨時，考前才開始",
-  "上課不夠專心，筆記不完整",
-  "考試緊張，臨場失常",
-  "課業負擔過重，無暇兼顧",
-  "缺乏有效的讀書方法"
+  "專有名詞太多，背不起來", "機轉/原理無法理解", "完全沒念，沒有準備", "準備太臨時，考前才開始",
+  "上課不夠專心，筆記不完整", "考試緊張，臨場失常", "課業負擔過重，無暇兼顧", "缺乏有效的讀書方法"
 ];
 const S_FAIL = [
-  "每天固定複習 30 分鐘以上",
-  "整理錯題本，反覆練習",
-  "主動向老師提問或尋求協助",
-  "找同學組成讀書小組互相討論",
-  "搭配教學影片或線上資源輔助理解",
-  "製作心智圖或表格整理重點",
-  "提前兩週開始準備，不再臨時抱佛腳"
+  "每天固定複習 30 分鐘以上", "整理錯題本，反覆練習", "主動向老師提問或尋求協助",
+  "找同學組成讀書小組互相討論", "搭配教學影片或線上資源輔助理解",
+  "製作心智圖或表格整理重點", "提前兩週開始準備，不再臨時抱佛腳"
 ];
 const R_PASS = [
-  "這次僥倖及格，部分觀念其實還不太清楚",
-  "靠死背拿分，原理和機轉沒有真正理解",
-  "考前臨時準備，剛好押到題目",
-  "課前預習、課後複習，這次準備算充分",
-  "以上都不太符合，想讓老師多了解一下"
+  "這次僥倖及格，部分觀念其實還不太清楚", "靠死背拿分，原理和機轉沒有真正理解",
+  "考前臨時準備，剛好押到題目", "課前預習、課後複習，這次準備算充分", "以上都不太符合，想讓老師多了解一下"
 ];
 const S_PASS = [
-  "繼續保持，維持目前的讀書節奏",
-  "找出還不熟的觀念，用圖表或影片補強",
-  "整理容易混淆的重點，避免期末考出錯",
-  "主動去教同學或講解給同學聽，確認自己真的懂",
+  "繼續保持，維持目前的讀書節奏", "找出還不熟的觀念，用圖表或影片補強",
+  "整理容易混淆的重點，避免期末考出錯", "主動去教同學或講解給同學聽，確認自己真的懂",
   "將這科的讀書方法複製到其他較弱的科目"
 ];
 const R_GREAT = [
-  "有固定複習，沒有只靠考前衝刺",
-  "上課聽得懂，也知道老師強調的重點",
-  "有做題目或練習，熟悉出題方向",
-  "有整理筆記、表格或圖像化重點",
-  "有照授課老師提醒的範圍或數位學習網方向準備",
-  "這科本來就比較有興趣或比較有信心"
+  "有固定複習，沒有只靠考前衝刺", "上課聽得懂，也知道老師強調的重點",
+  "有做題目或練習，熟悉出題方向", "有整理筆記、表格或圖像化重點",
+  "有照授課老師提醒的範圍或數位學習網方向準備", "這科本來就比較有興趣或比較有信心"
 ];
 const S_GREAT = [
-  "維持目前有效的準備方式",
-  "把這科的讀書方法複製到較弱科目",
-  "嘗試教同學，確認自己真的理解",
-  "整理成自己的複習模板或錯題本",
-  "期末前提早複習，避免優勢退步"
+  "維持目前有效的準備方式", "把這科的讀書方法複製到較弱科目",
+  "嘗試教同學，確認自己真的理解", "整理成自己的複習模板或錯題本", "期末前提早複習，避免優勢退步"
 ];
 const GREAT_SCORE = 80;
 
@@ -391,9 +392,596 @@ function scoreTone(s){
   if(score>=40)return {kind:"support",icon:"💪",border:"var(--orange-bd)",head:"var(--orange-bg)",text:"var(--orange-dk)",pill:"var(--orange)",title:"一起找原因",msg:`${s.subject} 這次沒有達到及格，但這不是定論。老師想先幫你找出卡住的原因，再一起想最小、最能做到的補救方法。`};
   return {kind:"care",icon:"🤝",border:"var(--orange-bd)",head:"var(--orange-bg)",text:"var(--orange-dk)",pill:"var(--orange)",title:"先從一小步開始",msg:`${s.subject} 這次分數比較低，先不要急著否定自己。只要找出最主要的困難，先做一個小改變，期末仍然有機會往上拉。`};
 }
+
 let currentStudent = null;
-let currentFollowUpQ = "";
 let displayedSubjects = [];
+
+// 分頁精靈變數
+let wizardSteps = [];
+let currentStepIndex = 0;
+
+const DIALOG = {
+  subjects: [], totalCount: 0, currentIdx: 0,
+  history: [],  
+  retryCount: 0, 
+  formData: {},
+  questionCache: {},
+  probeSeq: 0,
+  probeCount: 0,
+  maxProbeTotal: 6,
+  maxProbePerSubject: 2
+};
+
+function createExtraDialogItems() {
+  return [
+    {
+      type: "academic",
+      subject: "課業整體",
+      score: "",
+      reason: "整體課業追問",
+      strategy: "",
+      question: `不管這次分數高低，老師都想陪你把期末準備得更穩。你覺得自己目前的課業狀態需不需要調整？如果需要，最想先改的是讀書方法、上課專注、複習時間、考前準備，還是哪一科的理解？你希望老師怎麼協助你？`
+    },
+    {
+      type: "life",
+      subject: "生活狀態",
+      score: "",
+      reason: "生活作息追問",
+      strategy: "",
+      question: `生活狀態也會影響讀書，不是要責備你，而是想一起找比較舒服、做得到的調整。你填寫的作息是：睡眠「${DIALOG.formData.sleep}」、考前「${DIALOG.formData.allNighter}」、休閒娛樂「${DIALOG.formData.ent}」。你覺得目前需不需要調整？如果需要，最想先改睡眠、考前準備習慣、還是手機娛樂時間？`
+    }
+  ];
+}
+
+["focus","review","understanding","examCoping"].forEach(k=>{
+  const w=document.getElementById("lk_"+k);
+  for(let v=1;v<=5;v++){
+    const b=document.createElement("button");b.type="button";b.className="likert-btn";b.textContent=v;
+    b.onclick=()=>{
+      LK[k]=v;
+      w.querySelectorAll(".likert-btn").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on");
+      w.closest('.likert-q').classList.remove('err-block');
+    };
+    w.appendChild(b);
+  }
+});
+
+function prog(p){document.getElementById("prog").style.width=p+"%"}
+function updateStress(v){document.getElementById("stressNum").textContent=v;document.getElementById("stressEmoji").textContent=EMOJIS[+v]||"😐"}
+function show(id){document.getElementById(id).style.display="block"}
+function hide(id){document.getElementById(id).style.display="none"}
+function err(id,msg){document.getElementById(id).innerHTML=msg?`<div class="alert alert-danger">⚠️ ${msg}</div>`:""}
+function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
+
+async function post(action, body){
+  const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});
+  return r.json();
+}
+
+async function verify(){
+  document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
+  const studentId=document.getElementById("inp_id").value.trim();
+  const name=document.getElementById("inp_name").value.trim();
+  err("verifyErr","");
+  if(!studentId||!name){
+    if(!studentId) document.getElementById("inp_id").classList.add("err-input");
+    if(!name) document.getElementById("inp_name").classList.add("err-input");
+    err("verifyErr","請填寫學號與姓名");
+    return;
+  }
+  hide("sVerify");show("sLoading");prog(20);
+  try{
+    const d=await post("verifyStudent",{studentId,name});
+    if(!d.ok){hide("sLoading");show("sVerify");err("verifyErr",d.msg);prog(8);return}
+    
+    currentStudent=d;
+    hide("sLoading");show("sForm");prog(40);
+    document.getElementById("bannerName").textContent=d.name+" 同學";
+    
+    const bannerIdEl = document.getElementById("bannerId");
+    if (bannerIdEl) {
+        const rankText = d.rank ? d.rank : "-";
+        const totalText = d.totalStudents ? d.totalStudents : "?";
+        bannerIdEl.innerHTML=`學號：${d.studentId} &nbsp;|&nbsp; 班級排名：第 <strong style="color:var(--blue);font-size:16px;">${rankText}</strong> 名 / 共 ${totalText} 人`;
+    }
+
+    const warnDiv = document.getElementById("gradeWarning");
+    if (warnDiv) {
+        if (d.failedCount > 0) {
+            warnDiv.style.display = "block";
+            if (d.isPoorGrades) {
+                warnDiv.innerHTML = `⚠️ <strong>成績預警：</strong> 你這次有 <strong>${d.failedCount}</strong> 科不及格，班級排名落在後段。請務必認真填寫這份問卷，老師會陪你一起找出問題點並進行調整！`;
+                warnDiv.className = "alert alert-danger";
+            } else {
+                warnDiv.innerHTML = `💡 <strong>貼心提醒：</strong> 你這次有 <strong>${d.failedCount}</strong> 科不及格，請在下方針對不及格的科目好好反思喔！`;
+                warnDiv.className = "alert alert-info";
+            }
+        } else {
+            warnDiv.style.display = "none";
+        }
+    }
+
+    renderOverview(d.allSubjects);
+    renderSubjects(d.allSubjects);
+    prefetchEncouragements(d.name, d.allSubjects);
+    
+    // 初始化分段精靈
+    startWizard();
+  }catch(e){
+    hide("sLoading");show("sVerify");
+    err("verifyErr","系統連線異常 (" + e.message + ")。");
+    prog(8);
+  }
+}
+
+function renderOverview(subjects) {
+  const sorted=[...subjects].sort((a,b)=>b.score-a.score);
+  document.getElementById("scoreGrid").innerHTML = sorted.map(s => {
+    const tone = scoreTone(s);
+    const bg = `border-color:${tone.border};background:${tone.head}`;
+    const color = `color:${tone.text}`;
+    return `<div class="sg-item" style="${bg}"><div class="sg-subj" title="${esc(s.subject)}">${esc(s.subject)}</div><div class="sg-score" style="${color}">${s.score}</div></div>`;
+  }).join("");
+}
+
+// 🟢 最穩定的跨平台點擊與選取功能 (保證手機可點選)
+function handleLabelClick(e, label) {
+  if (e.target.tagName.toLowerCase() === 'input') {
+    syncUI(label, e.target);
+    return;
+  }
+  e.preventDefault(); 
+  const cb = label.querySelector('input');
+  if (!cb) return;
+  
+  if (cb.type === 'radio') {
+    cb.checked = true;
+  } else {
+    cb.checked = !cb.checked;
+  }
+  syncUI(label, cb);
+}
+
+function syncUI(label, cb) {
+  if (cb.type === 'radio') {
+    document.querySelectorAll(`input[name="${cb.name}"]`).forEach(inp => {
+       const lbl = inp.closest('label');
+       if(lbl) lbl.classList.remove('on');
+    });
+    if(cb.checked) label.classList.add('on');
+  } else {
+    if(cb.checked) label.classList.add('on');
+    else label.classList.remove('on');
+  }
+
+  const qBlock = label.closest('.q-block');
+  if (qBlock) qBlock.classList.remove('err-block');
+  
+  // 支持選項專用清除
+  const sGroup = label.closest('#supportNeedGroup');
+  if (sGroup) sGroup.parentElement.classList.remove('err-block');
+
+  const key = cb.name;
+  const other = document.getElementById("other_" + key);
+  if (other && cb.value === "__OTHER__") {
+    if (cb.checked) {
+      other.classList.add("on");
+      setTimeout(() => other.focus(), 0);
+    } else {
+      other.classList.remove("on");
+      other.value = "";
+      other.classList.remove("err-input");
+    }
+  }
+}
+
+// 綁定輸入框事件以自動消除紅框
+document.querySelectorAll('textarea, select, input[type="text"]').forEach(el => {
+  el.addEventListener('input', function() {
+    this.classList.remove('err-input');
+    const qBlock = this.closest('.q-block');
+    if (qBlock) qBlock.classList.remove('err-block');
+  });
+});
+
+function renderSubjects(subjects){
+  const wrap = document.getElementById("subjectBlocks"); wrap.innerHTML = "";
+  displayedSubjects = [...subjects].sort((a,b)=>b.score-a.score);
+  displayedSubjects.forEach((s, i) => {
+    const isPass    = s.score >= 60;
+    const isGreat   = s.score >= GREAT_SCORE;          
+    const reasons   = isGreat ? R_GREAT : isPass ? R_PASS : R_FAIL;
+    const strategies = isGreat ? S_GREAT : isPass ? S_PASS : S_FAIL;
+
+    const tone = scoreTone(s);
+    const borderColor = tone.border;
+    const headBg      = tone.head;
+    const textColor   = tone.text;
+    const pillBg      = tone.pill;
+    const icon        = tone.icon;
+    const r1label     = isGreat ? "成功經驗整理" : isPass ? "學習狀況反思" : "一起找出卡住的地方";
+    const r2label     = isGreat ? "優勢保持與方法複製" : isPass ? "下一步穩定計畫" : "老師想怎麼幫你一起補救";
+    const encourageHtml =
+      `<div style="background:${headBg};border:1px solid ${borderColor};color:${textColor};border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:15px;font-weight:700;line-height:1.6"><strong>${tone.title}</strong><br>${esc(tone.msg)}</div>`;
+
+    const card = document.createElement("div");
+    card.className = "subject-card"; card.id = "sc_" + i;
+    card.style = `border-color:${borderColor}`;
+    card.innerHTML = `
+      <div class="subject-head" style="background:${headBg}">
+        <div class="sname" style="color:${textColor}">${icon} ${esc(s.subject)}</div>
+        <div class="score-pill" style="background:${pillBg};color:white">${s.score} 分</div>
+      </div>
+      <div class="subject-body">
+        ${encourageHtml}
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">${r1label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
+          <div class="radio-group">${reasons.map((r,ri) =>
+            `<label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="r${i}" value="${esc(r)}"> ${esc(r)}</label>`
+          ).join("")}
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="r${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+          </div>
+          <input type="text" class="other-input" id="other_r${i}" placeholder="請補充其他原因" oninput="this.classList.remove('err-input');this.closest('.q-block').classList.remove('err-block')">
+        </div>
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">${r2label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
+          <div class="radio-group">${strategies.map((st,si2) =>
+            `<label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="s${i}" value="${esc(st)}"> ${esc(st)}</label>`
+          ).join("")}
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="s${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+          </div>
+          <input type="text" class="other-input" id="other_s${i}" placeholder="請補充其他計畫或策略" oninput="this.classList.remove('err-input');this.closest('.q-block').classList.remove('err-block')">
+        </div>
+        ${!isPass ? `
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">授課老師提供的考試準備方向 <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
+          <div class="radio-group">
+            ${[
+              "老師有說哪些章節或重點一定要念",
+              "老師有提醒考試題型或出題方向",
+              "老師有提供複習講義、PPT或重點整理",
+              "數位學習網題目或練習題是重要準備方向",
+              "老師有安排考前複習或提示常考內容",
+              "老師沒有特別說明，或我沒有注意到"
+            ].map(t=>`<label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="tg${i}" value="${esc(t)}"> ${esc(t)}</label>`).join("")}
+            <label class="radio-opt" onclick="handleLabelClick(event, this)"><input type="checkbox" name="tg${i}" value="__OTHER__"> 其他，我想自己填寫</label>
+          </div>
+          <input type="text" class="other-input" id="other_tg${i}" placeholder="請補充老師說過的準備方向" oninput="this.classList.remove('err-input');this.closest('.q-block').classList.remove('err-block')">
+        </div>
+        <div class="q-block">
+          <div class="q-title" style="color:${textColor}">你有針對老師說的方向準備嗎？ <span class="req">*</span></div>
+          <select id="prep_${i}" onchange="this.classList.remove('err-input');this.closest('.q-block').classList.remove('err-block')">
+            <option value="">請選擇...</option>
+            <option value="有，我大部分都有照方向準備">有，我大部分都有照方向準備</option>
+            <option value="有，但只準備一部分">有，但只準備一部分</option>
+            <option value="知道方向，但沒有實際去準備">知道方向，但沒有實際去準備</option>
+            <option value="不太清楚老師說的方向，所以沒有準備到">不太清楚老師說的方向，所以沒有準備到</option>
+            <option value="我沒有注意老師有沒有說準備方向">我沒有注意老師有沒有說準備方向</option>
+          </select>
+        </div>` : ""}
+      </div>`;
+
+    // 建立分段區塊
+    const stepDiv = document.createElement("div");
+    stepDiv.className = "wizard-step";
+    stepDiv.id = "step_subj_" + i;
+    stepDiv.style.display = "none";
+    
+    const alertDiv = document.createElement("div");
+    alertDiv.className = "alert alert-info";
+    alertDiv.style = "font-weight:bold; text-align:center;";
+    alertDiv.textContent = `📋 科目反思 (${i+1} / ${displayedSubjects.length})`;
+    stepDiv.appendChild(alertDiv);
+    
+    stepDiv.appendChild(card);
+    
+    const errDiv = document.createElement("div");
+    errDiv.id = "submitErr_" + i;
+    stepDiv.appendChild(errDiv);
+    
+    const btnGrp = document.createElement("div");
+    btnGrp.className = "btn-group";
+    btnGrp.innerHTML = `
+      <button class="btn btn-secondary" onclick="prevStep()">⬅️ 上一步</button>
+      <button class="btn btn-primary" onclick="nextStep()">下一步 ➡️</button>
+    `;
+    stepDiv.appendChild(btnGrp);
+    
+    wrap.appendChild(stepDiv);
+  });
+}
+
+function getCheckedValues(name){
+  const selected=[...document.querySelectorAll(`input[name="${name}"]:checked`)];
+  return selected.map(el=>{
+    if(el.value!=="__OTHER__")return el.value;
+    const other=document.getElementById("other_"+name);
+    return (other && other.value.trim()) ? "其他："+other.value.trim() : "";
+  }).filter(Boolean);
+}
+
+function safeScrollToError() {
+  const el = document.querySelector('.err-input, .err-block');
+  if (!el) return;
+  try {
+    el.scrollIntoView({behavior:"smooth", block:"center"});
+  } catch(e) {
+    el.scrollIntoView();
+  }
+}
+
+// 🟢 分段精靈控制器
+function startWizard() {
+  wizardSteps = ['overview'];
+  displayedSubjects.forEach((_, i) => wizardSteps.push('subj_' + i));
+  wizardSteps.push('general');
+  currentStepIndex = 0;
+  showStep(currentStepIndex);
+}
+
+function showStep(idx) {
+  document.querySelectorAll('.wizard-step').forEach(el => el.style.display = 'none');
+  const stepId = 'step_' + wizardSteps[idx];
+  document.getElementById(stepId).style.display = 'block';
+  setTimeout(() => window.scrollTo({top:0, behavior: 'smooth'}), 50);
+}
+
+function prevStep() {
+  if (currentStepIndex > 0) {
+    currentStepIndex--;
+    showStep(currentStepIndex);
+  }
+}
+
+function nextStep() {
+  const stepId = wizardSteps[currentStepIndex];
+
+  // 如果是在科目頁，只驗證該科目
+  if (stepId.startsWith('subj_')) {
+    const i = parseInt(stepId.split('_')[1]);
+    if (!validateSubject(i)) return; 
+  } 
+  // 如果是在最後的綜合頁，驗證全部綜合問題
+  else if (stepId === 'general') {
+    if (!validateGeneral()) return;
+    goToFollowUp_Actual(); // 進入對話階段
+    return;
+  }
+
+  currentStepIndex++;
+  showStep(currentStepIndex);
+}
+
+// 🟢 針對「單一科目」進行精準驗證
+function validateSubject(i) {
+  const s = displayedSubjects[i];
+  let valid = true;
+  let cardErrs = [];
+  
+  const card = document.getElementById('sc_' + i);
+  card.querySelectorAll('.err-block').forEach(el=>el.classList.remove('err-block'));
+  card.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
+  
+  const reasons=getCheckedValues(`r${i}`);
+  const strategies=getCheckedValues(`s${i}`);
+  
+  if(!reasons.length) {
+     valid = false; cardErrs.push("學習狀況反思");
+     const qb = card.querySelector(`input[name="r${i}"]`)?.closest('.q-block');
+     if(qb) qb.classList.add('err-block');
+  } else {
+     const otherReasonEl = card.querySelector(`input[name="r${i}"][value="__OTHER__"]`);
+     const otherReasonInput = document.getElementById(`other_r${i}`);
+     if(otherReasonEl && otherReasonEl.checked && (!otherReasonInput || !otherReasonInput.value.trim())){
+       valid = false; cardErrs.push("補充其他反思原因");
+       if(otherReasonInput) {
+          otherReasonInput.classList.add("err-input");
+          otherReasonInput.closest('.q-block').classList.add('err-block');
+       }
+     }
+  }
+
+  if(!strategies.length) {
+     valid = false; cardErrs.push("下一步穩定計畫");
+     const qb = card.querySelector(`input[name="s${i}"]`)?.closest('.q-block');
+     if(qb) qb.classList.add('err-block');
+  } else {
+     const otherStrategyEl = card.querySelector(`input[name="s${i}"][value="__OTHER__"]`);
+     const otherStrategyInput = document.getElementById(`other_s${i}`);
+     if(otherStrategyEl && otherStrategyEl.checked && (!otherStrategyInput || !otherStrategyInput.value.trim())){
+       valid = false; cardErrs.push("補充其他計畫");
+       if(otherStrategyInput) {
+          otherStrategyInput.classList.add("err-input");
+          otherStrategyInput.closest('.q-block').classList.add('err-block');
+       }
+     }
+  }
+
+  let teacherGuidance = [];
+  let prepSelect = null;
+  if(s.score < 60){
+     teacherGuidance=getCheckedValues(`tg${i}`);
+     prepSelect=document.getElementById(`prep_${i}`);
+     
+     if(!teacherGuidance.length) {
+        valid = false; cardErrs.push("教師準備方向");
+        const qb = card.querySelector(`input[name="tg${i}"]`)?.closest('.q-block');
+        if(qb) qb.classList.add('err-block');
+     } else {
+        const otherTgEl = card.querySelector(`input[name="tg${i}"][value="__OTHER__"]`);
+        const otherTgInput = document.getElementById(`other_tg${i}`);
+        if(otherTgEl && otherTgEl.checked && (!otherTgInput || !otherTgInput.value.trim())){
+          valid = false; cardErrs.push("補充準備方向");
+          if(otherTgInput) {
+             otherTgInput.classList.add("err-input");
+             otherTgInput.closest('.q-block').classList.add('err-block');
+          }
+        }
+     }
+
+     if(!prepSelect || !prepSelect.value) {
+        valid = false; cardErrs.push("是否依方向準備");
+        if(prepSelect) {
+            prepSelect.classList.add("err-input");
+            const qb = prepSelect.closest('.q-block');
+            if (qb) qb.classList.add('err-block');
+        }
+     }
+  }
+  
+  if (!valid) {
+    err("submitErr_" + i, "缺少：" + cardErrs.join("、"));
+    setTimeout(safeScrollToError, 100);
+    return false;
+  }
+  
+  err("submitErr_" + i, "");
+  // 將整理好的結果暫存到科目物件中
+  s.filledReason = s.score < 60 ? `${reasons.join("；")}｜教師準備方向：${teacherGuidance.join("；")}｜是否依方向準備：${prepSelect.value}` : reasons.join("；");
+  s.filledStrategy = strategies.join("；");
+  return true;
+}
+
+// 🟢 針對「最後綜合問題」進行精準驗證
+function validateGeneral() {
+  let valid = true;
+  let hasLikertErr = false;
+  const stepGen = document.getElementById('step_general');
+  stepGen.querySelectorAll('.err-block').forEach(el=>el.classList.remove('err-block'));
+  stepGen.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
+
+  for(const k of["focus","review","understanding","examCoping"]){
+    if(!LK[k]){
+      hasLikertErr = true;
+      const lkRow = document.getElementById("lk_"+k);
+      if(lkRow) lkRow.closest('.likert-q').classList.add("err-block");
+    }
+  }
+  if(hasLikertErr) {
+    err("submitErr_general","請填寫「學習狀態自評」（已用紅底線框標示）");
+    setTimeout(safeScrollToError, 100);
+    return false;
+  }
+
+  const els = {
+    studyMethod: document.getElementById("inp_studyMethod"),
+    blind:       document.getElementById("inp_blind"),
+    commit:      document.getElementById("inp_commit"),
+    helpWilling: document.getElementById("inp_helpWilling"),
+    sleep:       document.getElementById("inp_sleep"),
+    allNighter:  document.getElementById("inp_allNighter"),
+    ent:         document.getElementById("inp_ent"),
+    ext:         document.getElementById("inp_ext"),
+    goal:        document.getElementById("inp_goal")
+  };
+  
+  let hasErr = false;
+  let genericErrs = [];
+  for(const key in els){ 
+    if(els[key] && !els[key].value.trim()){ 
+      els[key].classList.add("err-input"); 
+      hasErr=true; 
+      const label = els[key].previousElementSibling;
+      if(label) genericErrs.push(label.textContent.replace('*','').trim());
+    } 
+  }
+  
+  const supportNeeds=getCheckedValues("supportNeed");
+  if(!supportNeeds.length){
+    hasErr = true;
+    genericErrs.push("最需要老師提供哪些協助");
+    const sGroup = document.getElementById("supportNeedGroup");
+    if(sGroup) sGroup.parentElement.classList.add("err-block");
+  }
+
+  if(hasErr){
+    err("submitErr_general","有尚未填寫完整的欄位：<br><span style='color:#9f1239;font-weight:bold'>" + genericErrs.join("、") + "</span>");
+    setTimeout(safeScrollToError, 100);
+    return false;
+  }
+  
+  err("submitErr_general", "");
+  return true;
+}
+
+// 🟢 最後組裝所有資料並送往對話
+async function goToFollowUp_Actual(){
+  try {
+    const els = {
+      studyMethod: document.getElementById("inp_studyMethod"),
+      blind:       document.getElementById("inp_blind"),
+      commit:      document.getElementById("inp_commit"),
+      sleep:       document.getElementById("inp_sleep"),
+      allNighter:  document.getElementById("inp_allNighter"),
+      ent:         document.getElementById("inp_ent"),
+      ext:         document.getElementById("inp_ext"),
+      goal:        document.getElementById("inp_goal"),
+      helpWilling: document.getElementById("inp_helpWilling")
+    };
+    const supportNeeds=getCheckedValues("supportNeed");
+
+    DIALOG.formData   = {
+      studyMethod: els.studyMethod.value.trim(),
+      blind:       els.blind.value.trim(),
+      commit:      els.commit.value.trim(),
+      sleep:       els.sleep.value,
+      allNighter:  els.allNighter.value, 
+      ent:         els.ent.value,
+      ext:         els.ext.value,
+      goal:        els.goal.value.trim(),
+      helpWilling: els.helpWilling.value,
+      supportNeeds
+    };
+    
+    // 組裝各科已驗證好的資料
+    const filledSubjects = displayedSubjects.map(s => ({
+       subject: s.subject,
+       score: s.score,
+       reason: s.filledReason,
+       strategy: s.filledStrategy
+    }));
+
+    DIALOG.subjects   = filledSubjects.concat(createExtraDialogItems());
+    DIALOG.totalCount = DIALOG.subjects.length;
+    DIALOG.currentIdx = 0;
+    DIALOG.history    = [];
+    DIALOG.retryCount = 0;
+    DIALOG.questionCache = {};
+    DIALOG.probeSeq = 0;
+    DIALOG.probeCount = 0;
+
+    document.getElementById("btnGoToDialogue").disabled = true;
+    hide("sForm"); show("sLoading");
+    document.getElementById("loadMsg").textContent = "正在準備逐科追問…"; prog(65);
+    await loadNextSubject();
+
+  } catch(e) {
+    err("submitErr_general", "系統發生錯誤，請截圖通知老師：" + e.message);
+  }
+}
+
+const ENC_CACHE = {}; 
+
+async function prefetchEncouragements(studentName, allSubjects) {
+  const greatSubjects = allSubjects.filter(s => s.score >= GREAT_SCORE);
+  if (!greatSubjects.length) return;
+  greatSubjects.forEach(async s => {
+    try {
+      const d = await post("prefetchEncouragement", {
+        studentName,
+        subject:  s.subject,
+        score:    s.score
+      });
+      if (d.ok) {
+        ENC_CACHE[s.subject] = {
+          encouragement: d.encouragement || "",
+          question:      d.question      || ""
+        };
+      }
+    } catch(e) {}
+  });
+}
 
 function detectEvasive(texts) {
   const arr = Array.isArray(texts) ? texts : [texts];
@@ -474,380 +1062,6 @@ function branchQuestion(subj){
   return teacherText.includes("教師準備方向") && branch==="teacherGuidance" ? q : q;
 }
 
-["focus","review","understanding","examCoping"].forEach(k=>{
-  const w=document.getElementById("lk_"+k);
-  for(let v=1;v<=5;v++){
-    const b=document.createElement("button");b.type="button";b.className="likert-btn";b.textContent=v;
-    b.onclick=()=>{LK[k]=v;w.querySelectorAll(".likert-btn").forEach(x=>x.classList.remove("on"));b.classList.add("on")};
-    w.appendChild(b);
-  }
-});
-
-function prog(p){document.getElementById("prog").style.width=p+"%"}
-function updateStress(v){document.getElementById("stressNum").textContent=v;document.getElementById("stressEmoji").textContent=EMOJIS[+v]||"😐"}
-function show(id){document.getElementById(id).style.display="block"}
-function hide(id){document.getElementById(id).style.display="none"}
-function err(id,msg){document.getElementById(id).innerHTML=msg?`<div class="alert alert-danger">⚠️ ${esc(msg)}</div>`:""}
-function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
-
-async function post(action, body){
-  const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});
-  return r.json();
-}
-
-async function verify(){
-  document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
-  const studentId=document.getElementById("inp_id").value.trim();
-  const name=document.getElementById("inp_name").value.trim();
-  err("verifyErr","");
-  if(!studentId||!name){
-    if(!studentId) document.getElementById("inp_id").classList.add("err-input");
-    if(!name) document.getElementById("inp_name").classList.add("err-input");
-    err("verifyErr","請填寫學號與姓名");
-    return;
-  }
-  hide("sVerify");show("sLoading");prog(20);
-  try{
-    const d=await post("verifyStudent",{studentId,name});
-    if(!d.ok){hide("sLoading");show("sVerify");err("verifyErr",d.msg);prog(8);return}
-    
-    currentStudent=d;
-    hide("sLoading");show("sForm");prog(40);
-    document.getElementById("bannerName").textContent=d.name+" 同學";
-    
-    const bannerIdEl = document.getElementById("bannerId");
-    if (bannerIdEl) {
-        bannerIdEl.innerHTML=`學號：${d.studentId} &nbsp;|&nbsp; 班級排名：第 <strong style="color:var(--blue);font-size:15px;">${d.rank || "-"}</strong> 名 / 共 ${d.totalStudents || "?"} 人`;
-    }
-
-    const warnDiv = document.getElementById("gradeWarning");
-    if (warnDiv) {
-        if (d.failedCount > 0) {
-            warnDiv.style.display = "block";
-            if (d.isPoorGrades) {
-                warnDiv.innerHTML = `⚠️ <strong>成績預警：</strong> 你這次有 <strong>${d.failedCount}</strong> 科不及格，班級排名落在後段。請務必認真填寫這份問卷，老師會陪你一起找出問題點並進行調整！`;
-                warnDiv.className = "alert alert-danger";
-            } else {
-                warnDiv.innerHTML = `💡 <strong>貼心提醒：</strong> 你這次有 <strong>${d.failedCount}</strong> 科不及格，請在下方針對不及格的科目好好反思喔！`;
-                warnDiv.className = "alert alert-info";
-            }
-        } else {
-            warnDiv.style.display = "none";
-        }
-    }
-
-    renderOverview(d.allSubjects);
-    renderSubjects(d.allSubjects);
-    prefetchEncouragements(d.name, d.allSubjects);
-  }catch(e){
-    hide("sLoading");show("sVerify");
-    err("verifyErr","系統連線異常 (" + e.message + ")。請老師確認 Apps Script 是否已部署為「新版本」。");
-    prog(8);
-  }
-}
-
-function renderOverview(subjects) {
-  const sorted=[...subjects].sort((a,b)=>b.score-a.score);
-  document.getElementById("scoreGrid").innerHTML = sorted.map(s => {
-    const tone = scoreTone(s);
-    const bg = `border-color:${tone.border};background:${tone.head}`;
-    const color = `color:${tone.text}`;
-    return `<div class="sg-item" style="${bg}"><div class="sg-subj" title="${esc(s.subject)}">${esc(s.subject)}</div><div class="sg-score" style="${color}">${s.score}</div></div>`;
-  }).join("");
-}
-
-// ✅ 修正：改為標準的 onchange 監聽器，避免手機防呆事件失效
-function syncCheck(cb) {
-  const label = cb.closest('label');
-  label.classList.toggle("on", cb.checked);
-  const key = cb.name;
-  const other = document.getElementById("other_" + key);
-  if (other && cb.value === "__OTHER__") {
-    other.classList.toggle("on", cb.checked);
-    if (cb.checked) {
-      setTimeout(() => other.focus(), 0);
-    } else {
-      other.value = "";
-    }
-  }
-}
-
-function renderSubjects(subjects){
-  const wrap = document.getElementById("subjectBlocks"); wrap.innerHTML = "";
-  displayedSubjects = [...subjects].sort((a,b)=>b.score-a.score);
-  displayedSubjects.forEach((s, i) => {
-    const isPass    = s.score >= 60;
-    const isGreat   = s.score >= GREAT_SCORE;          
-    const reasons   = isGreat ? R_GREAT : isPass ? R_PASS : R_FAIL;
-    const strategies = isGreat ? S_GREAT : isPass ? S_PASS : S_FAIL;
-
-    const tone = scoreTone(s);
-    const borderColor = tone.border;
-    const headBg      = tone.head;
-    const textColor   = tone.text;
-    const pillBg      = tone.pill;
-    const icon        = tone.icon;
-    const r1label     = isGreat ? "成功經驗整理" : isPass ? "學習狀況反思" : "一起找出卡住的地方";
-    const r2label     = isGreat ? "優勢保持與方法複製" : isPass ? "下一步穩定計畫" : "老師想怎麼幫你一起補救";
-    const encourageHtml =
-      `<div style="background:${headBg};border:1px solid ${borderColor};color:${textColor};border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13.5px;font-weight:700;line-height:1.6"><strong>${tone.title}</strong><br>${esc(tone.msg)}</div>`;
-
-    const card = document.createElement("div");
-    card.className = "subject-card"; card.id = "sc_" + i;
-    card.style = `border-color:${borderColor}`;
-    card.innerHTML = `
-      <div class="subject-head" style="background:${headBg}">
-        <div class="sname" style="color:${textColor}">${icon} ${esc(s.subject)}</div>
-        <div class="score-pill" style="background:${pillBg};color:white">${s.score} 分</div>
-      </div>
-      <div class="subject-body">
-        ${encourageHtml}
-        <div class="q-block">
-          <div class="q-title" style="color:${textColor}">${r1label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
-          <div class="radio-group">${reasons.map((r,ri) =>
-            `<label class="radio-opt"><input type="checkbox" name="r${i}" value="${esc(r)}" onchange="syncCheck(this)"> ${esc(r)}</label>`
-          ).join("")}
-            <label class="radio-opt"><input type="checkbox" name="r${i}" value="__OTHER__" onchange="syncCheck(this)"> 其他，我想自己填寫</label>
-          </div>
-          <input type="text" class="other-input" id="other_r${i}" placeholder="請補充其他原因">
-        </div>
-        <div class="q-block">
-          <div class="q-title" style="color:${textColor}">${r2label} <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
-          <div class="radio-group">${strategies.map((st,si2) =>
-            `<label class="radio-opt"><input type="checkbox" name="s${i}" value="${esc(st)}" onchange="syncCheck(this)"> ${esc(st)}</label>`
-          ).join("")}
-            <label class="radio-opt"><input type="checkbox" name="s${i}" value="__OTHER__" onchange="syncCheck(this)"> 其他，我想自己填寫</label>
-          </div>
-          <input type="text" class="other-input" id="other_s${i}" placeholder="請補充其他計畫或策略">
-        </div>
-        ${!isPass ? `
-        <div class="q-block">
-          <div class="q-title" style="color:${textColor}">授課老師提供的考試準備方向 <span class="req">*</span><span class="multi-hint">可複選，可填其他</span></div>
-          <div class="radio-group">
-            ${[
-              "老師有說哪些章節或重點一定要念",
-              "老師有提醒考試題型或出題方向",
-              "老師有提供複習講義、PPT或重點整理",
-              "數位學習網題目或練習題是重要準備方向",
-              "老師有安排考前複習或提示常考內容",
-              "老師沒有特別說明，或我沒有注意到"
-            ].map(t=>`<label class="radio-opt"><input type="checkbox" name="tg${i}" value="${esc(t)}" onchange="syncCheck(this)"> ${esc(t)}</label>`).join("")}
-            <label class="radio-opt"><input type="checkbox" name="tg${i}" value="__OTHER__" onchange="syncCheck(this)"> 其他，我想自己填寫</label>
-          </div>
-          <input type="text" class="other-input" id="other_tg${i}" placeholder="請補充老師說過的準備方向">
-        </div>
-        <div class="q-block">
-          <div class="q-title" style="color:${textColor}">你有針對老師說的方向準備嗎？ <span class="req">*</span></div>
-          <select id="prep_${i}">
-            <option value="">請選擇...</option>
-            <option value="有，我大部分都有照方向準備">有，我大部分都有照方向準備</option>
-            <option value="有，但只準備一部分">有，但只準備一部分</option>
-            <option value="知道方向，但沒有實際去準備">知道方向，但沒有實際去準備</option>
-            <option value="不太清楚老師說的方向，所以沒有準備到">不太清楚老師說的方向，所以沒有準備到</option>
-            <option value="我沒有注意老師有沒有說準備方向">我沒有注意老師有沒有說準備方向</option>
-          </select>
-        </div>` : ""}
-      </div>`;
-    wrap.appendChild(card);
-  });
-}
-
-function getCheckedValues(name){
-  const selected=[...document.querySelectorAll(`input[name="${name}"]:checked`)];
-  return selected.map(el=>{
-    if(el.value!=="__OTHER__")return el.value;
-    const other=document.getElementById("other_"+name);
-    return other?.value.trim() ? "其他："+other.value.trim() : "";
-  }).filter(Boolean);
-}
-
-// ✅ 修正未填寫驗證，精準給予子區塊紅框並滾動定位
-function getFilledSubjects() {
-  const subjects=displayedSubjects.length?displayedSubjects:(currentStudent.allSubjects||[]);
-  let valid=true; const filled=[];
-  
-  // 清除舊的錯誤提示
-  document.querySelectorAll('.err-block').forEach(el=>el.classList.remove('err-block'));
-  document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
-  
-  subjects.forEach((s,i)=>{
-    const reasons=getCheckedValues(`r${i}`);
-    const strategies=getCheckedValues(`s${i}`);
-    
-    // 安全地尋找對應的問題區塊 (q-block)
-    const radioR = document.querySelector(`input[name="r${i}"]`);
-    const qBlockR = radioR ? radioR.closest('.q-block') : null;
-    const radioS = document.querySelector(`input[name="s${i}"]`);
-    const qBlockS = radioS ? radioS.closest('.q-block') : null;
-    
-    let cardValid = true;
-    
-    if(!reasons.length) { valid=false; cardValid=false; if(qBlockR) qBlockR.classList.add('err-block'); }
-    if(!strategies.length) { valid=false; cardValid=false; if(qBlockS) qBlockS.classList.add('err-block'); }
-    
-    const otherReasonCheck = document.querySelector(`input[name="r${i}"][value="__OTHER__"]`)?.checked;
-    const otherReasonInput = document.getElementById(`other_r${i}`);
-    if (otherReasonCheck && !otherReasonInput.value.trim()) {
-       valid=false; cardValid=false; otherReasonInput.classList.add('err-input');
-    }
-    
-    const otherStrategyCheck = document.querySelector(`input[name="s${i}"][value="__OTHER__"]`)?.checked;
-    const otherStrategyInput = document.getElementById(`other_s${i}`);
-    if (otherStrategyCheck && !otherStrategyInput.value.trim()) {
-       valid=false; cardValid=false; otherStrategyInput.classList.add('err-input');
-    }
-
-    let teacherGuidance = [];
-    let prepSelect = null;
-    if(s.score<60){
-       teacherGuidance=getCheckedValues(`tg${i}`);
-       prepSelect=document.getElementById(`prep_${i}`);
-       
-       const radioTg = document.querySelector(`input[name="tg${i}"]`);
-       const qBlockTg = radioTg ? radioTg.closest('.q-block') : null;
-       
-       if(!teacherGuidance.length) { valid=false; cardValid=false; if(qBlockTg) qBlockTg.classList.add('err-block'); }
-       
-       const otherTgCheck = document.querySelector(`input[name="tg${i}"][value="__OTHER__"]`)?.checked;
-       const otherTgInput = document.getElementById(`other_tg${i}`);
-       if (otherTgCheck && !otherTgInput.value.trim()) {
-          valid=false; cardValid=false; otherTgInput.classList.add('err-input');
-       }
-       
-       if(prepSelect && !prepSelect.value) { 
-          valid=false; cardValid=false; prepSelect.classList.add('err-input'); 
-          const qBlockPrep = prepSelect.closest('.q-block');
-          if(qBlockPrep) qBlockPrep.classList.add('err-block');
-       }
-    }
-    
-    if (cardValid) {
-      const reasonText=s.score<60
-        ? `${reasons.join("；")}｜教師準備方向：${teacherGuidance.join("；")}｜是否依方向準備：${prepSelect.value}`
-        : reasons.join("；");
-      filled.push({subject:s.subject,score:s.score,reason:reasonText,strategy:strategies.join("；")});
-    }
-  });
-  return {valid, filled};
-}
-
-async function goToFollowUp(){
-  document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
-  document.querySelectorAll('.err-block').forEach(el=>el.classList.remove('err-block'));
-  err("submitErr","");
-
-  const subRes = getFilledSubjects();
-  if(!subRes.valid){
-    err("submitErr","請完整填寫科目的反思與計畫（已用紅框標示）");
-    const firstErr = document.querySelector('.err-block, .err-input');
-    if(firstErr) {
-       setTimeout(() => firstErr.scrollIntoView({behavior:"smooth",block:"center"}), 100);
-    }
-    return;
-  }
-  
-  let hasLikertErr = false;
-  for(const k of["focus","review","understanding","examCoping"]){
-    if(!LK[k]){
-      hasLikertErr = true;
-      document.getElementById("lk_"+k).parentElement.classList.add("err-block");
-    }
-  }
-  if(hasLikertErr) {
-    err("submitErr","請填寫「學習狀態自評」（已用紅框標示）");
-    const firstErr = document.querySelector('.err-block');
-    if(firstErr) setTimeout(() => firstErr.scrollIntoView({behavior:"smooth",block:"center"}), 100);
-    return;
-  }
-
-  const els = {
-    studyMethod: document.getElementById("inp_studyMethod"),
-    blind:       document.getElementById("inp_blind"),
-    commit:      document.getElementById("inp_commit"),
-    sleep:       document.getElementById("inp_sleep"),
-    allNighter:  document.getElementById("inp_allNighter"),
-    ent:         document.getElementById("inp_ent"),
-    ext:         document.getElementById("inp_ext"),
-    goal:        document.getElementById("inp_goal"),
-    helpWilling: document.getElementById("inp_helpWilling")
-  };
-  let hasErr = false;
-  for(const key in els){ if(!els[key].value.trim()){ els[key].classList.add("err-input"); hasErr=true; } }
-  
-  const supportNeeds=getCheckedValues("supportNeed");
-  if(!supportNeeds.length){
-    document.getElementById("field_supportNeed").classList.add("err-block");
-    hasErr = true;
-  }
-
-  if(hasErr){
-    err("submitErr","有尚未填寫完整的欄位，請補充紅色框標示處。");
-    const firstErr = document.querySelector('.err-input, .err-block');
-    if(firstErr) setTimeout(() => firstErr.scrollIntoView({behavior:"smooth",block:"center"}), 100);
-    return;
-  }
-
-  DIALOG.formData   = {
-    studyMethod: els.studyMethod.value.trim(),
-    blind:       els.blind.value.trim(),
-    commit:      els.commit.value.trim(),
-    sleep:       els.sleep.value,
-    allNighter:  els.allNighter.value, 
-    ent:         els.ent.value,
-    ext:         els.ext.value,
-    goal:        els.goal.value.trim(),
-    helpWilling: els.helpWilling.value,
-    supportNeeds
-  };
-  DIALOG.subjects   = subRes.filled.concat(createExtraDialogItems());
-  DIALOG.totalCount = DIALOG.subjects.length;
-  DIALOG.currentIdx = 0;
-  DIALOG.history    = [];
-  DIALOG.retryCount = 0;
-  DIALOG.questionCache = {};
-  DIALOG.probeSeq = 0;
-  DIALOG.probeCount = 0;
-
-  document.getElementById("btnNext").disabled = true;
-  hide("sForm"); show("sLoading");
-  document.getElementById("loadMsg").textContent = "正在準備逐科追問…"; prog(65);
-  await loadNextSubject();
-}
-
-const ENC_CACHE = {}; 
-
-async function prefetchEncouragements(studentName, allSubjects) {
-  const greatSubjects = allSubjects.filter(s => s.score >= GREAT_SCORE);
-  if (!greatSubjects.length) return;
-  greatSubjects.forEach(async s => {
-    try {
-      const d = await post("prefetchEncouragement", {
-        studentName,
-        subject:  s.subject,
-        score:    s.score
-      });
-      if (d.ok) {
-        ENC_CACHE[s.subject] = {
-          encouragement: d.encouragement || "",
-          question:      d.question      || ""
-        };
-      }
-    } catch(e) {}
-  });
-}
-
-const DIALOG = {
-  subjects: [], totalCount: 0, currentIdx: 0,
-  history: [],  
-  retryCount: 0, 
-  formData: {},
-  questionCache: {},
-  probeSeq: 0,
-  probeCount: 0,
-  maxProbeTotal: 6,
-  maxProbePerSubject: 2
-};
-
 async function loadNextSubject() {
   if(DIALOG.currentIdx >= DIALOG.totalCount){
     renderAllDone(); return;
@@ -892,14 +1106,14 @@ async function loadNextSubject() {
 
   try {
     const isGreatSubj   = subj.score >= GREAT_SCORE;
-    const cached        = isGreatSubj && !isSubjEvasive && DIALOG.retryCount === 0
+    const cachedEnc     = isGreatSubj && !isSubjEvasive && DIALOG.retryCount === 0
                           ? ENC_CACHE[subj.subject]
                           : null;
 
     let question, encouragement;
-    if (cached) {
-      question      = cached.question;
-      encouragement = cached.encouragement;
+    if (cachedEnc) {
+      question      = cachedEnc.question;
+      encouragement = cachedEnc.encouragement;
     } else {
       const d = await post("askSubjectFollowUp", {
         subject:     subj.subject,
@@ -948,7 +1162,7 @@ async function loadNextSubject() {
 
 function getCachedQuestion(index){
   const item=DIALOG.questionCache[index];
-  return item?.ready ? item.data : null;
+  return (item && item.ready) ? item.data : null;
 }
 function prefetchUpcomingQuestions(){
   for(let i=DIALOG.currentIdx+1;i<Math.min(DIALOG.totalCount,DIALOG.currentIdx+4);i++)prefetchQuestion(i);
@@ -968,9 +1182,9 @@ function prefetchQuestion(index){
   DIALOG.questionCache[index]={ready:false};
   const isSubjEvasive=detectEvasive([subj.reason,subj.strategy]);
   const isGreatSubj=subj.score>=GREAT_SCORE;
-  const cached=isGreatSubj&&!isSubjEvasive?ENC_CACHE[subj.subject]:null;
-  if(cached){
-    DIALOG.questionCache[index]={ready:true,data:{question:cached.question,encouragement:cached.encouragement}};
+  const cachedEnc=isGreatSubj&&!isSubjEvasive?ENC_CACHE[subj.subject]:null;
+  if(cachedEnc){
+    DIALOG.questionCache[index]={ready:true,data:{question:cachedEnc.question,encouragement:cachedEnc.encouragement}};
     return;
   }
   post("askSubjectFollowUp",{
@@ -1039,7 +1253,7 @@ function scheduleBackgroundProbe(subj, answer, originalQuestion){
     },
     prevHistory:`上一題：${originalQuestion}\n學生回答：${answer}`
   }).then(d=>{
-    if(isUsefulProbeQuestion(d?.question,answer))probeItem.question=d.question;
+    if(isUsefulProbeQuestion(d && d.question,answer))probeItem.question=d.question;
     else probeItem.question=fallbackProbe;
   }).catch(()=>{});
 }
@@ -1081,12 +1295,12 @@ function renderSubjectDialog(subj, question, isEvasive, encouragement = "") {
   const histList = DIALOG.history.filter(h => h.subject === subj.subject);
   document.getElementById("dialogHistory").innerHTML = histList.map(h=>`
     <div style="margin-bottom:10px">
-      <div style="font-size:11px;font-weight:700;color:var(--purple-dk);margin-bottom:5px">💬 老師的問題</div>
+      <div style="font-size:12px;font-weight:700;color:var(--purple-dk);margin-bottom:5px">💬 老師的問題</div>
       <div class="chat-bubble" style="display:inline-block">${esc(h.q)}</div>
     </div>
     <div style="text-align:right;margin-bottom:14px">
-      <div style="font-size:11px;font-weight:700;color:var(--blue-dk);margin-bottom:5px">👩‍🎓 你的回答</div>
-      <div style="display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:14px 14px 4px 14px;padding:12px 14px;font-size:14px;line-height:1.6;max-width:90%;color:var(--blue-dk)">${esc(h.a)}</div>
+      <div style="font-size:12px;font-weight:700;color:var(--blue-dk);margin-bottom:5px">👩‍🎓 你的回答</div>
+      <div style="display:inline-block;background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:14px 14px 4px 14px;padding:14px 16px;font-size:15px;line-height:1.6;max-width:90%;color:var(--blue-dk)">${esc(h.a)}</div>
     </div>
   `).join("");
 
@@ -1119,9 +1333,9 @@ function renderAllDone() {
   document.getElementById("dialogScoreBadge").textContent   = "🎉";
   document.getElementById("dialogScoreBadge").style.cssText = "font-size:24px;padding:4px 8px";
   document.getElementById("dialogHistory").innerHTML = `
-    <div style="text-align:center;padding:20px 0;font-size:15px;color:var(--ink2);line-height:1.8">
+    <div style="text-align:center;padding:20px 0;font-size:16px;color:var(--ink2);line-height:1.8">
       謝謝你認真回答每一科的問題！<br>
-      <span style="font-size:13px">請按下方按鈕完成送出。</span>
+      <span style="font-size:14px">請按下方按鈕完成送出。</span>
     </div>`;
   document.getElementById("dialogQuestionWrap").style.display = "none";
   document.getElementById("dialogAnswer").style.display       = "none";
@@ -1165,7 +1379,7 @@ async function submitDialogAnswer() {
     renderAllDone();
   } else {
     const cached=getCachedQuestion(DIALOG.currentIdx);
-    if(cached || DIALOG.subjects[DIALOG.currentIdx]?.type){
+    if(cached || (DIALOG.subjects[DIALOG.currentIdx] && DIALOG.subjects[DIALOG.currentIdx].type)){
       await loadNextSubject();
     }else{
       btn.textContent="同步下一題…";
@@ -1186,12 +1400,19 @@ async function finalSubmit() {
     dialogSummary[h.subject].push({ q: h.q, a: h.a });
   });
 
-  const subRes = getFilledSubjects();
+  // 提取整理好的科目策略
+  const filledSubjects = displayedSubjects.map(s => ({
+       subject: s.subject,
+       score: s.score,
+       reason: s.filledReason,
+       strategy: s.filledStrategy
+  }));
+
   try {
     await post("submitStudent", {
       studentId:         currentStudent.studentId,
       name:              currentStudent.name,
-      subjects:          subRes.filled,
+      subjects:          filledSubjects,
       selfRating:        {...LK},
       learningBlindSpot: DIALOG.formData.blind,
       studyMethod:       DIALOG.formData.studyMethod,
@@ -1210,11 +1431,10 @@ async function finalSubmit() {
     window.scrollTo({top:0, behavior:"smooth"});
   } catch(e) {
     hide("sLoading"); show("sFollowUp");
-    btn.disabled = false; btn.textContent = "✅ 所有科目都問完了，送出問卷";
+    btn.disabled = false; btn.textContent = "✅ 全部問答完成，點此送出問卷";
     renderAllDone();
   }
 }
-
 </script>
 </body>
 </html>
