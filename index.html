@@ -53,7 +53,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑�
 .tag-orange{background:var(--orange-bg);color:var(--orange-dk);border:1px solid var(--orange-bd)}
 .card-title{font-size:18px;font-weight:900;margin-bottom:6px}
 .card-desc{font-size:13px;color:var(--ink2);line-height:1.6;margin-bottom:20px}
-.field{margin-bottom:18px}.field:last-child{margin-bottom:0}
+.field{margin-bottom:18px; transition: all 0.3s;}.field:last-child{margin-bottom:0}
 .field-label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:block}
 .field-label .req{color:var(--danger);margin-left:3px}
 input[type=text],select,textarea{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:15px;font-family:inherit;color:var(--ink);background:var(--surface);transition:all .2s;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
@@ -61,7 +61,7 @@ select{cursor:pointer;background-image:url("data:image/svg+xml;charset=UTF-8,%3c
 input[type=text]:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg);background:white}
 textarea{resize:vertical;min-height:80px;line-height:1.6}
 .hint{font-size:12px;color:var(--ink3);margin-top:6px}
-.radio-group{display:flex;flex-direction:column;gap:8px}
+.radio-group{display:flex;flex-direction:column;gap:8px; transition: all 0.3s;}
 .radio-opt{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r-sm);cursor:pointer;font-size:14px;color:var(--ink2);line-height:1.4;transition:all .2s;background:var(--paper)}
 .radio-opt:hover{border-color:var(--blue-bd);background:white}
 .radio-opt.on{border-color:var(--blue);background:var(--blue-bg);color:var(--blue-dk);font-weight:700}
@@ -69,7 +69,7 @@ textarea{resize:vertical;min-height:80px;line-height:1.6}
 .other-input{display:none;margin-top:10px}
 .other-input.on{display:block}
 .multi-hint{font-size:12px;color:var(--ink3);font-weight:600;margin-left:6px}
-.likert-q{margin-bottom:20px;padding:16px;background:var(--paper);border-radius:var(--r-sm);border:1px solid var(--border)}.likert-q:last-child{margin-bottom:0}
+.likert-q{margin-bottom:20px;padding:16px;background:var(--paper);border-radius:var(--r-sm);border:1px solid var(--border); transition: all 0.3s;}.likert-q:last-child{margin-bottom:0}
 .likert-text{font-size:13.5px;font-weight:700;margin-bottom:12px;color:var(--ink);line-height:1.5}
 .likert-row{display:flex;gap:6px}
 .likert-btn{flex:1;padding:12px 4px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;font-size:14px;font-weight:700;color:var(--ink2);cursor:pointer;text-align:center;transition:all .2s}
@@ -81,24 +81,30 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
 .stress-num{font-size:42px;font-weight:900;color:var(--blue);margin:8px 0 4px}
 .stress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
 .subject-card{background:white;border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px;overflow:hidden;transition:all .2s;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
-.subject-card.err{border-color:var(--danger);box-shadow:0 0 0 3px var(--danger-bg)}
 .subject-head{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
 .subject-head .sname{font-size:15px;font-weight:900}
 .score-pill{padding:4px 12px;border-radius:20px;font-size:14px;font-weight:900}
 .subject-body{padding:20px}
 .q-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px}
-.q-block{margin-bottom:20px;background:var(--paper);padding:16px;border-radius:var(--r-sm);border:1px solid var(--border)}.q-block:last-child{margin-bottom:0}
+.q-block{margin-bottom:20px;background:var(--paper);padding:16px;border-radius:var(--r-sm);border:1px solid var(--border); transition: all 0.3s;}.q-block:last-child{margin-bottom:0}
+
+/* 🟥 精準錯誤提示框 🟥 */
+.err-block {
+  border: 1px solid var(--danger) !important;
+  box-shadow: 0 0 0 3px var(--danger-bg) !important;
+  background-color: var(--danger-bg) !important;
+}
+.field.err-block { padding: 16px; border-radius: var(--r-sm); }
+.err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px var(--danger-bg) !important;background-color:var(--danger-bg) !important;}
+
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
 .btn-primary{background:var(--blue);color:white;box-shadow:0 4px 12px rgba(59,130,246,0.2)}
 .btn-primary:hover{background:var(--blue-dk);transform:translateY(-1px)}
 .btn-primary:disabled{background:var(--border);color:var(--ink3);cursor:not-allowed;transform:none;box-shadow:none}
-.btn-success{background:var(--teal);color:white;box-shadow:0 4px 12px rgba(20,184,166,0.2)}
-.btn-success:hover{background:var(--teal-dk);transform:translateY(-1px)}
-.btn-success:disabled{background:var(--border);color:var(--ink3);cursor:not-allowed;transform:none;box-shadow:none}
 .alert{padding:14px 16px;border-radius:var(--r-sm);font-size:13.5px;margin-bottom:16px;line-height:1.5}
 .alert-danger{background:var(--danger-bg);color:#9f1239;border:1px solid var(--danger-bd)}
 .alert-info{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
-.err-input{border-color:var(--danger) !important;box-shadow:0 0 0 3px var(--danger-bg) !important;background-color:var(--danger-bg) !important;}
+
 .spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .loading-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:48px;text-align:center;color:var(--ink2);font-size:14px}
@@ -126,7 +132,6 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
 <div class="prog-bar"><div class="prog-fill" id="prog" style="width:8%"></div></div>
 
 <div class="main">
-  <!-- STEP 1 驗證 -->
   <div id="sVerify">
     <div class="card">
       <div class="card-tag tag-blue">🔐 Step 1</div>
@@ -148,14 +153,12 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
     <div class="card"><div class="loading-wrap"><div class="spin"></div><div id="loadMsg">處理中…</div></div></div>
   </div>
 
-  <!-- STEP 2 第一階段表單 -->
   <div id="sForm" style="display:none">
     <div class="banner">
       <div class="banner-av">👩‍🎓</div>
       <div><div style="font-size:18px;font-weight:900;color:var(--blue-dk)" id="bannerName"></div><div style="font-size:13px;color:var(--ink2);margin-top:2px" id="bannerId"></div></div>
     </div>
     
-    <!-- ✅ 成績預警/提示區塊 (確保這個 div 存在) -->
     <div id="gradeWarning" style="display:none; margin-bottom: 16px;"></div>
 
     <div class="card">
@@ -216,7 +219,7 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
             <option value="不想談，只想自己調整">不想談，只想自己調整</option>
           </select>
         </div>
-        <div class="field">
+        <div class="field" id="field_supportNeed">
           <label class="field-label">你目前最需要老師提供哪些協助？<span class="req">*</span><span class="multi-hint">可複選</span></label>
           <div class="radio-group" id="supportNeedGroup">
             <label class="radio-opt" onclick="event.preventDefault();toggleCheck(this)"><input type="checkbox" name="supportNeed" value="重新講解不懂的重點"> 重新講解不懂的重點</label>
@@ -279,10 +282,7 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
     </div>
   </div>
 
-  <!-- STEP 3 逐科對話式追問 -->
   <div id="sFollowUp" style="display:none">
-
-    <!-- 進度指示器 -->
     <div class="card" style="padding:16px 20px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div style="font-size:13px;font-weight:700;color:var(--ink2)">科目對話進度</div>
@@ -294,7 +294,6 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
       <div style="font-size:12px;color:var(--ink3);margin-top:6px" id="dialogSubjectLabel"></div>
     </div>
 
-    <!-- 對話卡片 -->
     <div class="card" id="dialogCard">
       <div id="dialogSubjectHeader" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--border)">
         <div>
@@ -303,7 +302,6 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         </div>
         <div id="dialogScoreBadge" style="font-size:18px;font-weight:900;padding:4px 14px;border-radius:20px"></div>
       </div>
-      <!-- AI 鼓勵語（考得好時顯示） -->
       <div id="dialogEncouragement" style="display:none;background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1px solid var(--blue-bd);border-radius:10px;padding:14px 16px;margin-bottom:16px;font-size:14px;font-weight:700;color:var(--blue-dk);line-height:1.6"></div>
       <div id="dialogHistory" style="margin-bottom:14px"></div>
       <div id="dialogQuestionWrap" style="margin-bottom:14px">
@@ -322,7 +320,6 @@ input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px
         </button>
       </div>
     </div>
-
   </div>
 
   <div id="sDone" style="display:none">
@@ -518,13 +515,11 @@ async function verify(){
     hide("sLoading");show("sForm");prog(40);
     document.getElementById("bannerName").textContent=d.name+" 同學";
     
-    // 安全地更新班級排名，避免 HTML 元素遺失造成當機
     const bannerIdEl = document.getElementById("bannerId");
     if (bannerIdEl) {
         bannerIdEl.innerHTML=`學號：${d.studentId} &nbsp;|&nbsp; 班級排名：第 <strong style="color:var(--blue);font-size:15px;">${d.rank || "-"}</strong> 名 / 共 ${d.totalStudents || "?"} 人`;
     }
 
-    // 安全地更新成績預警區塊
     const warnDiv = document.getElementById("gradeWarning");
     if (warnDiv) {
         if (d.failedCount > 0) {
@@ -545,9 +540,9 @@ async function verify(){
     renderSubjects(d.allSubjects);
     prefetchEncouragements(d.name, d.allSubjects);
   }catch(e){
-    console.error(e);
     hide("sLoading");show("sVerify");
-    err("verifyErr","網路錯誤或發生異常：" + e.message);
+    // ✅ 精準報錯，讓老師知道到底是網路斷線還是 Apps Script 當機
+    err("verifyErr","系統連線異常 (" + e.message + ")。請老師確認 Apps Script 是否已部署為「新版本」。");
     prog(8);
   }
 }
@@ -667,29 +662,58 @@ function getCheckedValues(name){
   }).filter(Boolean);
 }
 
+// ✅ 修正未填寫驗證，精準給予子區塊紅框並滾動定位
 function getFilledSubjects() {
   const subjects=displayedSubjects.length?displayedSubjects:(currentStudent.allSubjects||[]);
   let valid=true; const filled=[];
-  document.querySelectorAll('.subject-card').forEach(c=>c.classList.remove('err'));
-  document.querySelectorAll('.other-input').forEach(el=>el.classList.remove('err-input'));
+  
+  // 清除舊的錯誤提示
+  document.querySelectorAll('.err-block').forEach(el=>el.classList.remove('err-block'));
+  document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
+  
   subjects.forEach((s,i)=>{
     const reasons=getCheckedValues(`r${i}`);
     const strategies=getCheckedValues(`s${i}`);
-    const teacherGuidance=s.score<60?getCheckedValues(`tg${i}`):[];
-    const prepSelect=s.score<60?document.getElementById(`prep_${i}`):null;
-    const card=document.getElementById("sc_"+i);
-    const otherReason=document.querySelector(`input[name="r${i}"][value="__OTHER__"]`)?.checked;
-    const otherStrategy=document.querySelector(`input[name="s${i}"][value="__OTHER__"]`)?.checked;
-    const otherTeacherGuidance=document.querySelector(`input[name="tg${i}"][value="__OTHER__"]`)?.checked;
-    if(otherReason && !document.getElementById(`other_r${i}`).value.trim())document.getElementById(`other_r${i}`).classList.add("err-input");
-    if(otherStrategy && !document.getElementById(`other_s${i}`).value.trim())document.getElementById(`other_s${i}`).classList.add("err-input");
-    if(otherTeacherGuidance && !document.getElementById(`other_tg${i}`).value.trim())document.getElementById(`other_tg${i}`).classList.add("err-input");
-    if(prepSelect)prepSelect.classList.remove("err-input");
-    if(prepSelect && !prepSelect.value)prepSelect.classList.add("err-input");
-    if(!reasons.length||!strategies.length||(s.score<60&&!teacherGuidance.length)||(prepSelect&&!prepSelect.value)||document.querySelector(`#sc_${i} .err-input`)){
-      valid=false;card.classList.add("err");
-    }else{
-      card.classList.remove("err");
+    
+    const qBlockR = document.querySelector(`input[name="r${i}"]`).closest('.q-block');
+    const qBlockS = document.querySelector(`input[name="s${i}"]`).closest('.q-block');
+    
+    let cardValid = true;
+    
+    if(!reasons.length) { valid=false; cardValid=false; qBlockR.classList.add('err-block'); }
+    if(!strategies.length) { valid=false; cardValid=false; qBlockS.classList.add('err-block'); }
+    
+    const otherReasonCheck = document.querySelector(`input[name="r${i}"][value="__OTHER__"]`)?.checked;
+    const otherReasonInput = document.getElementById(`other_r${i}`);
+    if (otherReasonCheck && !otherReasonInput.value.trim()) {
+       valid=false; cardValid=false; otherReasonInput.classList.add('err-input');
+    }
+    
+    const otherStrategyCheck = document.querySelector(`input[name="s${i}"][value="__OTHER__"]`)?.checked;
+    const otherStrategyInput = document.getElementById(`other_s${i}`);
+    if (otherStrategyCheck && !otherStrategyInput.value.trim()) {
+       valid=false; cardValid=false; otherStrategyInput.classList.add('err-input');
+    }
+
+    let teacherGuidance = [];
+    let prepSelect = null;
+    if(s.score<60){
+       teacherGuidance=getCheckedValues(`tg${i}`);
+       prepSelect=document.getElementById(`prep_${i}`);
+       const qBlockTg = document.querySelector(`input[name="tg${i}"]`).closest('.q-block');
+       
+       if(!teacherGuidance.length) { valid=false; cardValid=false; qBlockTg.classList.add('err-block'); }
+       
+       const otherTgCheck = document.querySelector(`input[name="tg${i}"][value="__OTHER__"]`)?.checked;
+       const otherTgInput = document.getElementById(`other_tg${i}`);
+       if (otherTgCheck && !otherTgInput.value.trim()) {
+          valid=false; cardValid=false; otherTgInput.classList.add('err-input');
+       }
+       
+       if(prepSelect && !prepSelect.value) { valid=false; cardValid=false; prepSelect.classList.add('err-input'); }
+    }
+    
+    if (cardValid) {
       const reasonText=s.score<60
         ? `${reasons.join("；")}｜教師準備方向：${teacherGuidance.join("；")}｜是否依方向準備：${prepSelect.value}`
         : reasons.join("；");
@@ -701,21 +725,28 @@ function getFilledSubjects() {
 
 async function goToFollowUp(){
   document.querySelectorAll('.err-input').forEach(el=>el.classList.remove('err-input'));
+  document.querySelectorAll('.err-block').forEach(el=>el.classList.remove('err-block'));
   err("submitErr","");
 
   const subRes = getFilledSubjects();
   if(!subRes.valid){
-    err("submitErr","請完整填寫科目的反思與計畫（已用紅框標示）");
-    document.querySelector('.subject-card.err').scrollIntoView({behavior:"smooth",block:"center"});
+    err("submitErr","請完整填寫科目的反思與計畫（已用紅底線框標示）");
+    const firstErr = document.querySelector('.err-block, .err-input');
+    if(firstErr) firstErr.scrollIntoView({behavior:"smooth",block:"center"});
     return;
   }
+  
+  let hasLikertErr = false;
   for(const k of["focus","review","understanding","examCoping"]){
     if(!LK[k]){
-      err("submitErr","請填寫「學習狀態自評」");
-      document.getElementById("lk_"+k).parentElement.classList.add("err-input");
-      document.getElementById("lk_"+k).scrollIntoView({behavior:"smooth",block:"center"});
-      return;
+      hasLikertErr = true;
+      document.getElementById("lk_"+k).parentElement.classList.add("err-block");
     }
+  }
+  if(hasLikertErr) {
+    err("submitErr","請填寫「學習狀態自評」（已用紅底線框標示）");
+    document.querySelector('.err-block').scrollIntoView({behavior:"smooth",block:"center"});
+    return;
   }
 
   const els = {
@@ -731,15 +762,16 @@ async function goToFollowUp(){
   };
   let hasErr = false;
   for(const key in els){ if(!els[key].value.trim()){ els[key].classList.add("err-input"); hasErr=true; } }
-  if(hasErr){
-    err("submitErr","有尚未填寫完整的欄位，請補充紅框標示處。");
-    document.querySelector('.err-input').scrollIntoView({behavior:"smooth",block:"center"});
-    return;
-  }
+  
   const supportNeeds=getCheckedValues("supportNeed");
   if(!supportNeeds.length){
-    err("submitErr","請選擇「目前最需要老師提供哪些協助」");
-    document.getElementById("supportNeedGroup").scrollIntoView({behavior:"smooth",block:"center"});
+    document.getElementById("field_supportNeed").classList.add("err-block");
+    hasErr = true;
+  }
+
+  if(hasErr){
+    err("submitErr","有尚未填寫完整的欄位，請補充紅色框標示處。");
+    document.querySelector('.err-input, .err-block').scrollIntoView({behavior:"smooth",block:"center"});
     return;
   }
 
