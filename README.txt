@@ -50,6 +50,59 @@
 
 若目前 `Code.gs` 仍使用硬編碼設定，建議改為讀取 `PropertiesService.getScriptProperties()`。
 
+## PUBLIC_PARENT_URL 設定方式
+
+`PUBLIC_PARENT_URL` 是後端產生「家長專屬連結」時使用的家長端公開網址。它位於 `Code.gs` 的 `CFG` 設定區：
+
+```javascript
+const CFG = {
+  PUBLIC_PARENT_URL: "",
+};
+```
+
+### 什麼時候需要設定
+
+如果 `Parent.html` 是放在 GitHub Pages、校內網站或其他公開網址，就應該設定 `PUBLIC_PARENT_URL`。例如：
+
+```javascript
+PUBLIC_PARENT_URL: "https://你的帳號.github.io/N523-mid/Parent.html"
+```
+
+設定後，教師後台產生的家長連結會長得像：
+
+```text
+https://你的帳號.github.io/N523-mid/Parent.html?parent_token=xxxxxxxx
+```
+
+家長開啟這個連結後，`Parent.html` 會讀取網址中的 `parent_token`，再呼叫 Apps Script API 取得學生資料。
+
+### 什麼時候可以留空
+
+如果沒有另外部署 `Parent.html`，而是使用 Apps Script 內建的 HTML 頁面，`PUBLIC_PARENT_URL` 可以留空：
+
+```javascript
+PUBLIC_PARENT_URL: ""
+```
+
+留空時，後端會自動使用 Apps Script Web App 網址並加上 `?page=parent`，產生類似：
+
+```text
+https://script.google.com/macros/s/部署ID/exec?page=parent&parent_token=xxxxxxxx
+```
+
+這種方式的前提是 Apps Script 專案內也有 `Parent.html` 檔案，且 Web App 已重新部署。
+
+### 建議使用方式
+
+目前本專案有三個本機前端檔案：`index.html`、`Dashboard.html`、`Parent.html`。若你主要用本機或 GitHub Pages 開前端，建議把 `Parent.html` 也部署到同一個公開位置，然後把 `PUBLIC_PARENT_URL` 設成該公開網址。
+
+請注意：
+
+- `PUBLIC_PARENT_URL` 必須指向 `Parent.html`，不是 `index.html` 或 `Dashboard.html`。
+- 網址最後可以是 `Parent.html`，不需要自己加 `?parent_token=...`，系統會自動加。
+- 修改 `Code.gs` 的 `PUBLIC_PARENT_URL` 後，必須重新部署 Apps Script Web App，後台產生的新家長連結才會套用。
+- 舊連結不會自動改網址，若改過 `PUBLIC_PARENT_URL`，建議重新產生家長連結。
+
 ## 前端部署
 
 可將 `index.html`、`Parent.html`、`Dashboard.html`、`image.png` 放在同一個公開網站目錄，例如 GitHub Pages 或校內網站空間。

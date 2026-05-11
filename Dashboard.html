@@ -409,6 +409,8 @@ function buildMap(){
   sel.innerHTML=`<option value="">請選擇學生…</option>`+Object.values(SMAP).sort((a,b)=>String(a.studentId).localeCompare(String(b.studentId))).map(s=>`<option value="${s.studentId}">${esc(s.name)}</option>`).join("");
   if(prev)sel.value=prev;
   
+  PARENT_DATA=PARENT_DATA.map(p=>({...p,studentId:sid(p.studentId),name:String(p.name||"").trim()}));
+  TOKENS=TOKENS.map(t=>({...t,studentId:sid(t.studentId),name:String(t.name||"").trim()}));
   const b=document.getElementById("pbadge");const n=PARENT_DATA.length||0;b.textContent=n;b.style.display=n?"inline-block":"none";
 }
 
@@ -429,6 +431,7 @@ function drawChart(id,type,labels,datasets,extra={}){
   charts[id]=new Chart(el,{type,data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},...extra}});
 }
 function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
+function sid(v){return String(v ?? "").trim()}
 function pill(t,c){return `<span class="pill ${c}">${t}</span>`}
 function sb(v){if(!v)return`<span style="color:var(--ink3)">—</span>`;const c=v>=8?"var(--red)":v>=5?"var(--orange)":"var(--green)";return`<span class="sb" style="background:${c}18;color:${c}">${v}</span>`}
 function dialogItems(raw){
@@ -600,7 +603,7 @@ function renderAI(){
 function renderPLinks(){
   const ss=Object.values(SMAP);
   document.getElementById("plBody").innerHTML=!ss.length?`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink2)">尚無學生問卷資料</td></tr>`
-    :ss.map(s=>{const tok=TOKENS.filter(t=>t.studentId===s.studentId).pop();const sent=!!tok;const done=tok?.done;return`<tr>
+    :ss.map(s=>{const tok=TOKENS.filter(t=>sid(t.studentId)===sid(s.studentId)).pop();const parentDone=PARENT_DATA.some(p=>sid(p.studentId)===sid(s.studentId));const sent=!!tok||parentDone;const done=!!(tok?.done||parentDone);return`<tr>
       <td><strong>${esc(s.name)}</strong></td>
       <td style="font-size:12px;color:var(--ink3);font-family:monospace">${s.studentId}</td>
       <td>${pill(s.subjects.length+"科",s.subjects.length>=3?"p-orange":"p-amber")}</td>
@@ -655,7 +658,7 @@ function renderCompare(){
     btn.style.display="none";recordBtn.style.display="none";recordWrap.style.display="none";recordTypeWrap.style.display="none";
     return;
   }
-  const s=SMAP[id];const p=PARENT_DATA.find(x=>x.studentId===id);
+  const s=SMAP[id];const p=PARENT_DATA.find(x=>sid(x.studentId)===sid(id));
   
   btn.style.display = (s && p) ? "inline-block" : "none";
   recordBtn.style.display = s ? "inline-block" : "none";
