@@ -434,7 +434,7 @@ let currentStepIndex = 0;
 const DIALOG = {
   subjects: [], totalCount: 0, currentIdx: 0,
   history: [], retryCount: 0, formData: {}, questionCache: {},
-  probeSeq: 0, probeCount: 0, maxProbeTotal: 6, maxProbePerSubject: 2
+  probeSeq: 0, probeCount: 0, maxProbeTotal: 6, maxProbePerSubject: 2, followUpFailed: false
 };
 
 // 🟢 初始狀態精簡為階段 1，並紀錄 stage: 1
@@ -867,8 +867,11 @@ async function prefetchEncouragements(studentName, allSubjects) {
   greatSubjects.forEach(async s => {
     try {
       const d = await post("prefetchEncouragement", { studentName, subject: s.subject, score: s.score });
-      if (d.ok) ENC_CACHE[s.subject] = { encouragement: d.encouragement || "", question: d.question || "" };
-    } catch(e) {}
+      if (d.ok) {
+        if (d.aiStatus === "Failed") DIALOG.followUpFailed = true;
+        ENC_CACHE[s.subject] = { encouragement: d.encouragement || "", question: d.question || "" };
+      }
+    } catch(e) { DIALOG.followUpFailed = true; }
   });
 }
 
@@ -886,8 +889,8 @@ function detectEvasive(texts) {
 function needsDeeperProbe(answer){
   const s=String(answer||"").trim();
   if(!s)return true;
-  if(s.length<=8)return true;
-  return /(背不住|背不起來|忘了|沒背好|聽不懂|看不懂|不懂|不會|沒念|沒準備|睡覺|太難|不知道|不清楚|就是|都不會|問那麼多|不想告訴|好煩|別再問|不想念|想休學|一直玩|不想耶)/.test(s);
+  if(s.length < 10)return true;
+  return /(背不住|背不起來|忘了|沒背好|聽不懂|看不懂|不懂|不會|沒念|沒讀|沒準備|睡覺|太難|不知道|不清楚|就是|都不會|問那麼多|不想告訴|好煩|別再問|不想念|想休學|一直玩|不想耶)/.test(s);
 }
 function answerSignal(answer){
   const s=String(answer||"").trim();
@@ -1014,11 +1017,13 @@ async function loadNextSubject() {
         formContext: { studyMethod: DIALOG.formData.studyMethod, blind: DIALOG.formData.blind, commit: DIALOG.formData.commit, routine: { sleep: DIALOG.formData.sleep, entertainment: DIALOG.formData.ent, extracurricular: DIALOG.formData.ext } },
         prevHistory
       });
+      if (d.aiStatus === "Failed") DIALOG.followUpFailed = true;
       question = d.question || ""; encouragement = d.encouragement || "";
     }
     renderSubjectDialog(subj, question, isSubjEvasive, encouragement);
     if(DIALOG.retryCount===0) DIALOG.questionCache[DIALOG.currentIdx]={ready:true,data:{question,encouragement}};
   } catch(e) {
+    DIALOG.followUpFailed = true;
     const isGreatSubj = subj.score >= GREAT_SCORE;
     const fallback = isSubjEvasive ? `關於「${subj.subject}」，你填的反思比較簡短，老師想多理解一點，才知道怎麼幫你。能跟我說說這科目前最大的困難是什麼嗎？` : isGreatSubj ? `${subj.subject} 考了 ${subj.score} 分，這科你是怎麼準備的？有什麼方法讓你覺得特別有效嗎？` : `關於「${subj.subject}」，你提到「${subj.reason}」。我們先一起找原因，不急著責備；可以描述一下你在這科準備時最卡關的地方嗎？`;
     const staticEnc = isGreatSubj ? (subj.score >= 95 ? `哇，${subj.subject} 考了 ${subj.score} 分！真的很厲害 🏆` : subj.score >= 90 ? `${subj.subject} 考了 ${subj.score} 分，非常優秀 🌟` : subj.score >= 85 ? `${subj.subject} 考了 ${subj.score} 分，表現很亮眼 🎉` : `${subj.subject} 考了 ${subj.score} 分，這科有在用功 💪`) : "";
@@ -1204,7 +1209,7 @@ function renderAllDone() {
 async function submitDialogAnswer() {
   const answer = document.getElementById("dialogAnswer").value.trim();
   err("dialogErr", "");
-  if(!answer){ err("dialogErr","請簡單回答一下這個問題哦！"); document.getElementById("dialogAnswer").focus(); return; }
+  if(!answer || answer.length < 5){ err("dialogErr","請至少輸入 5 個字，讓老師能理解你的狀況。"); document.getElementById("dialogAnswer").focus(); return; }
 
   const subj     = DIALOG.subjects[DIALOG.currentIdx];
   const question = document.getElementById("dialogQuestion").textContent;
@@ -1223,12 +1228,13 @@ async function submitDialogAnswer() {
                   isExtra: true, extraType: subj.type, currentStage: subj.stage, studentAnswer: answer
               });
               if (d && d.ok && d.question) {
+                  if (d.aiStatus === "Failed") DIALOG.followUpFailed = true;
                   if (subj.stage === 2 && (!d.options || d.options.length === 0)) subj.stage = 3;
                   renderSubjectDialog(subj, d.question, false, "", d.options);
                   updateDialogProgress();
                   return; // 停留在同一個索引，只更新問題
               }
-          } catch (e) {}
+          } catch (e) { DIALOG.followUpFailed = true; }
           // API 失敗時的備用方案
           let fbQ = ""; let opts = [];
           if (subj.stage === 2) {
@@ -1284,7 +1290,8 @@ async function finalSubmit() {
       selfRating:        {...LK}, learningBlindSpot: DIALOG.formData.blind, studyMethod: DIALOG.formData.studyMethod,
       actionCommitment:  `${DIALOG.formData.commit}\n面談意願：${DIALOG.formData.helpWilling}\n需要協助：${DIALOG.formData.supportNeeds.join("；")}`,
       routine: { sleep: DIALOG.formData.sleep, allNighter: DIALOG.formData.allNighter, entertainment: DIALOG.formData.ent, extracurricular: DIALOG.formData.ext },
-      stressIndex:    +document.getElementById("stressSlider").value, shortTermGoal: DIALOG.formData.goal, dialogHistory: dialogSummary 
+      stressIndex:    +document.getElementById("stressSlider").value, shortTermGoal: DIALOG.formData.goal, dialogHistory: dialogSummary,
+      followUpStatus: DIALOG.followUpFailed ? "Failed" : (DIALOG.history.length ? "Completed" : "Not Triggered")
     });
     hide("sLoading"); show("sDone"); prog(100);
     window.scrollTo({top:0, behavior:"smooth"});

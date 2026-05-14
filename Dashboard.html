@@ -82,8 +82,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑�
 
 .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
 .metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.metric.clickable{cursor:pointer;position:relative;transition:all .2s;min-height:132px;overflow:hidden}
+.metric.clickable:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(15,23,42,.08);border-color:var(--border2)}
+.metric.clickable.selected{box-shadow:0 10px 26px rgba(15,23,42,.10);border-width:2px;background:#fff}
+.metric.clickable.selected::before{content:'';position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--blue)}
+.metric.clickable.selected::after{content:'目前查看';position:absolute;right:12px;top:10px;font-size:11px;font-weight:900;color:var(--ink2);background:var(--paper);border:1px solid var(--border);border-radius:999px;padding:3px 8px}
+.metric.clickable.teal.selected::before{background:var(--teal)}.metric.clickable.orange.selected::before{background:var(--orange)}.metric.clickable.red.selected::before{background:var(--red)}.metric.clickable.green.selected::before{background:var(--green)}.metric.clickable.gray.selected::before{background:var(--ink3)}
+.metric-groups{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:20px}
+.metric-group-title{font-size:13px;font-weight:900;color:var(--ink2);margin:0 0 10px 2px}
+.metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px}
 .m-label{font-size:13px;color:var(--ink2);margin-bottom:8px;font-weight:700}
 .m-val{font-size:32px;font-weight:900;line-height:1}
+.m-sub{font-size:12px;color:var(--ink3);margin-top:8px;font-weight:700}
 .m-val.blue{color:var(--blue)}.m-val.green{color:var(--green)}.m-val.teal{color:var(--teal)}.m-val.orange{color:var(--orange)}.m-val.red{color:var(--red)}
 
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:20px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.02)}
@@ -117,6 +127,8 @@ tbody tr:last-child td{border-bottom:none}
 .ai-tag-p{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
 .ai-tag-t{background:var(--purple-bg);color:var(--purple-dk);border:1px solid var(--purple-bd)}
 .ai-text{font-size:14px;line-height:1.6;background:var(--paper);border-radius:var(--r-sm);padding:14px;color:var(--ink);border:1px solid var(--border)}
+.ai-report-text{white-space:pre-line;line-height:1.8;word-break:break-word;font-size:15px;color:#334155}
+.ai-report-warning{margin-top:12px;padding:10px 12px;border-radius:10px;background:#fff7ed;color:#c2410c;border:1px solid #fed7aa;font-size:14px}
 
 .parent-card{background:white;border:1px solid var(--teal-bd);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:0 4px 12px rgba(20,184,166,0.05)}
 .parent-name{font-size:15px;font-weight:900;margin-bottom:16px;color:var(--teal-dk)}
@@ -155,7 +167,25 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
 .sb{display:inline-block;min-width:28px;height:24px;line-height:24px;text-align:center;border-radius:12px;font-size:12px;font-weight:900}
 .alert-msg{padding:14px 16px;border-radius:var(--r-sm);font-size:14px;margin-bottom:16px}
 .alert-danger{background:var(--danger-bg);color:var(--danger-dk);border:1px solid var(--danger-bd)}
-@media print{.sidebar,.topbar,.toolbar,.btn-top,.overlay{display:none!important}.layout{grid-template-columns:1fr!important}.page{display:block!important}}
+.overview-filter-note{display:flex;justify-content:space-between;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:var(--r);padding:14px 18px;margin-bottom:16px;color:var(--ink2);font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.copy-textarea{width:100%;min-height:220px;border:1px solid var(--border);border-radius:12px;padding:12px;font-family:inherit;font-size:15px;line-height:1.75;color:var(--ink);background:var(--paper);resize:vertical}
+/* Readability tuning for teacher dashboard */
+body{font-size:16px}
+.page-title{font-size:30px;line-height:1.25}.page-sub{font-size:17px;line-height:1.6}
+.nav-item{font-size:16px}.nav-sec{font-size:13px}.brand{font-size:17px}.topbar-sub{font-size:15px}.teacher-chip{font-size:15px}
+table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:18px 18px;line-height:1.55}
+.pill{font-size:14px;padding:5px 12px}.btn-act,.btn-top,select.sel,.search-inp{font-size:15px}.m-label{font-size:15px}.m-sub{font-size:14px}.card-title{font-size:17px}.ai-text,.ai-report-text{font-size:16px}.pf,.pf-val{font-size:16px}.kv-label{font-size:14px}.kv-val{font-size:20px}
+.detail-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:20px}
+	.kv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+	.kv{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px}
+	.kv-label{font-size:12px;color:var(--ink2);font-weight:700;margin-bottom:6px}.kv-val{font-size:18px;font-weight:900;color:var(--ink)}
+	.stat-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.reason-cloud{display:flex;gap:8px;flex-wrap:wrap}
+	.muted{color:var(--ink3)}.click-name{cursor:pointer;color:var(--blue-dk);font-weight:900;text-decoration:underline;text-decoration-style:dashed;text-underline-offset:4px}
+.report-pill{border:0;cursor:pointer;font-family:inherit}.report-pill:hover{filter:brightness(.98);box-shadow:0 2px 8px rgba(15,23,42,.10)}
+/* Final readability overrides */
+.kv-label{font-size:14px}.kv-val{font-size:20px}.empty{font-size:16px}.loading-wrap{font-size:16px}.sb{min-width:34px;height:28px;line-height:28px;font-size:14px}.overview-filter-note{font-size:15px}.topbar{height:68px}.layout{min-height:calc(100vh - 68px)}.sidebar{top:68px;height:calc(100vh - 68px)}
+	@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.grid2,.detail-grid,.compare-grid{grid-template-columns:1fr}.main{padding:18px}.compare-sep{display:none}.compare-col{padding:0}.topbar{height:auto;min-height:60px;flex-wrap:wrap}.modal{max-width:95vw!important}}
+	@media print{.sidebar,.topbar,.toolbar,.btn-top,.overlay{display:none!important}.layout{grid-template-columns:1fr!important}.page{display:block!important}}
 </style>
 </head>
 <body>
@@ -182,56 +212,68 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
   <div class="layout">
     <div class="sidebar">
       <div class="nav-sec">學生問卷</div>
-      <div class="nav-item on" onclick="goto('overview')">◈ 總覽儀表板</div>
-      <div class="nav-item" onclick="goto('students')">◉ 填寫狀況</div>
-      <div class="nav-item" onclick="goto('subjects')">◐ 科目分析</div>
-      <div class="nav-item" onclick="goto('stress')">◉ 壓力熱點</div>
-      <div class="nav-item" onclick="goto('ai')">◈ AI 建議庫</div>
+      <div class="nav-item on" onclick="goto('overview')">◈ 班級總覽</div>
+      <div class="nav-item" onclick="goto('students')">◉ 學生填寫狀況</div>
+      <div class="nav-item" onclick="goto('subjects')">◐ 科目不及格分析</div>
+      <div class="nav-item" onclick="goto('stress')">◉ 壓力風險分析</div>
+      <div class="nav-item" onclick="goto('ai')">◈ AI個人輔導建議</div>
       <div class="nav-sec">家長問卷</div>
       <div class="nav-item teal" onclick="goto('plinks')">🔗 發送家長連結</div>
-      <div class="nav-item teal" onclick="goto('pfeedback')">📋 家長回饋 <span class="nav-badge" id="pbadge" style="display:none">0</span></div>
-      <div class="nav-item teal" onclick="goto('compare')">⚖️ 學生×家長對照</div>
+      <div class="nav-item teal" onclick="goto('pfeedback')">📋 家長問卷回饋 <span class="nav-badge" id="pbadge" style="display:none">0</span></div>
+      <div class="nav-item teal" onclick="goto('compare')">⚖️ 親師生對照分析</div>
       <div class="nav-sec">進階分析</div>
-      <div class="nav-item purple" onclick="goto('report')">📊 視覺化報表</div> <!-- ✅ 新增 Looker Studio 選單 -->
+      <div class="nav-item purple" onclick="goto('report')">📊 統計圖表</div> <!-- ✅ 新增 Looker Studio 選單 -->
     </div>
     <div class="main" id="mainArea">
       <div class="loading-wrap" id="globalLoading"><div class="spin"></div>載入資料中…</div>
       
       <div class="page" id="page-overview">
-        <div class="page-title">總覽儀表板</div><div class="page-sub">本班填寫概況與關鍵指標</div>
-        <div class="metrics" id="overviewMetrics"></div>
+        <div class="page-title">班級總覽</div><div class="page-sub">本班填寫概況與關鍵指標</div>
+        <div class="metric-groups" id="overviewMetrics"></div>
+        <div class="overview-filter-note" id="overviewFilterNote"></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">學生問題一覽（點姓名看明細）</span></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>學號</th><th>輔導判定</th><th>不及格科數</th><th>壓力指數</th><th>家長回覆狀態</th><th>主要盲點</th><th>導師追蹤狀態</th><th>操作</th></tr></thead><tbody id="overviewProblemBody"></tbody></table></div></div>
         <div class="grid2">
           <div class="card"><div class="card-head"><span class="card-title">不及格科目人數</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cSubject"></canvas></div></div></div>
           <div class="card"><div class="card-head"><span class="card-title">不及格主因分布</span></div><div class="card-body"><div id="rLegend" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:11px;color:var(--ink2)"></div><div style="position:relative;height:190px"><canvas id="cReason"></canvas></div></div></div>
         </div>
-        <div class="card"><div class="card-head"><span class="card-title" style="color:var(--red-dk)">⚠ 高風險學生（壓力 ≥ 8 或不及格 ≥ 4 科）</span></div><div class="card-body" id="warningList" style="padding:0"></div></div>
+        <div class="card"><div class="card-head"><span class="card-title" style="color:var(--red-dk)">⚠ 優先面談學生</span></div><div class="card-body" id="warningList" style="padding:0"></div></div>
       </div>
 
       <div class="page" id="page-students">
-        <div class="page-title">填寫狀況</div><div class="page-sub">追蹤每位學生的問卷進度</div>
-        <div class="toolbar"><input class="search-inp" id="srchSt" placeholder="搜尋姓名…" oninput="renderStudents()"><select class="sel" id="filtSt" onchange="renderStudents()"><option value="">全部</option><option value="done">已填</option><option value="pending">未填</option></select></div>
-        <div class="card" style="padding:0"><div class="card-head"><span class="card-title" id="stTitle">學生列表</span></div><div class="tbl-wrap"><table><thead><tr><th>#</th><th>姓名</th><th>學號</th><th>不及格科數</th><th>壓力指數</th><th>填寫時間</th><th>狀況</th><th>AI建議</th></tr></thead><tbody id="stBody"></tbody></table></div></div>
+        <div class="page-title">學生填寫狀況</div><div class="page-sub">追蹤每位學生的問卷進度、風險類型與導師追蹤狀態</div>
+        <div class="toolbar"><input class="search-inp" id="srchSt" placeholder="搜尋姓名…" oninput="renderStudents()"><select class="sel" id="filtSt" onchange="renderStudents()"><option value="">全部</option><option value="done">已填</option><option value="pending">未填</option></select><span id="analyzeStatus" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title" id="stTitle">學生列表</span></div><div class="tbl-wrap"><table><thead><tr><th>#</th><th>姓名</th><th>學號</th><th>風險類型</th><th>輔導判定</th><th>不及格科數</th><th>壓力指數</th><th>填寫時間</th><th>狀況</th><th>追蹤狀態</th><th>答題品質</th><th>輔導分析</th></tr></thead><tbody id="stBody"></tbody></table></div></div>
+      </div>
+
+      <div class="page" id="page-student">
+        <div class="toolbar"><button class="btn-act" onclick="goto('students')">← 返回學生列表</button><button class="btn-act purple" id="btnCopyAnalysis" style="display:none;background:var(--purple);color:white;border-color:var(--purple)">📋 複製分析文字</button></div>
+        <div id="studentDetailContent"><div class="empty">請從學生列表點選姓名</div></div>
       </div>
 
       <div class="page" id="page-subjects">
-        <div class="page-title">科目分析</div><div class="page-sub">各科不及格原因與策略分析</div>
-        <div class="card"><div class="card-head"><span class="card-title">點選科目查看分析</span></div><div class="card-body"><div id="subjBtns" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px"></div><div id="subjDetail"></div></div></div>
-        <div class="grid2">
-          <div class="card"><div class="card-head"><span class="card-title">改進策略分布</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cStrategy"></canvas></div></div></div>
-          <div class="card"><div class="card-head"><span class="card-title">班級自評平均雷達</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cRadar"></canvas></div></div></div>
-        </div>
+        <div class="page-title">科目不及格分析</div><div class="page-sub">分析哪些學生不及格、主要原因與教學支持需求</div>
+        <div class="card"><div class="card-head"><span class="card-title">各科不及格人數排行</span></div><div class="card-body"><div id="subjBtns" style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px"></div><div id="subjDetail"><div class="empty">請點選上方科目查看詳細分析</div></div></div></div>
+        <div class="card"><div class="card-head"><span class="card-title">改進策略分布</span></div><div class="card-body"><div style="position:relative;height:240px"><canvas id="cStrategy"></canvas></div></div></div>
       </div>
 
       <div class="page" id="page-stress">
-        <div class="page-title">壓力熱點分析</div><div class="page-sub">識別高壓學生，及時介入</div>
+        <div class="page-title">壓力風險分析</div><div class="page-sub">交叉檢視壓力與不及格科數，決定介入優先順序</div>
         <div class="metrics" id="stressMetrics"></div>
         <div class="card"><div class="card-head"><span class="card-title">壓力分布直方圖</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cStress"></canvas></div></div></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">壓力 × 不及格科數交叉分析</span></div><div class="tbl-wrap"><table><thead><tr><th>類型</th><th>條件</th><th>人數</th><th>建議</th><th>學生</th></tr></thead><tbody id="stressCrossBody"></tbody></table></div></div>
         <div class="card" style="padding:0"><div class="card-head"><span class="card-title">高壓學生名單（壓力 ≥ 8）</span></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>壓力</th><th>科數</th><th>盲點</th><th>行動承諾</th></tr></thead><tbody id="stressBody"></tbody></table></div></div>
       </div>
 
       <div class="page" id="page-ai">
-        <div class="page-title">AI 輔導建議庫</div><div class="page-sub">AI 生成的三方輔導建議（不顯示給學生）</div>
-        <div class="toolbar"><input class="search-inp" id="srchAI" placeholder="搜尋學生…" oninput="renderAI()"></div>
+        <div class="page-title">分析文字匯出</div><div class="page-sub">後台不呼叫 AI；請複製整理好的文字後貼到外部 AI 使用</div>
+        <div class="toolbar"><input class="search-inp" id="srchAI" placeholder="搜尋學生…" oninput="renderAI()"><button class="btn-act" onclick="clearLegacyAiAnalysis()" style="border-color:var(--red-bd);color:var(--red-dk)">清除舊 AI 欄位</button><span id="analyzeStatusAi" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
+        <div class="card"><div class="card-head"><span class="card-title">自訂 Prompt 與模型</span></div><div class="card-body">
+          <label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">AI 模型</label>
+          <input class="search-inp" id="aiModelInput" placeholder="例如：ChatGPT-5.1、Gemini 2.5 Pro、Claude…" style="width:100%;max-width:520px;margin-bottom:12px">
+          <label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">自訂 Prompt</label>
+          <textarea id="customPromptInput" placeholder="在這裡填你想給外部 AI 的指令。按「複製分析文字」時，會自動放在學生資料前面。" style="width:100%;min-height:150px;border:1px solid var(--border);border-radius:12px;padding:12px;font-family:inherit;font-size:14px;line-height:1.7;resize:vertical"></textarea>
+          <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn-act teal" onclick="savePromptSettings()">保存 Prompt 設定</button><button class="btn-act" onclick="loadPromptSettingsToForm()">還原已保存設定</button><span id="promptSaveStatus" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
+        </div></div>
         <div id="aiContainer"></div>
       </div>
 
@@ -241,16 +283,16 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
       </div>
 
       <div class="page" id="page-pfeedback">
-        <div class="page-title">家長回饋</div><div class="page-sub">已收到的家長問卷填寫結果</div>
+        <div class="page-title">家長問卷回饋</div><div class="page-sub">已收到的家長問卷填寫結果</div>
         <div class="toolbar"><input class="search-inp" id="srchPF" placeholder="搜尋學生…" oninput="renderPF()"></div>
         <div id="pfContainer"></div>
       </div>
 
       <div class="page" id="page-compare">
-        <div class="page-title">學生 × 家長對照</div><div class="page-sub">同時查看學生自填與家長回饋，包含日常作息與各科 AI 解析</div>
+        <div class="page-title">親師生對照分析</div><div class="page-sub">同時查看學生自填與家長回饋，並複製可貼到外部 AI 的分析文字</div>
         <div class="toolbar">
           <select class="sel" id="cmpSel" onchange="renderCompare()" style="width:240px"><option value="">請選擇學生…</option></select>
-          <button class="btn-act purple" id="btnGenAnalysis" onclick="generateAnalysis()" style="display:none;background:var(--purple);color:white;border-color:var(--purple);padding:10px 16px;font-size:14px;box-shadow:0 4px 10px rgba(139,92,246,0.3)">🤖 產生雙方差異綜合分析</button>
+          <button class="btn-act purple" id="btnGenAnalysis" onclick="generateAnalysis()" style="display:none;background:var(--purple);color:white;border-color:var(--purple);padding:10px 16px;font-size:14px;box-shadow:0 4px 10px rgba(139,92,246,0.3)">📋 複製分析文字</button>
           <label id="recordTypeWrap" style="display:none;align-items:center;gap:6px;font-size:13px;color:var(--ink2);font-weight:700">
             類型
             <select class="sel" id="recordType" style="padding:10px 12px">
@@ -262,7 +304,7 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
             字數
             <input class="search-inp" id="recordWords" type="number" min="150" max="1200" step="50" value="200" style="width:96px;padding:10px 12px">
           </label>
-          <button class="btn-act teal" id="btnGenRecord" onclick="generateCounselingRecord()" style="display:none;padding:10px 16px;font-size:14px">📝 產生紀錄/腳本</button>
+          <button class="btn-act teal" id="btnGenRecord" onclick="generateCounselingRecord()" style="display:none;padding:10px 16px;font-size:14px">📋 複製分析文字</button>
         </div>
         <div id="cmpAnalysisResult" style="display:none;margin-bottom:16px;background:var(--purple-bg);border:1px solid var(--purple-bd);border-radius:var(--r);padding:20px;color:var(--purple-dk);font-size:14px;line-height:1.8;white-space:pre-wrap"></div>
         <div id="counselingRecordResult" style="display:none;margin-bottom:16px;background:white;border:1px solid var(--teal-bd);border-radius:var(--r);padding:20px;color:var(--ink);font-size:14px;line-height:1.8;white-space:pre-wrap;box-shadow:0 4px 12px rgba(20,184,166,0.05)"></div>
@@ -271,7 +313,7 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
       
       <!-- ✅ 新增 Looker Studio 報表頁面 -->
       <div class="page" id="page-report">
-        <div class="page-title">視覺化報表 (Looker Studio)</div>
+        <div class="page-title">統計圖表 (Looker Studio)</div>
         <div class="page-sub">透過 Looker Studio 查看班級整體成績與問卷交叉分析</div>
         <div class="card">
           <div class="card-head"><span class="card-title">報表設定</span></div>
@@ -324,7 +366,9 @@ select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--
 const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
 const DTOK = new URLSearchParams(location.search).get("token") || "teacher2025";
 let ALL=[], STUDENTS=[], SMAP={}, TOKENS=[], PARENT_DATA=[];
-let teacherName="", currentLink="";
+let teacherName="", currentLink="", PROMPT_SETTINGS={customPrompt:"",aiModel:""};
+let activeOverviewFilter="all";
+let subjectSortSettings=JSON.parse(localStorage.getItem("n523_subject_sort_settings")||"{}");
 const charts={};
 const COLORS=["#3b82f6","#ef4444","#f59e0b","#10b981","#8b5cf6","#ec4899","#14b8a6","#f97316"];
 
@@ -355,8 +399,9 @@ async function loadData(){
   try{
     const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"getDashboardData",dashToken:DTOK})}).then(r=>r.json());
     if(!d.ok)throw new Error(d.msg);
-    ALL=d.feedback||[];STUDENTS=d.students||[];TOKENS=d.tokens||[];PARENT_DATA=d.parentData||[];
+    ALL=d.feedback||[];STUDENTS=d.students||[];TOKENS=d.tokens||[];PARENT_DATA=d.parentData||[];PROMPT_SETTINGS=d.promptSettings||{customPrompt:"",aiModel:""};
     buildMap();
+    loadPromptSettingsToForm();
     document.getElementById("globalLoading").style.display="none";
     goto("overview");
   }catch(e){
@@ -376,7 +421,7 @@ function buildMap(){
       selfRating:{focus:0,review:0,understanding:0,examCoping:0},
       learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
       routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
-      aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
+      analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
       allSubjects: st.allSubjects.map(x=>({...x})), subjects: st.allSubjects.filter(x=>x.score<60).map(x=>({...x})), hasFeedback:false
     };
   });
@@ -390,14 +435,20 @@ function buildMap(){
         selfRating:{focus:0,review:0,understanding:0,examCoping:0},
         learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
         routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
-        aiStudent:"",aiParent:"",aiTeacher:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
+        analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
         allSubjects:[],subjects:[],hasFeedback:false
       };
     }
     let s=SMAP[studentId]; s.hasFeedback=true; s.timestamp=r.timestamp;
+    s.selfRating={
+      focus:+r.focus||0,
+      review:+r.review||0,
+      understanding:+r.understanding||0,
+      examCoping:+r.examCoping||0
+    };
     s.learningBlindSpot=r.learningBlindSpot; s.studyMethod=r.studyMethod; s.actionCommitment=r.actionCommitment; s.stressIndex=+r.stressIndex; s.shortTermGoal=r.shortTermGoal;
     s.routine=r.routine; s.followUp=r.followUp;
-    s.aiStudent=r.aiStudent; s.aiParent=r.aiParent; s.aiTeacher=r.aiTeacher; s.aiSubject=r.aiSubject;
+    s.analysisText=r.analysisText||s.analysisText||""; s.analysisStatus=r.analysisStatus||s.analysisStatus||"Insufficient Data"; s.followUpStatus=r.followUpStatus||s.followUpStatus||""; s.counseling=r.counseling||s.counseling||""; s.savedReport=r.savedReport||s.savedReport||""; s.savedReportAt=r.savedReportAt||s.savedReportAt||""; s.savedReportType=r.savedReportType||s.savedReportType||""; s.savedPrompt=r.savedPrompt||s.savedPrompt||""; s.savedAiModel=r.savedAiModel||s.savedAiModel||""; s.answerQualityLevel=r.answerQualityLevel||s.answerQualityLevel||""; s.answerQualityReportAt=r.answerQualityReportAt||s.answerQualityReportAt||""; s.answerQualityReport=r.answerQualityReport||s.answerQualityReport||""; s.aiSubject=r.aiSubject;
     s.dialogHistory=r.dialogHistory||""; s.qualityFlag=r.qualityFlag||"";
     if(r.subject){
       let exA=s.allSubjects.find(x=>x.subject===r.subject); if(exA){exA.reason=r.reason;exA.strategy=r.strategy}else s.allSubjects.push({subject:r.subject,score:r.score,reason:r.reason,strategy:r.strategy});
@@ -420,7 +471,7 @@ function goto(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
   const nav=document.querySelector(`[onclick="goto('${name}')"]`);if(nav)nav.classList.add("on");
   const pg=document.getElementById("page-"+name);if(pg)pg.classList.add("on");
-  ({overview:renderOverview,students:renderStudents,subjects:renderSubjects,stress:renderStress,ai:renderAI,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare,report:renderReport}[name]||(() => {}))();
+  ({overview:renderOverview,students:renderStudents,student:renderStudentPage,subjects:renderSubjects,stress:renderStress,ai:renderAI,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare,report:renderReport}[name]||(() => {}))();
 }
 
 // ── 圖表 ────────────────────────────────────────────────────
@@ -433,6 +484,8 @@ function drawChart(id,type,labels,datasets,extra={}){
 function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
 function sid(v){return String(v ?? "").trim()}
 function pill(t,c){return `<span class="pill ${c}">${t}</span>`}
+function rankLabel(x){return x?.rank?`班排 ${x.rank}/${x.total}`:""}
+function rankBadge(x){return x?.rank?`<span class="pill p-blue" style="margin-top:6px">${rankLabel(x)}</span>`:""}
 function sb(v){if(!v)return`<span style="color:var(--ink3)">—</span>`;const c=v>=8?"var(--red)":v>=5?"var(--orange)":"var(--green)";return`<span class="sb" style="background:${c}18;color:${c}">${v}</span>`}
 function dialogItems(raw){
   if(!raw)return[];
@@ -462,6 +515,215 @@ function countParts(rows, getter){
   return out;
 }
 
+let CURRENT_STUDENT_ID="";
+const TRACK_STATUSES=["未處理","已關懷","已面談","已通知家長","已安排補救","觀察中","已改善"];
+function parentFor(id){return PARENT_DATA.find(p=>sid(p.studentId)===sid(id));}
+function hasParent(id){return !!parentFor(id);}
+function trackingKey(id){return "n523_track_"+sid(id);}
+function getTracking(id){const v=localStorage.getItem(trackingKey(id))||"未處理";return TRACK_STATUSES.includes(v)?v:"未處理";}
+function setTracking(id,val){localStorage.setItem(trackingKey(id),val);renderStudents();if(CURRENT_STUDENT_ID===sid(id))renderStudentPage();}
+function trackingSelect(id){
+  const v=getTracking(id);
+  return '<select class="sel" style="padding:6px 8px;font-size:12px" onchange="setTracking(\''+esc(id)+'\',this.value)">'+TRACK_STATUSES.map(x=>'<option value="'+esc(x)+'" '+(x===v?'selected':'')+'>'+esc(x)+'</option>').join('')+'</select>';
+}
+function riskInfo(s){
+  const f=s.subjects?.length||0, st=+s.stressIndex||0;
+  if(st>=8&&f>=3)return {label:"高壓高風險",cls:"p-red"};
+  if(f>=4&&st<8)return {label:"多科不及格",cls:"p-orange"};
+  if(st<=4&&f>=3)return {label:"低壓高風險",cls:"p-amber"};
+  if(st>=6&&f<=1)return {label:"壓力需觀察",cls:"p-purple"};
+  if(f===0&&st<=4)return {label:"穩定",cls:"p-green"};
+  return {label:"一般追蹤",cls:"p-gray"};
+}
+function cleanAIText(text) {
+  if (!text) return '尚無 AI 分析內容';
+  let cleaned = String(text)
+    .replace(/\*\*/g, '')
+    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/^\s*\*\s+/gm, '・')
+    .replace(/^\s*-\s+/gm, '・')
+    .replace(/^\s*---+\s*$/gm, '')
+    .replace(/[ \t]+$/gm, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+  const completeEndings = ['。', '！', '？', '.', '!', '?', '」', '）', ')'];
+  const lastChar = cleaned.slice(-1);
+  if (cleaned.length > 20 && !completeEndings.includes(lastChar)) {
+    cleaned += '\n\n提醒：此段內容可能未完整產生，請重新整理資料或重新複製文字。';
+  }
+  return cleaned;
+}
+function isAITextComplete(text) {
+  if (!text || String(text).trim().length < 50) return false;
+  const cleaned = String(text).trim();
+  const completeEndings = ['。', '！', '？', '.', '!', '?', '」', '）', ')'];
+  const lastChar = cleaned.slice(-1);
+  return completeEndings.includes(lastChar);
+}
+function aiReportHtml(text, emptyText="尚無 AI 分析內容", forceWarning=false){
+  const raw=String(text||"");
+  const safe=cleanAIText(raw||emptyText);
+  const needsWarning=forceWarning || (!!raw && !isAITextComplete(raw) && !safe.includes("提醒：此段內容可能未完整產生"));
+  return '<div class="ai-report-text">'+esc(safe)+'</div>'+(needsWarning?'<div class="ai-report-warning">此段內容可能未完整，建議重新整理資料後再複製。</div>':'');
+}
+function collectStudentText(s){
+  return [s.learningBlindSpot,s.studyMethod,s.actionCommitment,s.qualityFlag,s.dialogHistory,(s.subjects||[]).map(x=>[x.reason,x.strategy].join(" ")).join(" ")].filter(Boolean).join(" ");
+}
+function collectParentText(s){
+  const p=parentFor(s.studentId);
+  return p?[p.situation,p.stressLevel,p.observation,p.supportMethods,p.suggestions,p.additionalConcerns].filter(Boolean).join(" "):"";
+}
+function lowestScores(s){return (s.allSubjects||[]).map(x=>+x.score).filter(n=>!Number.isNaN(n)).sort((a,b)=>a-b).slice(0,3);}
+function getCounselingLevel(s){
+  if(s?.counseling){
+    const raw=typeof s.counseling==="string"?s.counseling:(s.counseling.label||s.counseling.level||"");
+    const map={Priority:"優先面談",Care:"建議關懷",Stable:"穩定",Track:"一般追蹤"};
+    if(map[raw]||["優先面談","建議關懷","穩定","一般追蹤"].includes(raw))return map[raw]||raw;
+  }
+  if(!s||!s.hasFeedback)return "一般追蹤";
+  const fail=s.subjects?.length||0, stress=+s.stressIndex||0, lows=lowestScores(s);
+  const text=collectStudentText(s), ptext=collectParentText(s);
+  const studentHigh=/(完全放棄|不想讀|不想念|讀不下去|壓力太大|撐不住|不知道怎麼辦|想休學|不想上學|放棄)/.test(text);
+  const parentHigh=/(壓力很大|常哭|睡不好|不想上學|情緒低落|無法溝通|明顯退縮|很擔心|崩潰)/.test(ptext);
+  if(fail>=4 || (stress>=8&&fail>=2) || stress>=9 || parentHigh || studentHigh)return "優先面談";
+  const learningHard=/(不會讀|沒有讀熟|時間不夠|準備太晚|不知道重點|專有名詞太多|上課聽不懂|聽不懂|看不懂|背不住|背不起來|不懂|沒讀熟)/.test(text);
+  const parentHelp=/(需要老師協助|希望老師|請老師|老師協助|補救|需要協助|幫忙|溝通)/.test(ptext);
+  if((fail>=2&&fail<=3) || (stress>=6&&stress<=7&&fail>=1) || (stress>=8&&fail<=1) || lows.some(x=>x>=60&&x<=65) || ((fail>=1||stress>=6||lows.some(x=>x<=65))&&learningHard) || parentHelp)return "建議關懷";
+  const obviousConcern=learningHard||parentHelp||parentHigh||studentHigh;
+  if(fail===0 && stress<=4 && lows.length>=3 && lows.every(x=>x>=70) && !obviousConcern)return "穩定";
+  return "一般追蹤";
+}
+function counselingInfo(s){
+  const level=getCounselingLevel(s);
+  return level==="優先面談"?{label:level,cls:"p-red"}:level==="建議關懷"?{label:level,cls:"p-orange"}:level==="穩定"?{label:level,cls:"p-green"}:{label:level,cls:"p-blue"};
+}
+function getCounselingSuggestion(s){
+  const level=getCounselingLevel(s);
+  if(level==="優先面談")return "優先面談：學生目前具較高學業或壓力風險，建議導師近期約談，確認讀書方法、壓力來源與可用支持。";
+  if(level==="建議關懷")return "建議關懷：學生目前有部分學習或壓力風險，可先以課堂提醒、Line 關心或短談方式追蹤。";
+  if(level==="穩定")return "穩定：目前成績與壓力狀態相對穩定，暫不需面談。";
+  return "一般追蹤：目前未達優先面談標準，建議持續觀察下次評量與課堂表現。";
+}
+function needInterview(s){return getCounselingLevel(s)==="優先面談";}
+function subjectRows(subj){return ALL.filter(r=>r.subject===subj&&(+r.score)<60);}
+function studentNameCell(s){return `<span class="click-name" onclick="openStudent('${esc(s.studentId)}')">${esc(s.name)}</span>`;}
+function openStudent(id){CURRENT_STUDENT_ID=sid(id);goto('student');}
+function topParts(counter,n=3){return Object.entries(counter).sort((a,b)=>b[1]-a[1]).slice(0,n).map(x=>x[0]);}
+function buildSubjectAdvice(subj,rows,ownCounter,supportCounter){
+  const total=Object.values(SMAP).filter(s=>s.hasFeedback&&s.allSubjects.some(x=>x.subject===subj)).length||rows.length;
+  const ratio=total?rows.length/total:0;
+  const risk=ratio>=0.35||rows.length>=10?"高":ratio>=0.18||rows.length>=5?"中":"低";
+  const own=topParts(ownCounter).filter(Boolean);
+  const support=topParts(supportCounter).filter(Boolean);
+  const main=[...own,...support].slice(0,3);
+  return `【科目輔導判斷】\n本班${subj}不及格人數為${rows.length}人，屬於${risk}風險科目。學生主要困難集中在「${main.join("」、「")||"尚無明確資料"}」。此科不及格原因可能不只是未讀書，也包含理解困難、準備方向不清楚或讀書策略不足。\n\n【建議處理方式】\n1. 提供該科重點整理或章節複習方向。\n2. 針對最多學生反映的困難設計補救策略。\n3. 安排短時間題庫練習或重點複習。\n4. 對壓力高且多科不及格學生優先面談。\n5. 可複製此段給任課老師參考。`;
+}
+function formatMissing(v){return esc(v||"尚未填寫");}
+
+function hasParentFeedback(student){
+  const p=parentFor(student?.studentId||student);
+  if(!p)return false;
+  return [p.situation,p.stressLevel,p.observation,p.supportMethods,p.suggestions,p.additionalConcerns].some(v=>{
+    const t=String(v||"").trim();
+    return t && !/^(無|尚未填寫|未填|沒有|—|-)$/.test(t);
+  });
+}
+function getCounselingLevelWeight(level){return ({"優先面談":1,"建議關懷":2,"一般追蹤":3,"穩定":4})[level]||99;}
+function overviewFilterMeta(type){
+  const meta={all:{title:"所有學生",desc:"顯示目前系統內所有學生。"},allFilled:{title:"已填寫問卷學生",desc:"以下學生已完成學生問卷，可查看自評、成績與追問資料。"},parentReplied:{title:"家長已回填學生",desc:"以下學生已有家長問卷回覆，可與學生自述進行對照。"},pressureOverview:{title:"壓力指數排序",desc:"依壓力指數由高到低排序，方便找出需關注學生。"},priorityInterview:{title:"優先面談學生",desc:"此類學生建議導師近期優先處理。"},careSuggested:{title:"建議關懷學生",desc:"此類學生可先透過課堂提醒、Line 關心或短談方式追蹤。"},generalFollowUp:{title:"一般追蹤學生",desc:"目前未達優先面談標準，建議持續觀察。"},stable:{title:"穩定學生",desc:"目前成績與壓力狀態相對穩定。"}};
+  return meta[type]||meta.all;
+}
+function filterStudentsByOverviewCard(students, filterType){
+  const arr=[...(students||[])];
+  if(filterType==="allFilled")return arr.filter(s=>s.hasFeedback);
+  if(filterType==="parentReplied")return arr.filter(s=>s.hasFeedback&&hasParentFeedback(s));
+  if(filterType==="pressureOverview")return arr.filter(s=>s.hasFeedback).sort((a,b)=>((+b.stressIndex||-1)-(+a.stressIndex||-1))||String(a.studentId).localeCompare(String(b.studentId)));
+  if(filterType==="priorityInterview")return arr.filter(s=>s.hasFeedback&&getCounselingLevel(s)==="優先面談");
+  if(filterType==="careSuggested")return arr.filter(s=>s.hasFeedback&&getCounselingLevel(s)==="建議關懷");
+  if(filterType==="generalFollowUp")return arr.filter(s=>s.hasFeedback&&getCounselingLevel(s)==="一般追蹤");
+  if(filterType==="stable")return arr.filter(s=>s.hasFeedback&&getCounselingLevel(s)==="穩定");
+  return arr;
+}
+function setOverviewFilter(type){activeOverviewFilter=type||"all";renderOverview();}
+function overviewMetricCard(type,label,value,sub,color){
+  const selected=activeOverviewFilter===type?" selected":"";
+  return '<button type="button" class="metric clickable '+color+selected+'" onclick="setOverviewFilter(\''+type+'\')" style="text-align:left;font-family:inherit"><div class="m-label">'+esc(label)+'</div><div class="m-val '+color+'">'+esc(value)+'</div><div class="m-sub">'+esc(sub)+'</div></button>';
+}
+function overviewActionButtons(s){
+  const id=esc(s.studentId);
+  return '<button class="btn-act teal" onclick="openStudent(\''+id+'\')">查看詳情</button>';
+}
+function getSubjectScore(student, subjectName){const row=(student?.allSubjects||[]).find(x=>x.subject===subjectName)||(student?.subjects||[]).find(x=>x.subject===subjectName);const n=Number(row?.score);return Number.isFinite(n)?n:null;}
+function subjectSortType(subjectName){return subjectSortSettings[subjectName]||"scoreAsc";}
+function setSubjectSortType(subjectName, sortType){subjectSortSettings[subjectName]=sortType||"scoreAsc";localStorage.setItem("n523_subject_sort_settings",JSON.stringify(subjectSortSettings));showSubjDetail(subjectName);}
+function sortSubjectStudents(students, subjectName, sortType){
+  const timeValue=s=>{const t=Date.parse(s.timestamp||"");return Number.isFinite(t)?t:null};
+  const score=s=>getSubjectScore(s,subjectName);
+  const missingLast=(av,bv,dir=1)=>{const am=av===null||av===undefined||Number.isNaN(av), bm=bv===null||bv===undefined||Number.isNaN(bv);if(am&&bm)return 0;if(am)return 1;if(bm)return -1;return (av-bv)*dir;};
+  return [...(students||[])].sort((a,b)=>{
+    if(sortType==="scoreDesc")return missingLast(score(a),score(b),-1)||String(a.studentId).localeCompare(String(b.studentId));
+    if(sortType==="pressureDesc")return missingLast(+a.stressIndex||null,+b.stressIndex||null,-1)||String(a.studentId).localeCompare(String(b.studentId));
+    if(sortType==="failCountDesc")return ((b.subjects?.length||0)-(a.subjects?.length||0))||String(a.studentId).localeCompare(String(b.studentId));
+    if(sortType==="counselingLevel")return (getCounselingLevelWeight(getCounselingLevel(a))-getCounselingLevelWeight(getCounselingLevel(b)))||String(a.studentId).localeCompare(String(b.studentId));
+    if(sortType==="parentNoReplyFirst")return (hasParentFeedback(a)===hasParentFeedback(b)?0:(hasParentFeedback(a)?1:-1))||String(a.studentId).localeCompare(String(b.studentId));
+    if(sortType==="submittedDesc")return missingLast(timeValue(a),timeValue(b),-1)||String(a.studentId).localeCompare(String(b.studentId));
+    if(sortType==="submittedAsc")return missingLast(timeValue(a),timeValue(b),1)||String(a.studentId).localeCompare(String(b.studentId));
+    if(sortType==="studentIdAsc")return String(a.studentId).localeCompare(String(b.studentId),"zh-Hant-u-nu-latn",{numeric:true});
+    if(sortType==="nameAsc")return String(a.name||"").localeCompare(String(b.name||""),"zh-Hant");
+    return missingLast(score(a),score(b),1)||String(a.studentId).localeCompare(String(b.studentId));
+  });
+}
+function subjectSortSelect(subjectName){
+  const opts=[['scoreAsc','分數由低到高'],['scoreDesc','分數由高到低'],['pressureDesc','壓力由高到低'],['failCountDesc','不及格科數由多到少'],['counselingLevel','輔導判定優先順序'],['parentNoReplyFirst','家長未回覆優先'],['submittedDesc','填寫時間新到舊'],['submittedAsc','填寫時間舊到新'],['studentIdAsc','學號由小到大'],['nameAsc','姓名排序']];
+  const cur=subjectSortType(subjectName);
+  return '<label style="font-size:13px;color:var(--ink2);font-weight:800;display:flex;align-items:center;gap:8px">排序方式 <select class="sel" onchange="setSubjectSortType(\''+esc(subjectName)+'\',this.value)">'+opts.map(([v,l])=>'<option value="'+v+'" '+(v===cur?'selected':'')+'>'+l+'</option>').join('')+'</select></label>';
+}
+function answerQualityStatus(s){if(!s?.hasFeedback)return {label:"資料不足｜查看學生",cls:"p-gray"};if(String(s.followUpStatus||"").includes("Failed")||String(s.followUpStatus||"").includes("失敗"))return {label:"追問失敗｜仍可複製",cls:"p-amber"};return {label:"可複製｜複製文字",cls:"p-green"};}
+function answerQualityResultInfo(s){
+  const type=String(s?.savedReportType||"");
+  const fromType=type.indexOf("答題品質分析｜")===0 ? type.split("｜").pop() : "";
+  const level=String(s?.answerQualityLevel||fromType||"").trim();
+  const clsMap={"良好":"p-green","普通":"p-blue","待加強":"p-orange","明顯敷衍":"p-red","需進一步確認":"p-amber","建議重新填寫":"p-red"};
+  if(level)return {label:level,cls:clsMap[level]||"p-purple",at:s?.answerQualityReportAt||s?.savedReportAt||""};
+  return {label:"未分析",cls:"p-gray",at:""};
+}
+function counselingAnalysisInfo(s){
+  const hasSaved=!!(s?.savedReport && String(s.savedReportType||"").indexOf("答題品質分析")!==0);
+  if(hasSaved)return {label:"已保存輔導報告",cls:"p-purple",detail:s.savedReportType||"輔導報告"};
+  if(s?.analysisText)return {label:"未回填輔導報告",cls:"p-gray",detail:"尚未保存外部 AI 輔導報告"};
+  return {label:"資料不足",cls:"p-gray",detail:"尚無可用資料"};
+}
+function generateAnswerQualityPromptText(s){
+  const p=parentFor(s?.studentId); const failed=(s?.subjects||[]).slice().sort((a,b)=>a.score-b.score); const lowest=(s?.allSubjects||[]).slice().sort((a,b)=>a.score-b.score).slice(0,3); const best=(s?.allSubjects||[]).slice().sort((a,b)=>b.score-a.score).slice(0,3); const dialogs=dialogItems(s?.dialogHistory);
+  const dialogLines=dialogs.length?dialogs.slice(0,3).map((d,i)=>'AI 追問問題'+(i+1)+'：'+(d.q||'無資料')+'\nAI 追問回答'+(i+1)+'：'+(d.a||'無資料')).join('\n'):'AI 追問問題1：'+(s?.followUp?.q||'無資料')+'\nAI 追問回答1：'+(s?.followUp?.a||'無資料')+'\nAI 追問問題2：無資料\nAI 追問回答2：無資料\nAI 追問問題3：無資料\nAI 追問回答3：無資料';
+  const own=[...new Set(failed.flatMap(x=>splitReasonParts(x.reason)))].join('；')||'無資料'; const supports=[...new Set(failed.flatMap(x=>teacherGuidanceParts(x.reason)))].join('；')||'無資料'; const stressText=[s?.learningBlindSpot,s?.shortTermGoal,s?.actionCommitment].filter(Boolean).join('；')||'無資料';
+  return ['請協助判斷以下學生期中考自評問卷的填答品質，並給導師可用的判斷建議。','請注意：','1. 請使用繁體中文。','2. 請判斷學生回答是否具體、是否敷衍、是否有反思。','3. 請不要過度心理推論。','4. 若資料不足，請寫「需進一步確認」。','5. 請只分析問卷填答品質，不要產生完整學業輔導報告。','6. 請以導師可執行的方式回答。','','【學生基本資料】','姓名：'+(s?.name||'無資料'),'學號：'+(s?.studentId||'無資料'),'班級：114-2 N523班','填寫時間：'+(s?.timestamp||'尚未填寫'),'','【成績概況】','不及格科數：'+(failed.length||0),'不及格科目：'+(failed.length?failed.map(x=>x.subject+'('+x.score+'分)').join('、'):'無'),'最低三科：'+(lowest.length?lowest.map(x=>x.subject+' '+x.score+'分').join('、'):'無資料'),'表現較佳科目：'+(best.length?best.map(x=>x.subject+' '+x.score+'分').join('、'):'無資料'),'壓力指數：'+(s?.stressIndex||'無資料'),'系統輔導判定：'+getCounselingLevel(s),'風險類型：'+riskInfo(s||{}).label,'','【第一輪問卷回答】','學生自述不及格原因：'+own,'學生自述學習困難：'+(s?.learningBlindSpot||'無資料'),'學生希望老師協助：'+supports,'學生壓力來源：'+stressText,'學生讀書方法：'+(s?.studyMethod||'無資料'),'學生作息或娛樂時間：睡眠 '+(s?.routine?.sleep||'無資料')+'；熬夜 '+(s?.routine?.allNighter||'無資料')+'；娛樂 '+(s?.routine?.entertainment||'無資料')+'；外務 '+(s?.routine?.extracurricular||'無資料'),'其他學生自述：'+(s?.actionCommitment||'無資料'),'','【AI 追問資料】','是否觸發 AI 追問：'+((s?.followUpStatus||dialogs.length||s?.followUp?.q)?'是':'否'),'AI 追問狀態：'+(s?.followUpStatus||'無資料'),dialogLines,'','【家長回饋】','家長是否回覆：'+(p?'是':'否'),'家長觀察：'+(p?.observation||'無資料'),'家長擔心事項：'+(p?.stressLevel||p?.additionalConcerns||'無資料'),'家長可配合事項：'+(p?.supportMethods||'無資料'),'其他家長回饋：'+(p?.suggestions||'無資料'),'','【請輸出以下格式】','一、答題品質等級','請從以下四類擇一：良好 / 普通 / 待加強 / 明顯敷衍','二、判斷依據','請說明學生回答是否具體、有無指出原因、有無反思學習行為。','三、可用資訊','請列出學生回答中對導師有幫助的內容。','四、需要補充或追問的地方','請列出目前回答不清楚、需要導師進一步確認的地方。','五、導師建議處理','請建議導師可採取的處理方式，例如：接受此份回答、課堂提醒、請學生補充、短談確認、請重新填寫。','六、是否建議請學生補充','請回答：不需要 / 建議補充 / 建議重新填寫，並簡短說明原因。'].join('\n');
+}
+async function copyAnswerQualityText(studentId, btn){const s=SMAP[sid(studentId)];if(!s?.hasFeedback){alert('學生尚未填寫，無法複製答題品質分析文字。');return false;}const text=generateAnswerQualityPromptText(s);try{await navigator.clipboard.writeText(text);if(btn){const old=btn.textContent;btn.textContent='已複製';setTimeout(()=>btn.textContent=old||'複製文字',1600);}const status=document.getElementById('answerQualityStatus_'+sid(studentId));if(status)status.textContent='已複製答題品質分析文字';return true;}catch(e){prompt('請手動複製以下文字：',text);return false;}}
+function refreshAnswerQualityText(studentId){const s=SMAP[sid(studentId)];const ta=document.getElementById('answerQualityText_'+sid(studentId));const status=document.getElementById('answerQualityStatus_'+sid(studentId));if(ta&&s)ta.value=generateAnswerQualityPromptText(s);if(status)status.textContent='已重新整理文字';}
+function answerQualityPanel(s){const id=esc(s.studentId);const text=esc(generateAnswerQualityPromptText(s));return '<div class="card"><div class="card-head"><span class="card-title">答題品質分析用文字</span></div><div class="card-body"><div style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px">以下內容可直接複製到 ChatGPT、Gemini 或 NotebookLM，請 AI 協助判斷學生問卷回答是否具體、是否敷衍、是否需要補充。本系統不會在導師端自動呼叫 API。</div><textarea id="answerQualityText_'+id+'" class="copy-textarea">'+text+'</textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button class="btn-act teal" onclick="copyAnswerQualityText(\''+id+'\',this)">複製答題品質分析文字</button><button class="btn-act" onclick="refreshAnswerQualityText(\''+id+'\')">重新整理文字</button><span id="answerQualityStatus_'+id+'" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div><div style="margin-top:18px;border-top:1px solid var(--border);padding-top:16px"><div style="font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px">外部 AI 答題品質分析回填紀錄</div><div style="font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:10px">把外部 AI 產出的答題品質等級、判斷依據與建議貼在這裡，並由導師手動選定最後結果。按保存後會寫入 Google Sheet 的手動 AI 報告紀錄，類型為「答題品質分析」。</div><label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">導師手動判定結果</label><select class="sel" id="answerQualityLevel_'+id+'" style="margin-bottom:10px"><option value="">請選擇...</option><option value="良好">良好</option><option value="普通">普通</option><option value="待加強">待加強</option><option value="明顯敷衍">明顯敷衍</option><option value="需進一步確認">需進一步確認</option><option value="建議重新填寫">建議重新填寫</option></select><textarea id="answerQualityResult_'+id+'" placeholder="貼上外部 AI 產生的答題品質分析結果..." class="copy-textarea" style="min-height:140px;background:white"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button class="btn-act teal" onclick="saveAnswerQualityResult(\''+id+'\',this)">保存答題品質紀錄</button><span id="answerQualitySaveStatus_'+id+'" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div></div></div></div>';}
+async function saveAnswerQualityResult(studentId, btn){
+  const id=sid(studentId); const st=SMAP[id];
+  const ta=document.getElementById('answerQualityResult_'+id);
+  const status=document.getElementById('answerQualitySaveStatus_'+id);
+  const reportText=(ta?.value||'').trim();
+  const qualityLevel=(document.getElementById('answerQualityLevel_'+id)?.value||'').trim();
+  if(!qualityLevel){if(status)status.textContent='請先選擇導師手動判定結果';return;}
+  if(!reportText || reportText.length<10){if(status)status.textContent='請先貼上外部 AI 的答題品質分析結果';return;}
+  const finalReportText='【導師手動判定結果】'+qualityLevel+'\n\n【外部 AI 分析內容】\n'+reportText;
+  const settings=getPromptSettingsFromForm();
+  const old=btn?.textContent; if(btn){btn.disabled=true;btn.textContent='保存中…';}
+  try{
+    const d=await fetch(API,{method:'POST',body:JSON.stringify({action:'saveManualAnalysis',dashToken:DTOK,studentId:id,name:st?.name||'',reportType:'答題品質分析｜'+qualityLevel,reportText:finalReportText,promptText:generateAnswerQualityPromptText(st),aiModel:settings.aiModel})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||'保存失敗');
+    if(status)status.textContent='已保存到 Google Sheet';
+    if(ta)ta.value=''; const levelEl=document.getElementById('answerQualityLevel_'+id); if(levelEl)levelEl.value='';
+    if(st){st.answerQualityLevel=qualityLevel;st.answerQualityReportAt=d.timestamp||'';st.answerQualityReport=d.reportText||finalReportText;}
+  }catch(e){if(status)status.textContent='保存失敗：'+e.message;}
+  finally{if(btn){btn.disabled=false;btn.textContent=old||'保存答題品質紀錄';}}
+}
+
+
 // ── Looker Studio ───────────────────────────────────────────
 function renderReport() {
   const url = localStorage.getItem('n523_looker_url');
@@ -483,12 +745,22 @@ function saveLookerUrl() {
 function renderOverview(){
   const ss=Object.values(SMAP);
   const filled=ss.filter(s=>s.hasFeedback);
-  const avgS=filled.length?(filled.reduce((a,s)=>a+s.stressIndex,0)/filled.length).toFixed(1):0;
-  document.getElementById("overviewMetrics").innerHTML=`
-    <div class="metric blue"><div class="m-label">學生已填人數</div><div class="m-val blue">${filled.length}</div><div class="m-sub">全班 ${ss.length} 人</div></div>
-    <div class="metric teal"><div class="m-label">家長已回填</div><div class="m-val teal">${PARENT_DATA.length}</div><div class="m-sub">份家長問卷</div></div>
-    <div class="metric orange"><div class="m-label">平均壓力指數</div><div class="m-val orange">${avgS}</div><div class="m-sub">/ 10 分</div></div>
-    <div class="metric red"><div class="m-label">高壓預警</div><div class="m-val red">${filled.filter(s=>s.stressIndex>=8).length}</div><div class="m-sub">壓力 ≥ 8</div></div>`;
+  const avgS=filled.length?(filled.reduce((a,s)=>a+(+s.stressIndex||0),0)/filled.length).toFixed(1):0;
+  const levelCounts={"優先面談":0,"建議關懷":0,"一般追蹤":0,"穩定":0};
+  filled.forEach(s=>{const lv=getCounselingLevel(s);levelCounts[lv]=(levelCounts[lv]||0)+1;});
+  const parentCount=filled.filter(hasParentFeedback).length;
+  document.getElementById("overviewMetrics").innerHTML=
+    '<div><div class="metric-group-title">班級狀態</div><div class="metric-row">'+
+      overviewMetricCard('allFilled','已填寫',filled.length+' / '+ss.length,'點擊查看已填寫學生','blue')+
+      overviewMetricCard('parentReplied','家長已回填',parentCount,'點擊查看家長已回覆學生','teal')+
+      overviewMetricCard('pressureOverview','平均壓力',avgS+' / 10','點擊查看壓力分布','orange')+
+    '</div></div>'+
+    '<div><div class="metric-group-title">輔導優先</div><div class="metric-row">'+
+      overviewMetricCard('priorityInterview','優先面談',levelCounts['優先面談']||0,'需近期處理','red')+
+      overviewMetricCard('careSuggested','建議關懷',levelCounts['建議關懷']||0,'短談或關心','orange')+
+      overviewMetricCard('generalFollowUp','一般追蹤',levelCounts['一般追蹤']||0,'持續觀察','gray')+
+      overviewMetricCard('stable','穩定',levelCounts['穩定']||0,'目前相對穩定','green')+
+    '</div></div>';
   const sc={};ALL.forEach(r=>{if(r.score<60)sc[r.subject]=(sc[r.subject]||0)+1});
   const sb2=Object.entries(sc).sort((a,b)=>b[1]-a[1]).slice(0,8);
   drawChart("cSubject","bar",sb2.map(x=>x[0]),[{data:sb2.map(x=>x[1]),backgroundColor:"#3b82f6",borderRadius:5}],{indexAxis:"y"});
@@ -496,9 +768,129 @@ function renderOverview(){
   const rk=Object.keys(rc);
   document.getElementById("rLegend").innerHTML=rk.map((l,i)=>`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:${COLORS[i%COLORS.length]};display:inline-block"></span>${l.length>12?l.slice(0,12)+"…":l} ${rc[l]}</span>`).join("");
   drawChart("cReason","doughnut",rk,[{data:rk.map(k=>rc[k]),backgroundColor:COLORS,borderWidth:0}],{cutout:"55%"});
-  const warns=filled.filter(s=>s.stressIndex>=8||s.subjects.length>=4);
+  const meta=overviewFilterMeta(activeOverviewFilter);
+  const rows=filterStudentsByOverviewCard(ss,activeOverviewFilter);
+  document.getElementById("overviewFilterNote").innerHTML='<div><strong>目前查看：'+esc(meta.title)+'</strong><br><span>共 '+rows.length+' 人｜'+esc(meta.desc)+'</span></div><button class="btn-act" onclick="setOverviewFilter(\'all\')">清除篩選 / 顯示全部</button>';
+  document.getElementById("overviewProblemBody").innerHTML=!rows.length?`<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--ink2)">無符合條件的學生</td></tr>`
+    :rows.map(s=>{
+      const level=counselingInfo(s);
+      const parentDone=hasParentFeedback(s);
+      return `<tr>
+        <td>${studentNameCell(s)}</td>
+        <td style="font-size:12px;color:var(--ink2);font-family:monospace">${esc(s.studentId)}</td>
+        <td>${pill(level.label,level.cls)}</td>
+        <td>${pill((s.subjects?.length||0)+"科",(s.subjects?.length||0)>=4?"p-red":(s.subjects?.length||0)>=2?"p-orange":"p-amber")}</td>
+        <td>${s.hasFeedback?sb(s.stressIndex):`<span class="muted">無資料</span>`}</td>
+        <td>${parentDone?pill("已回饋","p-green"):pill("未回饋","p-gray")}</td>
+        <td style="font-size:12px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.learningBlindSpot)||"—"}</td>
+        <td>${trackingSelect(s.studentId)}</td>
+        <td>${overviewActionButtons(s)}</td>
+      </tr>`;
+    }).join("");
+  const warns=filled.filter(s=>getCounselingLevel(s)==="優先面談");
   document.getElementById("warningList").innerHTML=!warns.length?`<div class="empty">✅ 目前無高風險學生</div>`
-    :`<div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>科數</th><th>壓力</th><th>盲點</th></tr></thead><tbody>${warns.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td><strong>${esc(s.name)}</strong></td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td>${sb(s.stressIndex)}</td><td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.learningBlindSpot)||"—"}</td></tr>`).join("")}</tbody></table></div>`;
+    :`<div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>科數</th><th>壓力</th><th>盲點</th></tr></thead><tbody>${warns.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td>${studentNameCell(s)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td>${sb(s.stressIndex)}</td><td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.learningBlindSpot)||"—"}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+function getPromptSettingsFromForm(){
+  const customPrompt=(document.getElementById("customPromptInput")?.value ?? PROMPT_SETTINGS.customPrompt ?? "").trim();
+  const aiModel=(document.getElementById("aiModelInput")?.value ?? PROMPT_SETTINGS.aiModel ?? "").trim();
+  return {customPrompt, aiModel};
+}
+function buildCopyText(s){
+  const settings=getPromptSettingsFromForm();
+  const parts=[];
+  if(settings.aiModel)parts.push("【AI模型】\n"+settings.aiModel);
+  if(settings.customPrompt)parts.push("【自訂Prompt】\n"+settings.customPrompt);
+  parts.push("【學生資料】\n"+(s?.analysisText||""));
+  return parts.filter(Boolean).join("\n\n");
+}
+function reportPill(label, cls, onclick){return '<button type="button" class="pill '+cls+' report-pill" onclick="'+onclick+'">'+esc(label)+'</button>';}
+function showReportModal(title, sub, text){
+  document.getElementById("scoreModalTitle").textContent=title;
+  document.getElementById("scoreModalSub").textContent=sub||"";
+  document.getElementById("scoreModalContent").innerHTML=aiReportHtml(text||"尚無報告內容","尚無報告內容");
+  document.getElementById("scoreModal").classList.add("on");
+}
+function showAnswerQualityReport(studentId){
+  const st=SMAP[sid(studentId)];
+  if(st?.answerQualityReport){showReportModal("答題品質分析報告", (st.name||"")+"・"+(st.answerQualityLevel||"未標示")+(st.answerQualityReportAt?"・"+String(st.answerQualityReportAt).slice(0,16):""), st.answerQualityReport);return;}
+  openStudent(studentId);
+}
+function showCounselingReport(studentId){
+  const st=SMAP[sid(studentId)];
+  if(st?.savedReport && String(st.savedReportType||"").indexOf("答題品質分析")!==0){showReportModal("輔導分析報告", (st.name||"")+"・"+(st.savedReportType||"輔導報告")+(st.savedReportAt?"・"+String(st.savedReportAt).slice(0,16):""), st.savedReport);return;}
+  openStudent(studentId);
+}
+
+function loadPromptSettingsToForm(){
+  const p=document.getElementById("customPromptInput");
+  const m=document.getElementById("aiModelInput");
+  if(p)p.value=PROMPT_SETTINGS.customPrompt||"";
+  if(m)m.value=PROMPT_SETTINGS.aiModel||"";
+}
+async function savePromptSettings(){
+  const status=document.getElementById("promptSaveStatus")||document.getElementById("analyzeStatusAi");
+  const settings=getPromptSettingsFromForm();
+  if(status)status.textContent="保存中…";
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"savePromptSettings",dashToken:DTOK,customPrompt:settings.customPrompt,aiModel:settings.aiModel})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||"保存失敗");
+    PROMPT_SETTINGS=d.settings||settings;
+    if(status)status.textContent="已保存，下次後台仍會帶入";
+  }catch(e){ if(status)status.textContent="保存失敗："+e.message; }
+}
+function manualReportPanel(s){
+  const id=esc(s.studentId);
+  const saved=s.savedReport?`<div style="margin-top:14px"><div style="font-size:13px;color:var(--ink2);font-weight:800;margin-bottom:8px">已保存報告${s.savedReportAt?`・${esc(String(s.savedReportAt).slice(0,16))}`:""}${s.savedAiModel?`・模型：${esc(s.savedAiModel)}`:""}</div>${aiReportHtml(s.savedReport,"尚無已保存報告")}</div>`:`<div class="muted" style="margin-top:12px">尚未保存外部 AI 報告</div>`;
+  return `<div class="card"><div class="card-head"><span class="card-title">AI 報告紀錄保存</span></div><div class="card-body">
+    <label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">報告類型</label>
+    <select class="sel" id="manualType_${id}" style="margin-bottom:10px"><option value="學生輔導報告">學生輔導報告</option><option value="面談紀錄">面談紀錄</option><option value="家長溝通紀錄">家長溝通紀錄</option><option value="追蹤紀錄">追蹤紀錄</option></select>
+    <textarea id="manualReport_${id}" placeholder="把外部 AI 產生的報告貼在這裡，按下保存後會寫入 Google Sheet。" style="width:100%;min-height:160px;border:1px solid var(--border);border-radius:12px;padding:12px;font-family:inherit;font-size:14px;line-height:1.7;resize:vertical"></textarea>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn-act teal" onclick="saveManualReport('${id}',this)">保存報告紀錄</button><span id="manualStatus_${id}" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
+    ${saved}
+  </div></div>`;
+}
+async function saveManualReport(studentId, btn){
+  const id=sid(studentId); const s=SMAP[id];
+  const ta=document.getElementById("manualReport_"+id);
+  const type=document.getElementById("manualType_"+id)?.value||"學生輔導報告";
+  const status=document.getElementById("manualStatus_"+id);
+  const reportText=(ta?.value||"").trim();
+  const settings=getPromptSettingsFromForm();
+  if(!reportText || reportText.length<20){ if(status)status.textContent="請貼上完整報告後再保存"; return; }
+  const old=btn?.textContent; if(btn){btn.disabled=true;btn.textContent="保存中…";}
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"saveManualAnalysis",dashToken:DTOK,studentId:id,name:s?.name||"",reportType:type,reportText,promptText:settings.customPrompt,aiModel:settings.aiModel})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||"保存失敗");
+    if(s){s.savedReport=d.reportText||reportText;s.savedReportAt=d.timestamp||"";s.savedReportType=d.reportType||type;s.savedPrompt=d.promptText||settings.customPrompt;s.savedAiModel=d.aiModel||settings.aiModel;}
+    if(status)status.textContent="已保存到 Google Sheet";
+    if(ta)ta.value="";
+    if(CURRENT_STUDENT_ID===id)renderStudentPage(); else renderAI();
+  }catch(e){ if(status)status.textContent="保存失敗："+e.message; }
+  finally{ if(btn){btn.disabled=false;btn.textContent=old||"保存報告紀錄";} }
+}
+function analysisStatusPill(s){
+  if(s.savedReport)return pill("已存報告","p-purple");
+  const st=s.analysisStatus || (s.hasFeedback ? "Ready to Copy" : "Insufficient Data");
+  if(st==="Ready to Copy")return pill("可複製","p-green");
+  if(st==="Follow-up Failed")return pill("追問失敗仍可複製","p-amber");
+  return pill("資料不足","p-gray");
+}
+async function copyAnalysisText(studentId, btn){
+  const s=SMAP[sid(studentId)];
+  const text=buildCopyText(s);
+  if(!s?.hasFeedback || !s?.analysisText){ alert("目前資料不足，無法複製分析文字。"); return false; }
+  try{
+    await navigator.clipboard.writeText(text);
+    if(btn){const old=btn.textContent;btn.textContent="已複製";setTimeout(()=>btn.textContent=old||"複製分析文字",1600);}
+    const status=document.getElementById("analyzeStatus")||document.getElementById("analyzeStatusAi");
+    if(status)status.textContent="已複製 "+s.name+" 的分析文字";
+    return true;
+  }catch(e){
+    prompt("請手動複製以下文字：", text);
+    return false;
+  }
 }
 
 // ── 填寫狀況 ────────────────────────────────────────────────
@@ -514,65 +906,119 @@ function renderStudents(){
     return true;
   });
   document.getElementById("stTitle").textContent=`學生列表（共 ${ss.length} 人）`;
-  document.getElementById("stBody").innerHTML=!ss.length?`<tr><td colspan=\"8\" style=\"text-align:center;padding:24px;color:var(--ink2)\">無符合條件的學生</td></tr>`
-    :ss.sort((a,b)=>{if(a.hasFeedback!==b.hasFeedback)return a.hasFeedback?-1:1;return String(a.studentId).localeCompare(String(b.studentId));}).map((s,i)=>`<tr>
+  document.getElementById("stBody").innerHTML=!ss.length?`<tr><td colspan="12" style="text-align:center;padding:24px;color:var(--ink2)">無符合條件的學生</td></tr>`
+    :ss.sort((a,b)=>{if(a.hasFeedback!==b.hasFeedback)return a.hasFeedback?-1:1;return String(a.studentId).localeCompare(String(b.studentId));}).map((s,i)=>{const risk=riskInfo(s), level=counselingInfo(s), qInfo=answerQualityResultInfo(s), aInfo=counselingAnalysisInfo(s); return `<tr>
       <td style="color:var(--ink3)">${i+1}</td>
-      <td style="cursor:pointer;color:var(--blue-dk);font-weight:900" onclick="showScoreModal('${esc(s.studentId)}','all')" title="點擊查看各科詳細分析"><u style="text-decoration-style:dashed;text-underline-offset:4px">${esc(s.name)}</u></td>
+      <td>${studentNameCell(s)}</td>
       <td style="font-size:12px;color:var(--ink2);font-family:monospace">${esc(s.studentId)}</td>
-      <td style="cursor:pointer" onclick="showScoreModal('${esc(s.studentId)}','fail')">${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":s.subjects.length>=2?"p-orange":"p-amber")}</td>
+      <td>${pill(risk.label,risk.cls)}</td>
+      <td>${pill(level.label,level.cls)}</td>
+      <td style="cursor:pointer" onclick="openStudent('${esc(s.studentId)}')">${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":s.subjects.length>=2?"p-orange":"p-amber")}</td>
       <td>${s.hasFeedback?sb(s.stressIndex):`<span style="color:var(--ink3)">—</span>`}</td>
       <td style="font-size:12px;color:var(--ink3)">${s.timestamp?esc(String(s.timestamp).slice(0,16)):"—"}</td>
       <td>${pill(s.hasFeedback?"已填寫":"未填寫",s.hasFeedback?"p-green":"p-gray")}</td>
-      <td>${s.qualityFlag?.includes("敷衍")?pill("需面談","p-red"):pill(s.aiTeacher?"已生成":"—",s.aiTeacher?"p-purple":"p-gray")}</td>
-    </tr>`).join("");
+      <td>${trackingSelect(s.studentId)}</td>
+      <td><div>${reportPill('答題品質：'+qInfo.label,qInfo.cls,"showAnswerQualityReport('"+esc(s.studentId)+"')")}</div><div style="margin-top:6px;font-size:12px;color:var(--ink3)">${qInfo.at?esc(String(qInfo.at).slice(0,16)):'尚未回填'}</div></td>
+      <td><div>${reportPill(aInfo.label,aInfo.cls,"showCounselingReport('"+esc(s.studentId)+"')")}</div><div style="margin-top:8px;font-size:14px;color:var(--ink2);line-height:1.5">${esc(aInfo.detail)}</div></td>
+    </tr>`}).join("");
 }
 
-function showScoreModal(id, mode) {
-  const s = SMAP[id]; if(!s) return;
-  const isAll = mode === 'all'; const list = isAll ? s.allSubjects : s.subjects;
-  document.getElementById("scoreModalTitle").textContent = isAll ? "📈 所有成績與各科分析" : "⚠️ 不及格科目與各科分析";
-  document.getElementById("scoreModalSub").textContent = `${s.name} (${s.studentId})`;
-
-  let aiSubjObj = {};
-  try { aiSubjObj = JSON.parse(s.aiSubject || "{}"); } catch(e){}
-
-  if(!list.length) {
-    document.getElementById("scoreModalContent").innerHTML = `<div class="empty">無相關資料</div>`;
-  } else {
-     let html = `<div class="tbl-wrap" style="max-height:450px;overflow-y:auto;padding-right:8px;"><table><thead><tr><th style="width:25%">科目 / 分數</th><th>反思、策略與 AI 專屬分析</th></tr></thead><tbody>`;
-     list.forEach(x => {
-       const aiText = aiSubjObj[x.subject] || "";
-       html += `<tr style="background:${x.score>=60?'transparent':'var(--red-bg)'};border-bottom:1px solid var(--border)">
-       <td style="vertical-align:top;padding-top:16px;">
-         <div style="font-weight:900;color:${x.score>=60?'var(--green-dk)':'var(--red-dk)'};font-size:15px;margin-bottom:6px">${esc(x.subject)}</div>
-         <div style="color:${x.score>=60?'var(--green)':'var(--red)'};font-weight:900;font-size:18px">${x.score} 分</div>
-       </td>
-       <td style="font-size:13px;color:var(--ink2);line-height:1.6;padding:16px 12px;">
-         ${x.reason ? `<div style="margin-bottom:6px"><span style="display:inline-block;background:white;padding:4px 8px;border-radius:6px;border:1px solid var(--border);"><strong>💭 學生反思：</strong>${esc(x.reason)}</span></div>` : ''}
-         ${x.strategy ? `<div style="margin-bottom:6px"><span style="display:inline-block;background:white;padding:4px 8px;border-radius:6px;border:1px solid var(--border);"><strong>🎯 改進策略：</strong>${esc(x.strategy)}</span></div>` : ''}
-         ${aiText ? `<div style="color:var(--purple-dk); background:var(--purple-bg); padding:10px 12px; border-radius:8px; border:1px solid var(--purple-bd); margin-top:8px;">🤖 <strong>AI 針對本科建議：</strong><br>${esc(aiText)}</div>` : ''}
-       </td>
-       </tr>`;
-     });
-     document.getElementById("scoreModalContent").innerHTML = html + `</tbody></table></div>`;
-  }
-  document.getElementById("scoreModal").classList.add("on");
-}
+function showScoreModal(id, mode) { openStudent(id); }
 function closeScoreModal(){document.getElementById("scoreModal").classList.remove("on");}
+
+function renderStudentPage(){
+  const id=CURRENT_STUDENT_ID; const s=SMAP[id]; const el=document.getElementById("studentDetailContent");
+  const btn=document.getElementById("btnCopyAnalysis");
+  if(!s){el.innerHTML=`<div class="empty">請從學生列表點選姓名</div>`; if(btn)btn.style.display="none"; return;}
+  if(btn){btn.style.display=(s.hasFeedback&&s.analysisText)?"inline-block":"none";btn.onclick=()=>copyAnalysisText(id,btn);}
+  const p=parentFor(id); const risk=riskInfo(s); const level=counselingInfo(s); const suggestion=getCounselingSuggestion(s);
+  const failed=(s.subjects||[]).slice().sort((a,b)=>a.score-b.score);
+  const lowest=(s.allSubjects||[]).slice().sort((a,b)=>a.score-b.score).slice(0,3);
+  const ownReasons=[...new Set(failed.flatMap(x=>splitReasonParts(x.reason)))];
+  const supportNeeds=[...new Set(failed.flatMap(x=>teacherGuidanceParts(x.reason)))];
+  const subjectRowsHtml=(s.allSubjects||[]).map(x=>`<tr><td><strong>${esc(x.subject)}</strong><br>${rankBadge(x)}</td><td style="font-weight:900;color:${x.score<60?'var(--red)':'var(--green)'}">${x.score}</td><td>${x.reason?esc(x.reason):'<span class="muted">無資料</span>'}</td><td>${x.strategy?esc(x.strategy):'<span class="muted">無資料</span>'}</td></tr>`).join("")||`<tr><td colspan="4" class="muted">無資料</td></tr>`;
+  el.innerHTML=`
+    <div class="page-title">${esc(s.name)} 個人分析</div><div class="page-sub">${esc(s.studentId)}・${s.timestamp?esc(String(s.timestamp).slice(0,16)):"尚未填寫"}</div>
+    <div class="kv-grid">
+      <div class="kv"><div class="kv-label">風險類型</div><div class="kv-val">${pill(risk.label,risk.cls)}</div></div>
+      <div class="kv"><div class="kv-label">輔導判定</div><div class="kv-val">${pill(level.label,level.cls)}</div></div>
+      <div class="kv"><div class="kv-label">不及格科目</div><div class="kv-val">${failed.length} 科</div></div>
+      <div class="kv"><div class="kv-label">壓力指數</div><div class="kv-val">${s.hasFeedback?sb(s.stressIndex):'<span class="muted">尚未填寫</span>'}</div></div>
+      <div class="kv"><div class="kv-label">導師追蹤狀態</div><div class="kv-val">${trackingSelect(id)}</div></div>
+    </div>
+    <div class="detail-grid">
+      <div>
+        <div class="card"><div class="card-head"><span class="card-title">成績與問卷摘要</span></div><div class="card-body">
+          <div style="margin-bottom:14px"><strong>不及格科目：</strong>${failed.length?failed.map(x=>pill(`${esc(x.subject)} ${x.score}`,x.score<40?'p-red':'p-orange')).join(' '):pill('無','p-green')}</div>
+          <div style="margin-bottom:14px"><strong>最低三科：</strong>${lowest.length?lowest.map(x=>`${esc(x.subject)} ${x.score}${x.rank?`（班排${x.rank}/${x.total}）`:''}`).join('｜'):'無資料'}</div>
+          <div style="margin-bottom:14px"><strong>學生自身因素：</strong><div class="reason-cloud" style="margin-top:8px">${ownReasons.length?ownReasons.map(x=>pill(esc(x),'p-blue')).join(''): '<span class="muted">無資料</span>'}</div></div>
+          <div style="margin-bottom:14px"><strong>希望老師協助：</strong><div class="reason-cloud" style="margin-top:8px">${supportNeeds.length?supportNeeds.map(x=>pill(esc(x),'p-amber')).join(''): '<span class="muted">無資料</span>'}</div></div>
+          <div style="margin-bottom:14px"><strong>學習盲點：</strong><br>${formatMissing(s.learningBlindSpot)}</div>
+          <div style="margin-top:14px;background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:10px;padding:12px 14px"><strong>系統建議：</strong>${esc(suggestion)}</div>
+        </div></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">各科明細</span></div><div class="tbl-wrap"><table><thead><tr><th>科目</th><th>分數</th><th>不及格原因</th><th>改進策略</th></tr></thead><tbody>${subjectRowsHtml}</tbody></table></div></div>
+      </div>
+      <div>
+        <div class="card"><div class="card-head"><span class="card-title">自評雷達圖</span></div><div class="card-body"><div style="position:relative;height:260px"><canvas id="cStudentRadar"></canvas></div></div></div>
+        <div class="card"><div class="card-head"><span class="card-title">家長回饋</span></div><div class="card-body" style="font-size:14px;line-height:1.8">${p?`<strong>反應：</strong>${formatMissing(p.situation)}<br><strong>壓力：</strong>${formatMissing(p.stressLevel)}<br><strong>觀察：</strong>${formatMissing(p.observation)}<br><strong>支持：</strong>${formatMissing(p.supportMethods)}<br><strong>建議：</strong>${formatMissing(p.suggestions)}`:'<span class="muted">尚未填寫</span>'}</div></div>
+        <div class="card"><div class="card-head"><span class="card-title">AI 分析用整理文字</span></div><div class="card-body">${s.analysisText?`<button class="btn-act purple" onclick="copyAnalysisText('${esc(id)}',this)" style="margin-bottom:10px;background:var(--purple);color:white;border-color:var(--purple)">📋 複製 AI 分析用整理文字</button>${aiReportHtml(s.analysisText,"尚無分析文字")}`:'<span class="muted">尚無分析文字</span>'}</div></div>${answerQualityPanel(s)}${manualReportPanel(s)}
+      </div>
+    </div>`;
+  drawChart("cStudentRadar","radar",["上課專注","課後落實","專業理解","考試應對"],[{data:[s.selfRating.focus||0,s.selfRating.review||0,s.selfRating.understanding||0,s.selfRating.examCoping||0],backgroundColor:"rgba(59,130,246,0.15)",borderColor:"#3b82f6",pointBackgroundColor:"#3b82f6"}],{scales:{r:{min:0,max:5,ticks:{stepSize:1}}}});
+}
 
 function renderSubjects(){
   const sc={};ALL.forEach(r=>{if(r.score<60)sc[r.subject]=(sc[r.subject]||0)+1});
-  document.getElementById("subjBtns").innerHTML=Object.keys(sc).sort((a,b)=>sc[b]-sc[a]).map(s=>`<button class="btn-act" onclick="showSubjDetail('${esc(s)}')">${esc(s)} (${sc[s]})</button>`).join("");
-  const stC={};ALL.forEach(r=>{if(r.score<60&&r.strategy)stC[r.strategy]=(stC[r.strategy]||0)+1});
+  const ranked=Object.keys(sc).sort((a,b)=>sc[b]-sc[a]);
+  document.getElementById("subjBtns").innerHTML=ranked.length?ranked.map(s=>`<button class="btn-act" onclick="showSubjDetail('${esc(s)}')"><strong>${esc(s)}</strong>：${sc[s]}人不及格</button>`).join(""):`<span class="muted">目前無不及格科目資料</span>`;
+  const stC={};ALL.forEach(r=>{if(r.score<60&&r.strategy)String(r.strategy).split(/[；;]/).map(x=>x.trim()).filter(Boolean).forEach(k=>stC[k]=(stC[k]||0)+1)});
   const sk=Object.keys(stC).sort((a,b)=>stC[b]-stC[a]);
   drawChart("cStrategy","bar",sk.map(k=>k.length>14?k.slice(0,14)+"…":k),[{data:sk.map(k=>stC[k]),backgroundColor:"#8b5cf6",borderRadius:6}],{indexAxis:"y"});
-  const stud=Object.values(SMAP).filter(s=>s.selfRating.focus>0);
-  const avg=k=>stud.length?Math.round(stud.reduce((s,st)=>s+st.selfRating[k],0)/stud.length*10)/10:0;
-  drawChart("cRadar","radar",["上課專注","課後落實","專業理解","考試應對"],[{data:[avg("focus"),avg("review"),avg("understanding"),avg("examCoping")],backgroundColor:"rgba(59,130,246,0.15)",borderColor:"#3b82f6",pointBackgroundColor:"#3b82f6"}],{scales:{r:{min:0,max:5,ticks:{stepSize:1}}}});
+  if(ranked.length&&!document.getElementById("subjDetail").dataset.active)showSubjDetail(ranked[0]);
 }
 function showSubjDetail(subj){
-  const rows=ALL.filter(r=>r.subject===subj&&r.score<60);const rc={};rows.forEach(r=>{if(r.reason)rc[r.reason]=(rc[r.reason]||0)+1});
-  document.getElementById("subjDetail").innerHTML=`<div style="background:var(--blue-bg);padding:16px;border-radius:var(--r-sm);font-size:14px;color:var(--blue-dk);border:1px solid var(--blue-bd)"><strong>${esc(subj)}</strong> — 不及格 ${rows.length} 人<div style="margin-top:10px">${Object.entries(rc).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span style="margin-right:16px"><strong>${n}</strong>人：${esc(r)}</span>`).join("")}</div></div>`;
+  const rows=subjectRows(subj);
+  document.getElementById("subjDetail").dataset.active=subj;
+  const denom=Object.values(SMAP).filter(s=>s.hasFeedback&&s.allSubjects.some(x=>x.subject===subj)).length||rows.length;
+  const avgStress=rows.length?(rows.reduce((a,r)=>a+(+SMAP[sid(r.studentId)]?.stressIndex||0),0)/rows.length).toFixed(1):"0";
+  const hi=rows.filter(r=>(+SMAP[sid(r.studentId)]?.stressIndex||0)>=8).length;
+  const rc=countParts(rows, r=>splitReasonParts(r.reason));
+  const tg=countParts(rows, r=>teacherGuidanceParts(r.reason));
+  const reasonHtml=Object.entries(rc).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span class="pill p-blue" style="margin:0 8px 8px 0"><strong>${n}</strong>人：${esc(r)}</span>`).join("")||'<span class="muted">無資料</span>';
+  const teacherHtml=Object.entries(tg).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span class="pill p-amber" style="margin:0 8px 8px 0"><strong>${n}</strong>人：${esc(r)}</span>`).join("")||'<span class="muted">無資料</span>';
+  const rowById={};rows.forEach(r=>rowById[sid(r.studentId)]=r);
+  const subjectStudents=rows.map(r=>SMAP[sid(r.studentId)]).filter(Boolean);
+  const sortedStudents=sortSubjectStudents(subjectStudents,subj,subjectSortType(subj));
+  const list=sortedStudents.map(s=>{
+    const r=rowById[sid(s.studentId)]||{};
+    const level=counselingInfo(s), q=answerQualityResultInfo(s);
+    const score=getSubjectScore(s,subj);
+    return `<tr>
+      <td>${studentNameCell(s)}</td>
+      <td style="font-family:monospace;color:var(--ink2)">${esc(s.studentId)}</td>
+      <td style="font-weight:900;color:var(--red)">${score===null?'無資料':score}</td>
+      <td>${pill((s.subjects?.length||0)+"科",(s.subjects?.length||0)>=4?"p-red":(s.subjects?.length||0)>=2?"p-orange":"p-amber")}</td>
+      <td>${s.stressIndex?sb(s.stressIndex):'<span class="muted">無資料</span>'}</td>
+      <td>${pill(level.label,level.cls)}</td>
+      <td style="max-width:260px;font-size:13px">${splitReasonParts(r.reason).map(esc).join('；')||'無資料'}</td>
+      <td>${s.followUpStatus?pill(esc(s.followUpStatus),String(s.followUpStatus).includes('Failed')?'p-amber':'p-teal'):pill('無資料','p-gray')}</td>
+      <td>${hasParentFeedback(s)?pill('已回覆','p-green'):pill('未回覆','p-gray')}</td>
+      <td style="font-size:12px;color:var(--ink3)">${s.timestamp?esc(String(s.timestamp).slice(0,16)):'無資料'}</td>
+      <td><div>${reportPill('答題品質：'+q.label,q.cls,"showAnswerQualityReport('"+esc(s.studentId)+"')")}</div><div style="margin-top:6px;font-size:12px;color:var(--ink3)">${q.at?esc(String(q.at).slice(0,16)):'未分析'}</div></td>
+      <td>${s.analysisText?`<button class="btn-act purple" onclick="copyAnalysisText('${esc(s.studentId)}',this)" style="padding:5px 8px;font-size:11px;background:var(--purple);color:white;border-color:var(--purple)">複製文字</button>`:'<span class="muted">資料不足</span>'}</td>
+    </tr>`;
+  }).join("")||`<tr><td colspan="12" style="text-align:center;color:var(--ink2);padding:20px">無資料</td></tr>`;
+  const advice=buildSubjectAdvice(subj,rows,rc,tg);
+  document.getElementById("subjDetail").innerHTML=`
+    <div class="metrics" style="margin-bottom:16px">
+      <div class="metric red"><div class="m-label">不及格人數</div><div class="m-val red">${rows.length}</div><div class="m-sub">${subj}</div></div>
+      <div class="metric orange"><div class="m-label">不及格比例</div><div class="m-val orange">${denom?Math.round(rows.length/denom*100):0}%</div><div class="m-sub">已填且有此科 ${denom} 人</div></div>
+      <div class="metric blue"><div class="m-label">平均壓力</div><div class="m-val blue">${avgStress}</div><div class="m-sub">不及格學生</div></div>
+      <div class="metric red"><div class="m-label">高壓學生</div><div class="m-val red">${hi}</div><div class="m-sub">壓力 ≥ 8</div></div>
+    </div>
+    <div class="grid2"><div class="card"><div class="card-head"><span class="card-title">學生自身因素</span></div><div class="card-body reason-cloud">${reasonHtml}</div></div><div class="card"><div class="card-head"><span class="card-title">教學支持需求</span></div><div class="card-body reason-cloud">${teacherHtml}</div></div></div>
+    <div class="card" style="padding:0"><div class="card-head"><span class="card-title">目前科目：${esc(subj)}｜不及格人數：${rows.length} 人</span><div>${subjectSortSelect(subj)}</div></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>學號</th><th>該科分數</th><th>不及格科數</th><th>壓力指數</th><th>輔導判定</th><th>學生主要原因</th><th>AI追問狀態</th><th>家長是否回覆</th><th>填寫時間</th><th>答題品質</th><th>AI分析用整理文字</th></tr></thead><tbody>${list}</tbody></table></div></div>
+    <div class="card"><div class="card-head"><span class="card-title">科目輔導整理建議</span></div><div class="card-body">${aiReportHtml(advice)}</div></div>`;
 }
 
 function renderStress(){
@@ -583,21 +1029,27 @@ function renderStress(){
     <div class="metric blue"><div class="m-label">低壓人數 (≤4)</div><div class="m-val blue">${ss.filter(s=>s.stressIndex>0&&s.stressIndex<=4).length}</div><div class="m-sub">狀態相對穩定</div></div>`;
   const bins=Array(10).fill(0);ss.forEach(s=>{if(s.stressIndex>0)bins[s.stressIndex-1]++});
   drawChart("cStress","bar",["1","2","3","4","5","6","7","8","9","10"],[{data:bins,backgroundColor:bins.map((_,i)=>i>=7?"#ef4444":i>=4?"#f59e0b":"#22c55e"),borderRadius:6}]);
+  const groups=[
+    {label:"高壓高風險",cls:"p-red",cond:s=>(+s.stressIndex)>=8&&(s.subjects?.length||0)>=3,rule:"壓力 ≥ 8 且不及格 ≥ 3科",advice:"優先面談"},
+    {label:"中壓高風險",cls:"p-orange",cond:s=>(+s.stressIndex)>=5&&(+s.stressIndex)<=7&&(s.subjects?.length||0)>=4,rule:"壓力 5-7 且不及格 ≥ 4科",advice:"安排讀書策略輔導"},
+    {label:"低壓高風險",cls:"p-amber",cond:s=>(+s.stressIndex)<=4&&(s.subjects?.length||0)>=3,rule:"壓力 ≤ 4 但不及格 ≥ 3科",advice:"提醒危機感，確認是否低估問題"},
+    {label:"高壓低風險",cls:"p-purple",cond:s=>(+s.stressIndex)>=8&&(s.subjects?.length||0)<=1,rule:"壓力 ≥ 8 但不及格 ≤ 1科",advice:"提供情緒支持與肯定"}
+  ];
+  document.getElementById("stressCrossBody").innerHTML=groups.map(g=>{const list=ss.filter(g.cond);return `<tr><td>${pill(g.label,g.cls)}</td><td>${g.rule}</td><td><strong>${list.length}</strong></td><td>${g.advice}</td><td style="font-size:13px">${list.length?list.map(s=>studentNameCell(s)).join('、'):'<span class="muted">無</span>'}</td></tr>`}).join("");
   document.getElementById("stressBody").innerHTML=!hi.length?`<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--ink2)">無高壓學生</td></tr>`
-    :hi.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td><strong>${esc(s.name)}</strong></td><td>${sb(s.stressIndex)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td style="font-size:13px;max-width:160px">${esc(s.learningBlindSpot)||"—"}</td><td style="font-size:13px;max-width:160px">${esc(s.actionCommitment)||"—"}</td></tr>`).join("");
+    :hi.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td>${studentNameCell(s)}</td><td>${sb(s.stressIndex)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td style="font-size:13px;max-width:160px">${esc(s.learningBlindSpot)||"—"}</td><td style="font-size:13px;max-width:160px">${esc(s.actionCommitment)||"—"}</td></tr>`).join("");
 }
 
 function renderAI(){
+  loadPromptSettingsToForm();
   const q=(document.getElementById("srchAI")?.value||"").toLowerCase();
-  const ss=Object.values(SMAP).filter(s=>(s.aiStudent||s.aiTeacher)&&(!q||s.name.toLowerCase().includes(q)));
+  const ss=Object.values(SMAP).filter(s=>s.hasFeedback&&s.analysisText&&(!q||s.name.toLowerCase().includes(q)));
   const el=document.getElementById("aiContainer");
-  if(!ss.length){el.innerHTML=`<div class="empty">🤖 尚無 AI 建議（學生送出問卷後約 10 秒自動生成）</div>`;return}
-  el.innerHTML=ss.map(s=>`<div class="ai-card">
-    <div class="ai-name">${esc(s.name)} <span style="font-size:13px;font-weight:700;color:var(--ink2)">壓力${s.stressIndex}/10・${s.subjects.length}科</span><button class="btn-act" style="font-size:11px;padding:6px 12px" onclick="window.print()">列印</button></div>
-    ${s.aiStudent?`<div class="ai-sec"><span class="ai-tag ai-tag-s">✏️ 給學生</span><div class="ai-text">${esc(s.aiStudent)}</div></div>`:''}
-    ${s.aiParent?`<div class="ai-sec"><span class="ai-tag ai-tag-p">📮 給家長</span><div class="ai-text">${esc(s.aiParent)}</div></div>`:''}
-    ${s.aiTeacher?`<div class="ai-sec"><span class="ai-tag ai-tag-t">📋 導師策略</span><div class="ai-text">${esc(s.aiTeacher)}</div></div>`:''}
-  </div>`).join("");
+  if(!ss.length){el.innerHTML=`<div class="empty">尚無可複製的分析文字；學生填完問卷後會自動整理。</div>`;return}
+  el.innerHTML=ss.map(s=>{const level=counselingInfo(s);return `<div class="ai-card">
+    <div class="ai-name">${esc(s.name)} <span style="font-size:13px;font-weight:700;color:var(--ink2)">壓力${s.stressIndex||"—"}/10・${s.subjects.length}科・${pill(level.label,level.cls)}</span><button class="btn-act purple" style="font-size:11px;padding:6px 12px;background:var(--purple);color:white;border-color:var(--purple)" onclick="copyAnalysisText('${esc(s.studentId)}',this)">複製分析文字</button></div>
+    <div class="ai-sec"><span class="ai-tag ai-tag-t">📋 可貼到外部 AI 的分析文字</span><div class="ai-text">${aiReportHtml(s.analysisText,"尚無分析文字")}</div></div>${manualReportPanel(s)}
+  </div>`}).join("");
 }
 
 function renderPLinks(){
@@ -660,10 +1112,10 @@ function renderCompare(){
   }
   const s=SMAP[id];const p=PARENT_DATA.find(x=>sid(x.studentId)===sid(id));
   
-  btn.style.display = (s && p) ? "inline-block" : "none";
-  recordBtn.style.display = s ? "inline-block" : "none";
-  recordWrap.style.display = s ? "inline-flex" : "none";
-  recordTypeWrap.style.display = s ? "inline-flex" : "none";
+  btn.style.display = (s && s.hasFeedback && s.analysisText) ? "inline-block" : "none";
+  recordBtn.style.display = "none";
+  recordWrap.style.display = "none";
+  recordTypeWrap.style.display = "none";
 
   const parsedDialogs = dialogItems(s?.dialogHistory);
   const legacyDialogs = parsedDialogs.length ? [] : dialogItems(s?.followUp?.q);
@@ -677,10 +1129,10 @@ function renderCompare(){
     const aiText = aiSubjObj[x.subject] || "";
     return `
       <div style="background:var(--paper); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:10px;">
-        <strong style="color:${x.score>=60?'var(--green-dk)':'var(--red-dk)'}; font-size:14px;">${esc(x.subject)} (${x.score}分)</strong>
+        <strong style="color:${x.score>=60?'var(--green-dk)':'var(--red-dk)'}; font-size:14px;">${esc(x.subject)} (${x.score}分${x.rank?`, 班排 ${x.rank}/${x.total}`:""})</strong>
         ${x.reason ? `<div style="font-size:13px; color:var(--ink2); margin-top:6px;"><strong>💭 學生反思：</strong>${esc(x.reason)}</div>` : ''}
         ${x.strategy ? `<div style="font-size:13px; color:var(--ink2); margin-top:4px;"><strong>🎯 改進策略：</strong>${esc(x.strategy)}</div>` : ''}
-        ${aiText ? `<div style="font-size:13px; color:var(--purple-dk); margin-top:8px; background:var(--purple-bg); padding:8px 10px; border-radius:6px; border:1px solid var(--purple-bd);">🤖 <strong>AI 針對本科建議：</strong><br>${esc(aiText)}</div>` : ''}
+        ${aiText ? `<div style="font-size:13px; color:var(--purple-dk); margin-top:8px; background:var(--purple-bg); padding:8px 10px; border-radius:6px; border:1px solid var(--purple-bd);">🤖 <strong>AI 針對本科建議：</strong><br>${aiReportHtml(aiText)}</div>` : ''}
       </div>
     `;
   }).join("") || "無成績資料";
@@ -709,78 +1161,37 @@ function renderCompare(){
   
   el.innerHTML=`<div class="card" style="padding:0"><div class="card-head"><span class="card-title">${esc(s?.name||id)} 雙方對照</span></div>
     <div class="card-body"><div class="compare-grid"><div class="compare-col"><div class="compare-head blue">📝 學生自填</div>${sHtml}</div><div class="compare-sep"></div><div class="compare-col"><div class="compare-head teal">👨‍👩‍👧 家長回饋</div>${pHtml}</div></div></div></div>
-    ${s?.aiTeacher?`<div class="card" style="padding:0"><div class="card-head"><span class="card-title">📋 導師面談建議 (學生送出時初步生成)</span></div><div class="card-body"><div style="font-size:14px;line-height:1.8;color:var(--ink)">${esc(s.aiTeacher)}</div></div></div>`:""}`;
+    ${s?.analysisText?`<div class="card" style="padding:0"><div class="card-head"><span class="card-title">📋 分析文字</span></div><div class="card-body"><button class="btn-act purple" onclick="copyAnalysisText('${esc(id)}',this)" style="margin-bottom:10px;background:var(--purple);color:white;border-color:var(--purple)">複製分析文字</button><div>${aiReportHtml(s.analysisText,"尚無分析文字")}</div></div></div>`:""}${s?manualReportPanel(s):""}`;
 }
 
-async function generateAnalysis() {
-  const btn = document.getElementById("btnGenAnalysis");
-  const res = document.getElementById("cmpAnalysisResult");
-  const sHtml = document.getElementById("sDataHtml")?.innerText || "";
-  const pHtml = document.getElementById("pDataHtml")?.innerText || "";
-  
-  if (!sHtml || !pHtml) return;
-  
-  btn.disabled = true;
-  btn.textContent = "🤖 正在深度分析中...";
-  res.style.display = "block";
-  res.innerHTML = '<div class="spin" style="width:24px;height:24px;border-width:3px;display:inline-block;vertical-align:middle;margin:0 8px 0 0"></div> 正在比對雙方資料並產生面談策略...';
-  
-  try {
-    const textPayload = `【學生自填資料】\n${sHtml}\n\n【家長回饋資料】\n${pHtml}`;
-    const d = await fetch(API, {
-      method: "POST", 
-      body: JSON.stringify({ action: "generateCompareAnalysis", dashToken: DTOK, textPayload })
-    }).then(r => r.json());
-    
-    if (d.ok) {
-      res.innerHTML = `<strong style="font-size:16px;">✨ AI 綜合深度分析</strong><br><br>${esc(d.analysis)}`;
-    } else {
-      res.innerHTML = `❌ 分析失敗：${esc(d.msg)}`;
-    }
-  } catch(e) {
-    res.innerHTML = `❌ 網路錯誤：${esc(e.message)}`;
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "🤖 重新產生綜合分析";
+
+async function clearLegacyAiAnalysis(){
+  const status=document.getElementById("analyzeStatusAi")||document.getElementById("analyzeStatus");
+  const ok=confirm("這會清除 Google Sheet『問卷回饋表』U:X 欄的舊 AI 分析內容，但會保留問卷資料、學生追問紀錄，以及『手動AI報告紀錄』。確定要清除嗎？");
+  if(!ok)return;
+  if(status)status.textContent="正在清除舊 AI 欄位…";
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"clearLegacyAiAnalysis",dashToken:DTOK})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||"清除失敗");
+    if(status)status.textContent=d.msg+"（共 "+(d.clearedRows||0)+" 列）";
+    await loadData();
+  }catch(e){
+    if(status)status.textContent="清除失敗："+e.message;
   }
 }
 
-async function generateCounselingRecord() {
-  const btn = document.getElementById("btnGenRecord");
-  const res = document.getElementById("counselingRecordResult");
-  const sHtml = document.getElementById("sDataHtml")?.innerText || "";
-  const pHtml = document.getElementById("pDataHtml")?.innerText || "";
-  const wordCount = Math.max(150, Math.min(1200, +(document.getElementById("recordWords")?.value || 200)));
-  const recordType = document.getElementById("recordType")?.value || "record";
-  const recordLabel = recordType==="script" ? "面談腳本" : "輔導紀錄";
-  const selected = document.getElementById("cmpSel");
-  const studentName = selected?.selectedOptions?.[0]?.textContent || "";
-
-  if (!sHtml) return;
-
-  btn.disabled = true;
-  btn.textContent = "📝 產生中...";
-  res.style.display = "block";
-  res.innerHTML = `<div class="spin" style="width:24px;height:24px;border-width:3px;display:inline-block;vertical-align:middle;margin:0 8px 0 0"></div> 正在整理學生與家長回應為${recordLabel}...`;
-
-  try {
-    const textPayload = `【學生姓名】${studentName}\n\n【學生自填資料】\n${sHtml}\n\n【家長回饋資料】\n${pHtml || "家長尚未填寫或無資料"}`;
-    const d = await fetch(API, {
-      method: "POST",
-      body: JSON.stringify({ action: "generateCounselingRecord", dashToken: DTOK, textPayload, wordCount, recordType })
-    }).then(r => r.json());
-
-    if (d.ok) {
-      res.innerHTML = `<strong style="font-size:16px;color:var(--teal-dk)">📝 AI ${recordLabel}（約 ${wordCount} 字）</strong><br><br>${esc(d.record)}`;
-    } else {
-      res.innerHTML = `❌ 產生失敗：${esc(d.msg)}`;
-    }
-  } catch(e) {
-    res.innerHTML = `❌ 網路錯誤：${esc(e.message)}`;
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "📝 重新產生紀錄/腳本";
-  }
+async function generateSavedAnalysis(studentId, btn){ return copyAnalysisText(studentId, btn); }
+async function analyzeFilledStudents(){
+  const status=document.getElementById("analyzeStatus")||document.getElementById("analyzeStatusAi");
+  if(status)status.textContent="後台不呼叫 AI，請逐一複製分析文字。";
+}
+async function generateAnalysis(){
+  const id=document.getElementById("cmpSel")?.value||"";
+  return copyAnalysisText(id, document.getElementById("btnGenAnalysis"));
+}
+async function generateCounselingRecord(){
+  const id=document.getElementById("cmpSel")?.value||"";
+  return copyAnalysisText(id, document.getElementById("btnGenRecord"));
 }
 </script>
 </body>
