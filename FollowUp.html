@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>學生期中後追蹤問卷｜N523</title>
+<style>
+:root{
+  --ink:#1e293b;--ink2:#475569;--ink3:#94a3b8;
+  --paper:#f8fafc;--surface:#fff;--border:#e2e8f0;
+  --blue:#3b82f6;--blue-bg:#eff6ff;--blue-dk:#1d4ed8;--blue-bd:#bfdbfe;
+  --teal:#14b8a6;--teal-bg:#f0fdfa;--teal-dk:#0f766e;--teal-bd:#99f6e4;
+  --purple:#8b5cf6;--purple-bg:#f5f3ff;--purple-dk:#6d28d9;--purple-bd:#ddd6fe;
+  --orange:#f97316;--orange-bg:#fff7ed;--orange-dk:#c2410c;--orange-bd:#fed7aa;
+  --danger:#ef4444;--danger-bg:#fef2f2;--danger-dk:#b91c1c;--danger-bd:#fecaca;
+  --green:#22c55e;--green-bg:#f0fdf4;--green-dk:#15803d;--green-bd:#bbf7d0;
+  --r:16px;--r-sm:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","微軟正黑體",sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+.hero{background-color:var(--blue-dk);background-image:url('image.png');background-size:cover;background-position:center 60%;padding:48px 20px 40px;text-align:center;color:white;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:"";position:absolute;inset:0;background:rgba(15,23,42,.48)}
+.hero-inner{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;background:rgba(255,255,255,.2);padding:6px 14px;border-radius:20px;font-size:12px;margin-bottom:12px;color:white;border:1px solid rgba(255,255,255,.4);font-weight:800;backdrop-filter:blur(4px)}
+.hero h1{font-size:24px;font-weight:900;margin-bottom:8px;color:white;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.hero p{font-size:14px;color:rgba(255,255,255,.9);line-height:1.7;text-shadow:0 1px 4px rgba(0,0,0,.3)}
+.prog-bar{height:4px;background:white}.prog-fill{height:100%;background:var(--blue);transition:width .5s}
+.main{max-width:680px;margin:0 auto;padding:24px 16px 60px}
+.card{background:var(--surface);border-radius:var(--r);padding:24px 20px;margin-bottom:16px;box-shadow:0 4px 20px rgba(0,0,0,.03);border:1px solid var(--border)}
+.card-title{font-size:20px;font-weight:900;margin-bottom:6px;color:var(--ink)}
+.card-desc{font-size:14px;color:var(--ink2);line-height:1.7;margin-bottom:18px}
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:900;padding:5px 11px;border-radius:999px;margin-bottom:12px}
+.tag-blue{background:var(--blue-bg);color:var(--blue-dk);border:1px solid var(--blue-bd)}
+.tag-teal{background:var(--teal-bg);color:var(--teal-dk);border:1px solid var(--teal-bd)}
+.tag-orange{background:var(--orange-bg);color:var(--orange-dk);border:1px solid var(--orange-bd)}
+.tag-purple{background:var(--purple-bg);color:var(--purple-dk);border:1px solid var(--purple-bd)}
+.student-card{background:white;border-radius:var(--r);padding:22px;margin-bottom:16px;border:1px solid var(--blue-bd);box-shadow:0 4px 12px rgba(59,130,246,.04)}
+.student-head{display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px}
+.avatar{width:52px;height:52px;background:var(--blue-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px}
+.student-name{font-size:20px;font-weight:900;color:var(--ink)}
+.student-id{font-size:14px;color:var(--ink2);margin-top:2px}
+.pill{display:inline-block;font-size:13px;background:white;border:1px solid var(--border);border-radius:999px;padding:6px 11px;margin:0 6px 7px 0;font-weight:800;color:var(--ink)}
+.pill.fail{border-color:var(--danger-bd);background:var(--danger-bg);color:var(--danger-dk)}
+.pill.low{border-color:var(--orange-bd);background:var(--orange-bg);color:var(--orange-dk)}
+.info-block{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);padding:14px;margin-bottom:12px}
+.info-label{font-size:13px;font-weight:900;color:var(--ink);margin-bottom:7px}
+.info-text{font-size:15px;line-height:1.7;color:var(--ink2);white-space:pre-line}
+.focus-list{display:flex;flex-direction:column;gap:10px}
+.focus-item{display:flex;gap:10px;background:var(--teal-bg);border:1px solid var(--teal-bd);border-radius:var(--r-sm);padding:13px 14px;color:var(--teal-dk);font-size:15px;font-weight:800;line-height:1.55}
+.focus-num{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--teal);color:white;flex-shrink:0;font-size:13px}
+.field{margin-bottom:20px}.field:last-child{margin-bottom:0}
+.field-label{font-size:15px;font-weight:900;color:var(--ink);margin-bottom:8px;display:block;line-height:1.55}
+.req{color:var(--danger);margin-left:4px}
+textarea,select,input[type=text]{width:100%;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:16px;background:var(--surface);color:var(--ink);transition:all .2s;outline:none;font-family:inherit;box-shadow:0 1px 2px rgba(0,0,0,.02)}
+textarea{resize:vertical;min-height:92px;line-height:1.7}
+textarea:focus,select:focus,input[type=text]:focus{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-bg)}
+.radio-group,.check-group{display:flex;flex-direction:column;gap:8px}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:520px){.check-grid{grid-template-columns:1fr}}
+.radio-opt,.check-opt{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid var(--border);border-radius:var(--r-sm);background:var(--paper);cursor:pointer;font-size:15px;line-height:1.45;color:var(--ink2);transition:all .2s}
+.radio-opt:hover,.check-opt:hover{border-color:var(--blue-bd);background:white}
+.radio-opt.on,.check-opt.on{border-color:var(--blue);background:var(--blue-bg);color:var(--blue-dk);font-weight:800}
+.radio-opt input,.check-opt input{margin-top:2px;accent-color:var(--blue);flex-shrink:0}
+.stress-wrap{text-align:center;background:var(--paper);padding:22px;border-radius:var(--r-sm);border:1px solid var(--border)}
+input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer;margin:12px 0}
+.stress-num{font-size:42px;font-weight:900;color:var(--blue);margin:8px 0 4px}
+.stress-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3)}
+.btn{width:100%;padding:16px;border:none;border-radius:var(--r-sm);font-size:16px;font-weight:900;cursor:pointer;font-family:inherit;transition:all .2s}
+.btn-submit{background:var(--blue);color:white;box-shadow:0 4px 12px rgba(59,130,246,.2)}
+.btn-submit:hover{background:var(--blue-dk);transform:translateY(-1px)}
+.btn-submit:disabled{background:var(--border);color:var(--ink3);box-shadow:none;cursor:not-allowed;transform:none}
+.alert{padding:14px 16px;border-radius:var(--r-sm);font-size:14px;margin-bottom:16px;background:var(--danger-bg);color:var(--danger-dk);border:1px solid var(--danger-bd);line-height:1.7}
+.spin{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.loading-wrap,.done-wrap,.error-page{display:flex;flex-direction:column;align-items:center;padding:48px 20px;text-align:center;color:var(--ink2)}
+.done-icon,.error-icon{font-size:64px;margin-bottom:16px}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">耕莘專校・護理科(宜蘭)</div>
+    <h1>學生期中後追蹤問卷</h1>
+    <p>先回顧你期中時的成績與承諾，再確認目前執行情況。</p>
+  </div>
+</div>
+<div class="prog-bar"><div class="prog-fill" id="prog" style="width:5%"></div></div>
+
+<div class="main">
+  <div id="sLoading"><div class="card"><div class="loading-wrap"><div class="spin"></div>資料載入中...</div></div></div>
+  <div id="sError" style="display:none"><div class="card"><div class="error-page"><div class="error-icon">連結</div><div id="errTitle" style="font-size:20px;font-weight:900;color:var(--ink);margin-bottom:8px">連結無效</div><div id="errMsg" style="font-size:14px;line-height:1.7"></div></div></div></div>
+  <div id="sDone" style="display:none"><div class="card"><div class="done-wrap"><div class="done-icon">完成</div><div style="font-size:22px;font-weight:900;color:var(--teal-dk);margin-bottom:8px">追蹤問卷已送出</div><div style="font-size:15px;line-height:1.8">謝謝你回報目前的執行情況，老師會依照你的狀況安排後續協助。</div></div></div></div>
+
+  <div id="sForm" style="display:none">
+    <div class="student-card">
+      <div class="student-head">
+        <div class="avatar">學</div>
+        <div><div class="student-name" id="studentName"></div><div class="student-id" id="studentId"></div></div>
+      </div>
+      <div class="info-label">期中成績摘要</div>
+      <div id="subjectPills" style="margin-bottom:12px"></div>
+      <div class="info-block">
+        <div class="info-label">你期中時填的學習盲點</div>
+        <div class="info-text" id="learningBlindSpot"></div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">你期中時寫下的行動承諾或需要協助</div>
+        <div class="info-text" id="actionCommitment"></div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">你期中時填的讀書方法與作息</div>
+        <div class="info-text" id="routineText"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tag tag-teal">追蹤重點</div>
+      <div class="card-title">老師想追蹤的重點</div>
+      <div class="card-desc">這些重點是系統依照你期中成績、原本問卷與行動承諾整理出來，不是 AI 即時生成。</div>
+      <div class="focus-list" id="teacherFocus"></div>
+    </div>
+
+    <div class="card">
+      <div class="tag tag-blue">目前執行情況</div>
+      <div class="card-title">請回報你現在做到哪裡</div>
+      <div class="card-desc">不是要責備你，而是讓老師知道接下來可以怎麼幫你。</div>
+
+      <div class="field">
+        <label class="field-label">1. 期中後，你有沒有開始執行當時承諾的讀書調整？<span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-opt" onclick="pickRadio('executionStatus',this)"><input type="radio" name="executionStatus" value="已經穩定執行"> 已經穩定執行</label>
+          <label class="radio-opt" onclick="pickRadio('executionStatus',this)"><input type="radio" name="executionStatus" value="有開始，但不穩定"> 有開始，但不穩定</label>
+          <label class="radio-opt" onclick="pickRadio('executionStatus',this)"><input type="radio" name="executionStatus" value="只做了一點點"> 只做了一點點</label>
+          <label class="radio-opt" onclick="pickRadio('executionStatus',this)"><input type="radio" name="executionStatus" value="還沒有開始"> 還沒有開始</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">2. 目前你比較有做到的是哪些？</label>
+        <div class="check-grid" id="completedGroup">
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="提早準備"> 提早準備</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="每天複習"> 每天複習</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="整理錯題"> 整理錯題</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="做題目或數位學習網"> 做題目或數位學習網</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="找同學討論"> 找同學討論</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="問老師"> 問老師</label>
+        </div>
+        <input type="text" id="completedOther" placeholder="其他有做到的事，可留空" style="margin-top:10px">
+      </div>
+
+      <div class="field">
+        <label class="field-label">3. 目前最難做到的是什麼？<span class="req">*</span></label>
+        <div class="check-grid" id="difficultyGroup">
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="時間不夠"> 時間不夠</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="讀不懂"> 讀不懂</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="背不起來"> 背不起來</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="容易分心"> 容易分心</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="太累想睡"> 太累想睡</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="不知道怎麼開始"> 不知道怎麼開始</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="情緒或壓力影響"> 情緒或壓力影響</label>
+        </div>
+        <input type="text" id="difficultyOther" placeholder="其他困難，可留空" style="margin-top:10px">
+      </div>
+
+      <div class="field">
+        <label class="field-label">4. 現在哪些科目最需要老師協助？</label>
+        <div class="check-grid" id="subjectNeedGroup"></div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">5. 你希望老師接下來怎麼協助你？<span class="req">*</span></label>
+        <div class="check-grid" id="teacherHelpGroup">
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="幫我確認讀書方向"> 幫我確認讀書方向</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="給我練習題"> 給我練習題</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="安排同學一起讀"> 安排同學一起讀</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="幫我看讀書計畫"> 幫我看讀書計畫</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="找我短談"> 找我短談</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="暫時不需要"> 暫時不需要</label>
+        </div>
+        <input type="text" id="teacherHelpOther" placeholder="其他希望老師協助的方式，可留空" style="margin-top:10px">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tag tag-orange">壓力與本週承諾</div>
+      <div class="field">
+        <label class="field-label">6. 你目前的壓力指數是幾分？<span class="req">*</span></label>
+        <div class="stress-wrap">
+          <div class="stress-num" id="stressNum">5</div>
+          <input id="stressIndex" type="range" min="1" max="10" value="5" oninput="stressNum.textContent=this.value">
+          <div class="stress-labels"><span>1 很低</span><span>10 很高</span></div>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">7. 壓力主要來自哪裡？</label>
+        <div class="check-grid" id="pressureSourceGroup">
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="課業"> 課業</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="家庭"> 家庭</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="同儕"> 同儕</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="睡眠不足"> 睡眠不足</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="打工或社團外務"> 打工或社團外務</label>
+          <label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="不確定"> 不確定</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">8. 請寫下你這週做得到的一個具體承諾<span class="req">*</span></label>
+        <textarea id="weeklyCommitment" rows="3" placeholder="例如：我這週會完成藥理第4章筆記，並做20題練習。"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label">補充說明</label>
+        <textarea id="additionalNote" rows="3" placeholder="想讓老師知道的其他事情，可留空。"></textarea>
+      </div>
+    </div>
+
+    <div id="submitErr"></div>
+    <button class="btn btn-submit" id="submitBtn" onclick="submitFollowUp()">送出追蹤問卷</button>
+  </div>
+</div>
+
+<script>
+const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
+const token = new URLSearchParams(location.search).get("follow_token") || new URLSearchParams(location.search).get("token") || "";
+let student = null;
+
+function show(id){document.getElementById(id).style.display="block"}
+function hide(id){document.getElementById(id).style.display="none"}
+function prog(p){document.getElementById("prog").style.width=p+"%"}
+function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
+function showErr(title,msg){document.getElementById("errTitle").textContent=title;document.getElementById("errMsg").textContent=msg;hide("sLoading");show("sError")}
+function setErr(msg){document.getElementById("submitErr").innerHTML=msg?`<div class="alert">${esc(msg)}</div>`:""}
+function pickRadio(name,label){document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.closest("label").classList.remove("on"));label.classList.add("on");label.querySelector("input").checked=true}
+function toggleCheck(label){const cb=label.querySelector("input");cb.checked=!cb.checked;label.classList.toggle("on",cb.checked)}
+function checkedValues(id){return [...document.querySelectorAll(`#${id} input:checked`)].map(x=>x.value)}
+function addOther(list,id){const v=document.getElementById(id).value.trim();return v?[...list,v]:list}
+async function post(action,body){
+  const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});
+  return r.json();
+}
+function renderSubjects(subjects){
+  return (subjects||[]).map(s=>{
+    const score=Number(s.score);
+    const cls=score<60?"fail":(score<70?"low":"");
+    return `<span class="pill ${cls}">${esc(s.subject)} ${esc(s.score)}分</span>`;
+  }).join("") || `<span class="pill">無成績資料</span>`;
+}
+function renderFocus(items){
+  const arr=(items||[]).length?items:["確認目前執行情況，了解是否需要老師協助。"];
+  document.getElementById("teacherFocus").innerHTML=arr.map((x,i)=>`<div class="focus-item"><span class="focus-num">${i+1}</span><span>${esc(x)}</span></div>`).join("");
+}
+function renderSubjectNeeds(s){
+  const group=document.getElementById("subjectNeedGroup");
+  const source=(s.failedSubjects&&s.failedSubjects.length?s.failedSubjects:s.lowestSubjects||[]).slice(0,6);
+  group.innerHTML=source.map(sub=>`<label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="${esc(sub.subject)}"> ${esc(sub.subject)} ${esc(sub.score)}分</label>`).join("") ||
+    `<label class="check-opt" onclick="toggleCheck(this)"><input type="checkbox" value="目前沒有特定科目"> 目前沒有特定科目</label>`;
+}
+async function init(){
+  if(!token){showErr("連結無效","此連結不包含有效 token，請聯絡班導師重新取得。");return}
+  try{
+    const d=await post("getStudentFollowUpData",{token});
+    if(!d.ok){showErr("無法載入資料",d.msg||"請聯絡班導師。");return}
+    if(d.alreadyDone){hide("sLoading");show("sDone");prog(100);return}
+    student=d.student||{};
+    document.getElementById("studentName").textContent=student.name||"同學";
+    document.getElementById("studentId").textContent="學號："+(student.studentId||"");
+    document.getElementById("subjectPills").innerHTML=renderSubjects(student.subjects||[]);
+    document.getElementById("learningBlindSpot").textContent=student.learningBlindSpot||"未填寫";
+    document.getElementById("actionCommitment").textContent=student.actionCommitment||"未填寫";
+    const r=student.routine||{};
+    document.getElementById("routineText").innerHTML=`睡眠：${esc(r.sleep||"未填")}<br>考前熬夜：${esc(r.allNighter||"未填")}<br>娛樂：${esc(r.entertainment||"未填")}<br>外務：${esc(r.extracurricular||"未填")}<br>讀書方法：${esc(student.studyMethod||"未填")}`;
+    document.getElementById("stressIndex").value=student.stressIndex||5;
+    document.getElementById("stressNum").textContent=student.stressIndex||5;
+    renderFocus(student.teacherFocus);
+    renderSubjectNeeds(student);
+    hide("sLoading");show("sForm");prog(25);
+  }catch(e){showErr("網路連線問題","請確認網路後重新整理頁面。")}
+}
+async function submitFollowUp(){
+  setErr("");
+  const executionStatus=document.querySelector("input[name='executionStatus']:checked")?.value||"";
+  const difficulties=addOther(checkedValues("difficultyGroup"),"difficultyOther");
+  const teacherHelp=addOther(checkedValues("teacherHelpGroup"),"teacherHelpOther");
+  const weeklyCommitment=document.getElementById("weeklyCommitment").value.trim();
+  if(!executionStatus){setErr("請選擇目前執行情況。");return}
+  if(!difficulties.length){setErr("請至少選擇一項目前最難做到的地方。");return}
+  if(!teacherHelp.length){setErr("請至少選擇一項希望老師協助的方式。");return}
+  if(weeklyCommitment.length<5){setErr("請寫下一個較具體的本週承諾，至少 5 個字。");return}
+  const btn=document.getElementById("submitBtn");
+  btn.disabled=true;btn.textContent="送出中...";prog(80);
+  try{
+    const d=await post("submitStudentFollowUp",{
+      token,
+      executionStatus,
+      completedItems:addOther(checkedValues("completedGroup"),"completedOther"),
+      difficulties,
+      needSubjects:checkedValues("subjectNeedGroup"),
+      teacherHelp,
+      stressIndex:document.getElementById("stressIndex").value,
+      pressureSources:checkedValues("pressureSourceGroup"),
+      weeklyCommitment,
+      additionalNote:document.getElementById("additionalNote").value.trim(),
+      teacherFocus:student?.teacherFocus||[]
+    });
+    if(d.ok){hide("sForm");show("sDone");prog(100);window.scrollTo({top:0,behavior:"smooth"})}
+    else{btn.disabled=false;btn.textContent="送出追蹤問卷";setErr(d.msg||"提交失敗，請重試。");prog(45)}
+  }catch(e){btn.disabled=false;btn.textContent="送出追蹤問卷";setErr("提交失敗，請確認網路後重試。");prog(45)}
+}
+init();
+</script>
+</body>
+</html>

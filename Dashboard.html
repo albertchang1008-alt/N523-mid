@@ -160,6 +160,7 @@ tbody tr:last-child td{border-bottom:none}
 select.sel{padding:10px 14px;border:1px solid var(--border);border-radius:var(--r-sm);font-size:14px;font-family:inherit;background:white;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,0.02)}
 .btn-act{font-size:13px;padding:8px 14px;border:1px solid var(--border);border-radius:var(--r-sm);background:white;color:var(--ink);cursor:pointer;font-family:inherit;font-weight:700;transition:all .2s}
 .btn-act:hover{background:var(--paper)}.btn-act.teal{background:var(--teal);color:white;border-color:var(--teal)}.btn-act.teal:hover{background:var(--teal-dk)}.btn-act.purple{background:var(--purple);color:white;border-color:var(--purple)}.btn-act.purple:hover{background:var(--purple-dk)}
+.btn-act.danger{background:white;color:var(--red);border-color:var(--red-bd)}.btn-act.danger:hover{background:var(--red-bg)}
 .spin{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 16px}
 @keyframes sp{to{transform:rotate(360deg)}}
 .loading-wrap{text-align:center;padding:60px;color:var(--ink2);font-size:14px}
@@ -180,8 +181,62 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
 	.kv{background:var(--paper);border:1px solid var(--border);border-radius:var(--r-sm);padding:12px}
 	.kv-label{font-size:12px;color:var(--ink2);font-weight:700;margin-bottom:6px}.kv-val{font-size:18px;font-weight:900;color:var(--ink)}
 	.stat-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.reason-cloud{display:flex;gap:8px;flex-wrap:wrap}
-	.muted{color:var(--ink3)}.click-name{cursor:pointer;color:var(--blue-dk);font-weight:900;text-decoration:underline;text-decoration-style:dashed;text-underline-offset:4px}
+.muted{color:var(--ink3)}.click-name{cursor:pointer;color:var(--blue-dk);font-weight:900;text-decoration:underline;text-decoration-style:dashed;text-underline-offset:4px}
 .report-pill{border:0;cursor:pointer;font-family:inherit}.report-pill:hover{filter:brightness(.98);box-shadow:0 2px 8px rgba(15,23,42,.10)}
+.reason-tag{border:1px solid var(--blue-bd);background:var(--blue-bg);color:var(--blue-dk);cursor:pointer;font-family:inherit;transition:all .18s}
+.reason-tag:hover{background:white;border-color:var(--blue);box-shadow:0 4px 12px rgba(59,130,246,.16);transform:translateY(-1px)}
+.reason-tag:focus-visible{outline:3px solid var(--blue-bd);outline-offset:2px}
+.sort-th{border:0;background:transparent;color:inherit;font:inherit;font-weight:900;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:6px}
+.sort-th::after{content:"↕";font-size:12px;color:var(--ink3)}
+.sort-th.is-active{color:var(--blue-dk)}
+.sort-th.is-active[data-dir="asc"]::after{content:"↑";color:var(--blue)}
+.sort-th.is-active[data-dir="desc"]::after{content:"↓";color:var(--blue)}
+/* Meeting workspace layout */
+.meeting-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(360px,.65fr);gap:20px;align-items:start}
+.meeting-hero{background:white;border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.02)}
+.meeting-title-row{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}
+.meeting-pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.jump-tag{border:0;font-family:inherit;cursor:pointer;transition:all .18s;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.jump-tag:hover{filter:brightness(.98);box-shadow:0 5px 14px rgba(15,23,42,.12);transform:translateY(-1px)}
+.jump-tag:focus-visible{outline:3px solid var(--blue-bd);outline-offset:2px}
+.focus-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-top:12px}
+.focus-item{background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:12px 14px;line-height:1.6}
+.focus-label{font-size:13px;color:var(--ink2);font-weight:900;margin-bottom:5px}
+.subject-cards{display:grid;grid-template-columns:1fr;gap:12px}
+.subject-card{background:white;border:1px solid var(--border);border-radius:14px;padding:16px;box-shadow:0 1px 6px rgba(15,23,42,.03)}
+.subject-card.fail{border-left:5px solid var(--red)}
+.subject-card.pass{border-left:5px solid var(--green)}
+.subject-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.subject-name{font-size:18px;font-weight:900;color:var(--ink)}
+.subject-score{font-size:22px;font-weight:900}
+.subject-score.fail{color:var(--red)}.subject-score.pass{color:var(--green)}
+.subject-meta{font-size:13px;color:var(--ink2);margin-top:4px}
+.subject-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info-box{background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:12px;line-height:1.65;min-height:70px}
+.info-label{font-size:13px;color:var(--ink2);font-weight:900;margin-bottom:6px}
+.qa-line{border-top:1px dashed var(--border);padding-top:8px;margin-top:8px}
+.meeting-form{display:grid;gap:12px}
+.meeting-form label{font-size:14px;color:var(--ink2);font-weight:900;display:block;margin-bottom:6px}
+.meeting-form textarea{width:100%;min-height:120px;border:1px solid var(--border);border-radius:12px;padding:12px;font-family:inherit;font-size:16px;line-height:1.7;resize:vertical}
+.meeting-form input[type=date],.meeting-form select{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:white;font-family:inherit;font-size:16px}
+.meeting-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.compact-muted{color:var(--ink3);font-weight:700}
+.advanced-wrap summary{cursor:pointer;font-weight:900;color:var(--ink2);padding:8px 0}
+.record-helper{background:var(--teal-bg);border:1px solid var(--teal-bd);border-radius:12px;padding:12px 14px;color:var(--teal-dk);font-size:14px;line-height:1.7;margin-bottom:12px}
+.saved-record-list{display:grid;gap:12px}
+.saved-record-item{border:1px solid var(--border);background:white;border-radius:14px;padding:14px;box-shadow:0 1px 6px rgba(15,23,42,.03)}
+.saved-record-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;margin-bottom:8px}
+.saved-record-title{font-size:16px;font-weight:900;color:var(--ink)}
+.saved-record-meta{font-size:13px;color:var(--ink2);font-weight:800}
+.saved-record-preview{font-size:15px;line-height:1.7;color:var(--ink2);white-space:pre-line;max-height:110px;overflow:hidden;margin:8px 0 12px}
+.work-tabs{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}
+.work-tab{border:1px solid var(--border);background:white;color:var(--ink2);border-radius:999px;padding:10px 16px;font-family:inherit;font-size:15px;font-weight:900;cursor:pointer;transition:all .18s}
+.work-tab:hover{background:var(--paper);color:var(--ink)}
+.work-tab.on{background:var(--purple-bg);border-color:var(--purple-bd);color:var(--purple-dk);box-shadow:0 4px 12px rgba(139,92,246,.12)}
+.settings-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.35fr);gap:16px}
+.settings-textarea{width:100%;min-height:210px;border:1px solid var(--border);border-radius:12px;padding:14px;font-family:inherit;font-size:16px;line-height:1.75;resize:vertical}
+@media(max-width:1100px){.meeting-grid{grid-template-columns:1fr}.subject-detail-grid,.meeting-form-row{grid-template-columns:1fr}}
+@media(max-width:1100px){.settings-grid{grid-template-columns:1fr}}
 /* Final readability overrides */
 .kv-label{font-size:14px}.kv-val{font-size:20px}.empty{font-size:16px}.loading-wrap{font-size:16px}.sb{min-width:34px;height:28px;line-height:28px;font-size:14px}.overview-filter-note{font-size:15px}.topbar{height:68px}.layout{min-height:calc(100vh - 68px)}.sidebar{top:68px;height:calc(100vh - 68px)}
 	@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static;height:auto}.grid2,.detail-grid,.compare-grid{grid-template-columns:1fr}.main{padding:18px}.compare-sep{display:none}.compare-col{padding:0}.topbar{height:auto;min-height:60px;flex-wrap:wrap}.modal{max-width:95vw!important}}
@@ -213,10 +268,10 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
     <div class="sidebar">
       <div class="nav-sec">學生問卷</div>
       <div class="nav-item on" onclick="goto('overview')">◈ 班級總覽</div>
-      <div class="nav-item" onclick="goto('students')">◉ 學生填寫狀況</div>
       <div class="nav-item" onclick="goto('subjects')">◐ 科目不及格分析</div>
       <div class="nav-item" onclick="goto('stress')">◉ 壓力風險分析</div>
-      <div class="nav-item" onclick="goto('ai')">◈ AI個人輔導建議</div>
+      <div class="nav-item" onclick="goto('ai')">◈ AI報告工作台</div>
+      <div class="nav-item" onclick="goto('flinks')">↻ 發送追蹤問卷</div>
       <div class="nav-sec">家長問卷</div>
       <div class="nav-item teal" onclick="goto('plinks')">🔗 發送家長連結</div>
       <div class="nav-item teal" onclick="goto('pfeedback')">📋 家長問卷回饋 <span class="nav-badge" id="pbadge" style="display:none">0</span></div>
@@ -231,7 +286,7 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
         <div class="page-title">班級總覽</div><div class="page-sub">本班填寫概況與關鍵指標</div>
         <div class="metric-groups" id="overviewMetrics"></div>
         <div class="overview-filter-note" id="overviewFilterNote"></div>
-        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">學生問題一覽（點姓名看明細）</span></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>學號</th><th>輔導判定</th><th>不及格科數</th><th>壓力指數</th><th>家長回覆狀態</th><th>主要盲點</th><th>導師追蹤狀態</th><th>操作</th></tr></thead><tbody id="overviewProblemBody"></tbody></table></div></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">學生列表（點姓名看明細）</span></div><div class="tbl-wrap"><table><thead><tr><th><button class="sort-th" data-table="overview" data-key="name" onclick="setTableSort('overview','name')">姓名</button></th><th><button class="sort-th" data-table="overview" data-key="studentId" onclick="setTableSort('overview','studentId')">學號</button></th><th><button class="sort-th" data-table="overview" data-key="counseling" onclick="setTableSort('overview','counseling')">輔導判定</button></th><th><button class="sort-th" data-table="overview" data-key="failCount" onclick="setTableSort('overview','failCount')">不及格科數</button></th><th><button class="sort-th" data-table="overview" data-key="stress" onclick="setTableSort('overview','stress')">壓力指數</button></th><th><button class="sort-th" data-table="overview" data-key="parent" onclick="setTableSort('overview','parent')">家長狀態</button></th><th><button class="sort-th" data-table="overview" data-key="answerQuality" onclick="setTableSort('overview','answerQuality')">答題品質</button></th><th><button class="sort-th" data-table="overview" data-key="tracking" onclick="setTableSort('overview','tracking')">導師追蹤狀態</button></th><th>操作</th></tr></thead><tbody id="overviewProblemBody"></tbody></table></div></div>
         <div class="grid2">
           <div class="card"><div class="card-head"><span class="card-title">不及格科目人數</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cSubject"></canvas></div></div></div>
           <div class="card"><div class="card-head"><span class="card-title">不及格主因分布</span></div><div class="card-body"><div id="rLegend" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;font-size:11px;color:var(--ink2)"></div><div style="position:relative;height:190px"><canvas id="cReason"></canvas></div></div></div>
@@ -239,14 +294,8 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
         <div class="card"><div class="card-head"><span class="card-title" style="color:var(--red-dk)">⚠ 優先面談學生</span></div><div class="card-body" id="warningList" style="padding:0"></div></div>
       </div>
 
-      <div class="page" id="page-students">
-        <div class="page-title">學生填寫狀況</div><div class="page-sub">追蹤每位學生的問卷進度、風險類型與導師追蹤狀態</div>
-        <div class="toolbar"><input class="search-inp" id="srchSt" placeholder="搜尋姓名…" oninput="renderStudents()"><select class="sel" id="filtSt" onchange="renderStudents()"><option value="">全部</option><option value="done">已填</option><option value="pending">未填</option></select><span id="analyzeStatus" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
-        <div class="card" style="padding:0"><div class="card-head"><span class="card-title" id="stTitle">學生列表</span></div><div class="tbl-wrap"><table><thead><tr><th>#</th><th>姓名</th><th>學號</th><th>風險類型</th><th>輔導判定</th><th>不及格科數</th><th>壓力指數</th><th>填寫時間</th><th>狀況</th><th>追蹤狀態</th><th>答題品質</th><th>輔導分析</th></tr></thead><tbody id="stBody"></tbody></table></div></div>
-      </div>
-
       <div class="page" id="page-student">
-        <div class="toolbar"><button class="btn-act" onclick="goto('students')">← 返回學生列表</button><button class="btn-act purple" id="btnCopyAnalysis" style="display:none;background:var(--purple);color:white;border-color:var(--purple)">📋 複製分析文字</button></div>
+        <div class="toolbar"><button class="btn-act" onclick="goto('overview')">← 返回班級總覽</button><button class="btn-act purple" id="btnCopyAnalysis" style="display:none;background:var(--purple);color:white;border-color:var(--purple)">📋 複製分析文字</button></div>
         <div id="studentDetailContent"><div class="empty">請從學生列表點選姓名</div></div>
       </div>
 
@@ -261,25 +310,27 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
         <div class="metrics" id="stressMetrics"></div>
         <div class="card"><div class="card-head"><span class="card-title">壓力分布直方圖</span></div><div class="card-body"><div style="position:relative;height:220px"><canvas id="cStress"></canvas></div></div></div>
         <div class="card" style="padding:0"><div class="card-head"><span class="card-title">壓力 × 不及格科數交叉分析</span></div><div class="tbl-wrap"><table><thead><tr><th>類型</th><th>條件</th><th>人數</th><th>建議</th><th>學生</th></tr></thead><tbody id="stressCrossBody"></tbody></table></div></div>
-        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">高壓學生名單（壓力 ≥ 8）</span></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>壓力</th><th>科數</th><th>盲點</th><th>行動承諾</th></tr></thead><tbody id="stressBody"></tbody></table></div></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">高壓學生名單（壓力 ≥ 8）</span></div><div class="tbl-wrap"><table><thead><tr><th><button class="sort-th" data-table="stressHigh" data-key="name" onclick="setTableSort('stressHigh','name')">姓名</button></th><th><button class="sort-th" data-table="stressHigh" data-key="stress" onclick="setTableSort('stressHigh','stress')">壓力</button></th><th><button class="sort-th" data-table="stressHigh" data-key="failCount" onclick="setTableSort('stressHigh','failCount')">科數</button></th><th><button class="sort-th" data-table="stressHigh" data-key="blindSpot" onclick="setTableSort('stressHigh','blindSpot')">盲點</button></th><th><button class="sort-th" data-table="stressHigh" data-key="commitment" onclick="setTableSort('stressHigh','commitment')">行動承諾</button></th></tr></thead><tbody id="stressBody"></tbody></table></div></div>
       </div>
 
       <div class="page" id="page-ai">
-        <div class="page-title">分析文字匯出</div><div class="page-sub">後台不呼叫 AI；請複製整理好的文字後貼到外部 AI 使用</div>
-        <div class="toolbar"><input class="search-inp" id="srchAI" placeholder="搜尋學生…" oninput="renderAI()"><button class="btn-act" onclick="clearLegacyAiAnalysis()" style="border-color:var(--red-bd);color:var(--red-dk)">清除舊 AI 欄位</button><span id="analyzeStatusAi" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
-        <div class="card"><div class="card-head"><span class="card-title">自訂 Prompt 與模型</span></div><div class="card-body">
-          <label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">AI 模型</label>
-          <input class="search-inp" id="aiModelInput" placeholder="例如：ChatGPT-5.1、Gemini 2.5 Pro、Claude…" style="width:100%;max-width:520px;margin-bottom:12px">
-          <label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">自訂 Prompt</label>
-          <textarea id="customPromptInput" placeholder="在這裡填你想給外部 AI 的指令。按「複製分析文字」時，會自動放在學生資料前面。" style="width:100%;min-height:150px;border:1px solid var(--border);border-radius:12px;padding:12px;font-family:inherit;font-size:14px;line-height:1.7;resize:vertical"></textarea>
-          <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn-act teal" onclick="savePromptSettings()">保存 Prompt 設定</button><button class="btn-act" onclick="loadPromptSettingsToForm()">還原已保存設定</button><span id="promptSaveStatus" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
-        </div></div>
-        <div id="aiContainer"></div>
+        <div class="page-title">AI報告工作台</div><div class="page-sub">集中管理報告撰寫、Prompt 設定與已保存紀錄；後台不會呼叫 AI API</div>
+        <div class="work-tabs">
+          <button class="work-tab on" id="aiTab_write" onclick="setAIWorkTab('write')">報告撰寫</button>
+          <button class="work-tab" id="aiTab_settings" onclick="setAIWorkTab('settings')">Prompt 設定</button>
+          <button class="work-tab" id="aiTab_records" onclick="setAIWorkTab('records')">已保存紀錄</button>
+        </div>
+        <div id="aiWorkbenchContent"></div>
       </div>
 
       <div class="page" id="page-plinks">
         <div class="page-title">發送家長連結</div><div class="page-sub">為已填寫學生問卷的學生產生專屬家長連結</div>
-        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">選擇學生 → 產生連結</span></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>學號</th><th>科數</th><th>連結狀態</th><th>家長填寫</th><th>操作</th></tr></thead><tbody id="plBody"></tbody></table></div></div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">選擇學生 → 產生連結</span></div><div class="tbl-wrap"><table><thead><tr><th><button class="sort-th" data-table="plinks" data-key="name" onclick="setTableSort('plinks','name')">姓名</button></th><th><button class="sort-th" data-table="plinks" data-key="studentId" onclick="setTableSort('plinks','studentId')">學號</button></th><th><button class="sort-th" data-table="plinks" data-key="failCount" onclick="setTableSort('plinks','failCount')">科數</button></th><th><button class="sort-th" data-table="plinks" data-key="linkStatus" onclick="setTableSort('plinks','linkStatus')">連結狀態</button></th><th><button class="sort-th" data-table="plinks" data-key="parent" onclick="setTableSort('plinks','parent')">家長填寫</button></th><th>操作</th></tr></thead><tbody id="plBody"></tbody></table></div></div>
+      </div>
+
+      <div class="page" id="page-flinks">
+        <div class="page-title">發送追蹤問卷</div><div class="page-sub">為已完成期中問卷的學生產生第二次追蹤問卷連結</div>
+        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">選擇學生 → 產生追蹤問卷連結</span><span id="followTokenHint" class="muted" style="font-size:13px"></span></div><div class="tbl-wrap"><table><thead><tr><th><button class="sort-th" data-table="flinks" data-key="name" onclick="setTableSort('flinks','name')">姓名</button></th><th><button class="sort-th" data-table="flinks" data-key="studentId" onclick="setTableSort('flinks','studentId')">學號</button></th><th><button class="sort-th" data-table="flinks" data-key="counseling" onclick="setTableSort('flinks','counseling')">輔導判定</button></th><th><button class="sort-th" data-table="flinks" data-key="failCount" onclick="setTableSort('flinks','failCount')">不及格科數</button></th><th><button class="sort-th" data-table="flinks" data-key="stress" onclick="setTableSort('flinks','stress')">壓力指數</button></th><th><button class="sort-th" data-table="flinks" data-key="followLinkStatus" onclick="setTableSort('flinks','followLinkStatus')">追蹤問卷狀態</button></th><th>老師追蹤重點</th><th>操作</th></tr></thead><tbody id="flBody"></tbody></table></div></div>
       </div>
 
       <div class="page" id="page-pfeedback">
@@ -340,14 +391,14 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
 <!-- 產生連結 Modal -->
 <div class="overlay" id="linkModal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
-    <div class="modal-title">🔗 家長專屬連結已產生</div>
+    <div class="modal-title" id="modalTitle">🔗 家長專屬連結已產生</div>
     <div class="modal-sub" id="modalStudentName"></div>
     <div class="link-box" id="modalLink">產生中…</div>
     <div class="modal-btns">
       <button class="btn-copy" onclick="copyLink()">📋 複製連結</button>
       <button class="btn-close-modal" onclick="closeModal()">關閉</button>
     </div>
-    <div style="font-size:12px;color:var(--ink3);margin-top:10px;text-align:center">連結不會過期，家長只能填寫一次</div>
+    <div style="font-size:12px;color:var(--ink3);margin-top:10px;text-align:center" id="modalHelpText">連結不會過期，家長只能填寫一次</div>
   </div>
 </div>
 
@@ -365,10 +416,18 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
 // ⚠️ 這裡的 API 請記得換成您剛剛「新部署」出來的網址
 const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
 const DTOK = new URLSearchParams(location.search).get("token") || "teacher2025";
-let ALL=[], STUDENTS=[], SMAP={}, TOKENS=[], PARENT_DATA=[];
-let teacherName="", currentLink="", PROMPT_SETTINGS={customPrompt:"",aiModel:""};
+let ALL=[], STUDENTS=[], SMAP={}, TOKENS=[], FOLLOWUP_TOKENS=[], PARENT_DATA=[];
+let teacherName="", currentLink="", PROMPT_SETTINGS={customPrompt:"",aiModel:""}, AI_WORKTAB="write";
 let activeOverviewFilter="all";
+let followUpTokensLoaded=false, followUpTokensLoading=false;
 let subjectSortSettings=JSON.parse(localStorage.getItem("n523_subject_sort_settings")||"{}");
+const tableSorts={
+  students:{key:"",dir:"asc"},
+  overview:{key:"",dir:"asc"},
+  stressHigh:{key:"stress",dir:"desc"},
+  plinks:{key:"",dir:"asc"},
+  flinks:{key:"",dir:"asc"}
+};
 const charts={};
 const COLORS=["#3b82f6","#ef4444","#f59e0b","#10b981","#8b5cf6","#ec4899","#14b8a6","#f97316"];
 
@@ -380,7 +439,8 @@ async function login(){
   if(!user||!pass){errDiv.innerHTML='<div class="alert-msg alert-danger">請輸入帳號與密碼</div>';return}
   const btn=document.getElementById("loginBtn");btn.disabled=true;btn.textContent="驗證中…";
   try{
-    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"verifyTeacher",username:user,password:pass})}).then(r=>r.json());
+    const loginMeta=await collectLoginMeta();
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"verifyTeacher",username:user,password:pass,loginMeta})}).then(r=>r.json());
     if(!d.ok){errDiv.innerHTML=`<div class="alert-msg alert-danger">❌ ${esc(d.msg)}</div>`;btn.disabled=false;btn.textContent="登入後台";return}
     teacherName=d.displayName;
     document.getElementById("loginWrap").style.display="none";
@@ -388,6 +448,36 @@ async function login(){
     document.getElementById("teacherChip").textContent=teacherName+" 老師";
     loadData();
   }catch(e){errDiv.innerHTML='<div class="alert-msg alert-danger">網路連線問題，請重試</div>';btn.disabled=false;btn.textContent="登入後台"}
+}
+
+async function collectLoginMeta(){
+  return {
+    ip: await getClientIp(),
+    device: deviceLabel(),
+    platform: navigator.platform || "",
+    language: navigator.language || "",
+    languages: Array.isArray(navigator.languages) ? navigator.languages.join(",") : "",
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "",
+    screen: `${window.screen?.width || ""}x${window.screen?.height || ""}`,
+    viewport: `${window.innerWidth || ""}x${window.innerHeight || ""}`,
+    userAgent: navigator.userAgent || ""
+  };
+}
+
+async function getClientIp(){
+  try{
+    const res=await fetch("https://api.ipify.org?format=json",{cache:"no-store"});
+    if(!res.ok) return "無法取得";
+    const data=await res.json();
+    return data.ip || "無法取得";
+  }catch(e){return "無法取得";}
+}
+
+function deviceLabel(){
+  const ua=navigator.userAgent || "";
+  if(/iPad|Tablet|Android(?!.*Mobile)/i.test(ua)) return "平板";
+  if(/Mobi|Android|iPhone|iPod/i.test(ua)) return "手機";
+  return "桌機";
 }
 
 function logout(){location.reload();}
@@ -399,7 +489,7 @@ async function loadData(){
   try{
     const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"getDashboardData",dashToken:DTOK})}).then(r=>r.json());
     if(!d.ok)throw new Error(d.msg);
-    ALL=d.feedback||[];STUDENTS=d.students||[];TOKENS=d.tokens||[];PARENT_DATA=d.parentData||[];PROMPT_SETTINGS=d.promptSettings||{customPrompt:"",aiModel:""};
+    ALL=d.feedback||[];STUDENTS=d.students||[];TOKENS=d.tokens||[];FOLLOWUP_TOKENS=d.followUpTokens||[];followUpTokensLoaded=Array.isArray(d.followUpTokens);PARENT_DATA=d.parentData||[];PROMPT_SETTINGS=d.promptSettings||{customPrompt:"",aiModel:""};
     buildMap();
     loadPromptSettingsToForm();
     document.getElementById("globalLoading").style.display="none";
@@ -421,7 +511,7 @@ function buildMap(){
       selfRating:{focus:0,review:0,understanding:0,examCoping:0},
       learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
       routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
-      analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
+      analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",manualReports:st.manualReports||[],aiSubject:"",dialogHistory:"",qualityFlag:"",
       allSubjects: st.allSubjects.map(x=>({...x})), subjects: st.allSubjects.filter(x=>x.score<60).map(x=>({...x})), hasFeedback:false
     };
   });
@@ -435,7 +525,7 @@ function buildMap(){
         selfRating:{focus:0,review:0,understanding:0,examCoping:0},
         learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
         routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
-        analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",aiSubject:"",dialogHistory:"",qualityFlag:"",
+        analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",manualReports:[],aiSubject:"",dialogHistory:"",qualityFlag:"",
         allSubjects:[],subjects:[],hasFeedback:false
       };
     }
@@ -448,7 +538,7 @@ function buildMap(){
     };
     s.learningBlindSpot=r.learningBlindSpot; s.studyMethod=r.studyMethod; s.actionCommitment=r.actionCommitment; s.stressIndex=+r.stressIndex; s.shortTermGoal=r.shortTermGoal;
     s.routine=r.routine; s.followUp=r.followUp;
-    s.analysisText=r.analysisText||s.analysisText||""; s.analysisStatus=r.analysisStatus||s.analysisStatus||"Insufficient Data"; s.followUpStatus=r.followUpStatus||s.followUpStatus||""; s.counseling=r.counseling||s.counseling||""; s.savedReport=r.savedReport||s.savedReport||""; s.savedReportAt=r.savedReportAt||s.savedReportAt||""; s.savedReportType=r.savedReportType||s.savedReportType||""; s.savedPrompt=r.savedPrompt||s.savedPrompt||""; s.savedAiModel=r.savedAiModel||s.savedAiModel||""; s.answerQualityLevel=r.answerQualityLevel||s.answerQualityLevel||""; s.answerQualityReportAt=r.answerQualityReportAt||s.answerQualityReportAt||""; s.answerQualityReport=r.answerQualityReport||s.answerQualityReport||""; s.aiSubject=r.aiSubject;
+    s.analysisText=r.analysisText||s.analysisText||""; s.analysisStatus=r.analysisStatus||s.analysisStatus||"Insufficient Data"; s.followUpStatus=r.followUpStatus||s.followUpStatus||""; s.counseling=r.counseling||s.counseling||""; s.savedReport=r.savedReport||s.savedReport||""; s.savedReportAt=r.savedReportAt||s.savedReportAt||""; s.savedReportType=r.savedReportType||s.savedReportType||""; s.savedPrompt=r.savedPrompt||s.savedPrompt||""; s.savedAiModel=r.savedAiModel||s.savedAiModel||""; s.answerQualityLevel=r.answerQualityLevel||s.answerQualityLevel||""; s.answerQualityReportAt=r.answerQualityReportAt||s.answerQualityReportAt||""; s.answerQualityReport=r.answerQualityReport||s.answerQualityReport||""; s.manualReports=Array.isArray(r.manualReports)?r.manualReports:(s.manualReports||[]); s.aiSubject=r.aiSubject;
     s.dialogHistory=r.dialogHistory||""; s.qualityFlag=r.qualityFlag||"";
     if(r.subject){
       let exA=s.allSubjects.find(x=>x.subject===r.subject); if(exA){exA.reason=r.reason;exA.strategy=r.strategy}else s.allSubjects.push({subject:r.subject,score:r.score,reason:r.reason,strategy:r.strategy});
@@ -462,6 +552,7 @@ function buildMap(){
   
   PARENT_DATA=PARENT_DATA.map(p=>({...p,studentId:sid(p.studentId),name:String(p.name||"").trim()}));
   TOKENS=TOKENS.map(t=>({...t,studentId:sid(t.studentId),name:String(t.name||"").trim()}));
+  FOLLOWUP_TOKENS=normalizeFollowUpTokens(FOLLOWUP_TOKENS);
   const b=document.getElementById("pbadge");const n=PARENT_DATA.length||0;b.textContent=n;b.style.display=n?"inline-block":"none";
 }
 
@@ -471,7 +562,7 @@ function goto(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
   const nav=document.querySelector(`[onclick="goto('${name}')"]`);if(nav)nav.classList.add("on");
   const pg=document.getElementById("page-"+name);if(pg)pg.classList.add("on");
-  ({overview:renderOverview,students:renderStudents,student:renderStudentPage,subjects:renderSubjects,stress:renderStress,ai:renderAI,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare,report:renderReport}[name]||(() => {}))();
+  ({overview:renderOverview,student:renderStudentPage,subjects:renderSubjects,stress:renderStress,ai:renderAI,flinks:renderFLinks,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare,report:renderReport}[name]||(() => {}))();
 }
 
 // ── 圖表 ────────────────────────────────────────────────────
@@ -484,6 +575,66 @@ function drawChart(id,type,labels,datasets,extra={}){
 function esc(s){const d=document.createElement("div");d.textContent=String(s||"");return d.innerHTML}
 function sid(v){return String(v ?? "").trim()}
 function pill(t,c){return `<span class="pill ${c}">${t}</span>`}
+function attrJson(v){return JSON.stringify(String(v||"")).replace(/"/g,"&quot;")}
+function jumpTag(label, cls, targetId){
+  return '<button type="button" class="pill '+cls+' jump-tag" onclick="scrollToStudentSection('+attrJson(targetId)+')">'+esc(label)+'</button>';
+}
+function scrollToStudentSection(targetId){
+  const el=document.getElementById(String(targetId||""));
+  if(!el)return;
+  const wrap=el.closest("details");
+  if(wrap)wrap.open=true;
+  setTimeout(()=>el.scrollIntoView({behavior:"smooth",block:"start"}),40);
+}
+function reasonTag(reason, cls="p-blue", prefix=""){
+  const text=String(reason||"").trim();
+  if(!text)return "";
+  return '<button type="button" class="pill '+cls+' reason-tag" onclick="showStudentsByReason('+attrJson(text)+')">'+esc(prefix+text)+'</button>';
+}
+function localStudentsByReason(reason){
+  const target=String(reason||"").trim();
+  const map={};
+  ALL.forEach(r=>{
+    const parts=splitReasonParts(r.reason);
+    const matched=parts.includes(target)||String(r.reason||"").includes(target);
+    if(!matched)return;
+    const id=sid(r.studentId);
+    const key=id||String(r.name||"");
+    if(!map[key])map[key]={name:r.name||"",studentId:id,subjects:[]};
+    map[key].subjects.push({subject:r.subject||"",score:r.score||""});
+  });
+  return Object.values(map);
+}
+function displayStudentsByReason(reason, list){
+  const rows=(list||[]).map(item=>{
+    if(typeof item==="string")return {name:item,studentId:"",subjects:[]};
+    return item||{};
+  });
+  const title='選擇「'+reason+'」的學生';
+  if(!rows.length){
+    if(window.Swal)Swal.fire({title, text:"目前查無學生。", icon:"info"});
+    else alert(title+"\n\n目前查無學生。");
+    return;
+  }
+  const html='<div style="text-align:left;line-height:1.8">'+rows.map(s=>{
+    const subjectText=(s.subjects||[]).map(x=>esc(x.subject||"")+(x.score!==""&&x.score!==undefined?" "+esc(x.score)+"分":"")).join("、");
+    return '<div style="padding:8px 0;border-bottom:1px solid #e2e8f0"><strong>'+esc(s.name||"未具名")+'</strong>'+(s.studentId?' <span style="color:#64748b">('+esc(s.studentId)+')</span>':'')+(subjectText?'<br><span style="color:#475569">'+subjectText+'</span>':'')+'</div>';
+  }).join('')+'</div>';
+  if(window.Swal)Swal.fire({title:title+"（"+rows.length+"人）", html, icon:"info", width:620});
+  else alert(title+"（"+rows.length+"人）\n\n"+rows.map(s=>(s.name||"未具名")+(s.studentId?"（"+s.studentId+"）":"")).join("\n"));
+}
+function showStudentsByReason(reason){
+  reason=String(reason||"").trim();
+  if(!reason)return;
+  if(window.google?.script?.run){
+    google.script.run
+      .withSuccessHandler(list=>displayStudentsByReason(reason,list))
+      .withFailureHandler(err=>alert("查詢失敗："+(err?.message||err)))
+      .getStudentNamesByReason(reason);
+  }else{
+    displayStudentsByReason(reason,localStudentsByReason(reason));
+  }
+}
 function rankLabel(x){return x?.rank?`班排 ${x.rank}/${x.total}`:""}
 function rankBadge(x){return x?.rank?`<span class="pill p-blue" style="margin-top:6px">${rankLabel(x)}</span>`:""}
 function sb(v){if(!v)return`<span style="color:var(--ink3)">—</span>`;const c=v>=8?"var(--red)":v>=5?"var(--orange)":"var(--green)";return`<span class="sb" style="background:${c}18;color:${c}">${v}</span>`}
@@ -521,7 +672,11 @@ function parentFor(id){return PARENT_DATA.find(p=>sid(p.studentId)===sid(id));}
 function hasParent(id){return !!parentFor(id);}
 function trackingKey(id){return "n523_track_"+sid(id);}
 function getTracking(id){const v=localStorage.getItem(trackingKey(id))||"未處理";return TRACK_STATUSES.includes(v)?v:"未處理";}
-function setTracking(id,val){localStorage.setItem(trackingKey(id),val);renderStudents();if(CURRENT_STUDENT_ID===sid(id))renderStudentPage();}
+function setTracking(id,val){
+  localStorage.setItem(trackingKey(id),val);
+  if(document.getElementById("page-overview")?.classList.contains("on"))renderOverview();
+  if(CURRENT_STUDENT_ID===sid(id))renderStudentPage();
+}
 function trackingSelect(id){
   const v=getTracking(id);
   return '<select class="sel" style="padding:6px 8px;font-size:12px" onchange="setTracking(\''+esc(id)+'\',this.value)">'+TRACK_STATUSES.map(x=>'<option value="'+esc(x)+'" '+(x===v?'selected':'')+'>'+esc(x)+'</option>').join('')+'</select>';
@@ -620,6 +775,97 @@ function buildSubjectAdvice(subj,rows,ownCounter,supportCounter){
 }
 function formatMissing(v){return esc(v||"尚未填寫");}
 
+function setTableSort(table,key){
+  if(table==="subject"){
+    const subj=document.getElementById("subjDetail")?.dataset.active||"";
+    if(!subj)return;
+    const cur=subjectSortType(subj);
+    let next=key;
+    if(key==="scoreAsc")next=cur==="scoreAsc"?"scoreDesc":"scoreAsc";
+    if(key==="submittedDesc")next=cur==="submittedDesc"?"submittedAsc":"submittedDesc";
+    tableSorts.subject={key:next,dir:(/Desc$/.test(next)||next==="pressureDesc"||next==="failCountDesc"||next==="parentNoReplyFirst"||next==="counselingLevel")?"desc":"asc"};
+    setSubjectSortType(subj,next);
+    return;
+  }
+  const state=tableSorts[table]||(tableSorts[table]={key:"",dir:"asc"});
+  state.dir=state.key===key && state.dir==="asc" ? "desc" : "asc";
+  state.key=key;
+  if(table==="students")renderStudents();
+  else if(table==="overview")renderOverview();
+  else if(table==="stressHigh")renderStress();
+  else if(table==="plinks")renderPLinks();
+  else if(table==="flinks")renderFLinks();
+  updateSortHeaders();
+}
+function updateSortHeaders(){
+  document.querySelectorAll(".sort-th[data-table]").forEach(btn=>{
+    const s=tableSorts[btn.dataset.table]||{};
+    let active=s.key===btn.dataset.key, dir=s.dir||"";
+    if(btn.dataset.table==="subject"){
+      active=s.key===btn.dataset.key || (btn.dataset.key==="scoreAsc"&&/^score/.test(s.key||"")) || (btn.dataset.key==="submittedDesc"&&/^submitted/.test(s.key||""));
+      dir=(s.key==="scoreDesc"||s.key==="submittedDesc"||/Desc$/.test(s.key||"")||s.key==="pressureDesc"||s.key==="failCountDesc"||s.key==="parentNoReplyFirst"||s.key==="counselingLevel")?"desc":"asc";
+    }
+    btn.classList.toggle("is-active",active);
+    btn.dataset.dir=active?dir:"";
+  });
+}
+function sortHeader(table,key,label){
+  const s=tableSorts[table]||{};
+  let active=s.key===key, dir=s.dir||"";
+  if(table==="subject"){
+    active=s.key===key || (key==="scoreAsc"&&/^score/.test(s.key||"")) || (key==="submittedDesc"&&/^submitted/.test(s.key||""));
+    dir=(s.key==="scoreDesc"||s.key==="submittedDesc"||/Desc$/.test(s.key||"")||s.key==="pressureDesc"||s.key==="failCountDesc"||s.key==="parentNoReplyFirst"||s.key==="counselingLevel")?"desc":"asc";
+  }
+  return '<button class="sort-th '+(active?'is-active':'')+'" data-table="'+esc(table)+'" data-key="'+esc(key)+'" data-dir="'+(active?esc(dir):'')+'" onclick="setTableSort(\''+esc(table)+'\',\''+esc(key)+'\')">'+esc(label)+'</button>';
+}
+function normalizeForSort(v){
+  if(v===null||v===undefined||v==="")return {missing:true,value:""};
+  if(typeof v==="number")return {missing:false,value:v};
+  const n=Number(v);
+  if(String(v).trim()!==""&&!Number.isNaN(n))return {missing:false,value:n};
+  const t=Date.parse(v);
+  if(!Number.isNaN(t)&&/[0-9]{4}|上午|下午/.test(String(v)))return {missing:false,value:t};
+  return {missing:false,value:String(v)};
+}
+function compareSortValues(a,b,dir){
+  const av=normalizeForSort(a), bv=normalizeForSort(b);
+  if(av.missing&&bv.missing)return 0;
+  if(av.missing)return 1;
+  if(bv.missing)return -1;
+  let out=0;
+  if(typeof av.value==="number"&&typeof bv.value==="number")out=av.value-bv.value;
+  else out=String(av.value).localeCompare(String(bv.value),"zh-Hant-u-nu-latn",{numeric:true});
+  return dir==="desc"?-out:out;
+}
+function studentSortValue(s,key){
+  if(key==="name")return s.name||"";
+  if(key==="studentId")return s.studentId||"";
+  if(key==="risk")return riskInfo(s).label;
+  if(key==="counseling")return getCounselingLevelWeight(getCounselingLevel(s));
+  if(key==="failCount")return s.subjects?.length||0;
+  if(key==="stress")return +s.stressIndex||0;
+  if(key==="timestamp")return s.timestamp||"";
+  if(key==="filled")return s.hasFeedback?1:0;
+  if(key==="tracking")return getTracking(s.studentId);
+  if(key==="answerQuality")return answerQualityResultInfo(s).label;
+  if(key==="analysis")return counselingAnalysisInfo(s).label;
+  if(key==="parent")return parentStatusInfo(s).weight;
+  if(key==="blindSpot")return s.learningBlindSpot||"";
+  if(key==="commitment")return s.actionCommitment||"";
+  if(key==="linkStatus"){
+    const tok=TOKENS.filter(t=>sid(t.studentId)===sid(s.studentId)).pop();
+    const parentDone=PARENT_DATA.some(p=>sid(p.studentId)===sid(s.studentId));
+    return (!!tok||parentDone)?1:0;
+  }
+  if(key==="followLinkStatus")return followUpStatusInfo(s).weight;
+  return "";
+}
+function applyStudentSort(list,table){
+  const s=tableSorts[table]||{};
+  if(!s.key)return list;
+  return [...list].sort((a,b)=>compareSortValues(studentSortValue(a,s.key),studentSortValue(b,s.key),s.dir)||String(a.studentId||"").localeCompare(String(b.studentId||""),"zh-Hant-u-nu-latn",{numeric:true}));
+}
+
 function hasParentFeedback(student){
   const p=parentFor(student?.studentId||student);
   if(!p)return false;
@@ -628,15 +874,83 @@ function hasParentFeedback(student){
     return t && !/^(無|尚未填寫|未填|沒有|—|-)$/.test(t);
   });
 }
+function parentLinkFor(student){return TOKENS.find(t=>sid(t.studentId)===sid(student?.studentId||student));}
+function parentStatusInfo(student){
+  if(parentFor(student?.studentId||student))return {label:"已回覆",cls:"p-green",weight:3};
+  if(parentLinkFor(student))return {label:"未填寫",cls:"p-amber",weight:2};
+  return {label:"未發送",cls:"p-gray",weight:1};
+}
+function normalizeFollowUpTokens(tokens){
+  return (tokens||[]).map(t=>({
+    ...t,
+    studentId:sid(t.studentId),
+    name:String(t.name||t.studentName||"").trim(),
+    done:t.done===true || String(t.done||t.filled||t.submitted||"").trim()==="1" || String(t.done||"").trim()==="已填寫",
+    createdAt:t.createdAt||t.timestamp||"",
+    submittedAt:t.submittedAt||t.filledAt||""
+  }));
+}
+function followUpLinkFor(student){
+  return FOLLOWUP_TOKENS.filter(t=>sid(t.studentId)===sid(student?.studentId||student)).pop();
+}
+function followUpStatusInfo(student){
+  const tok=followUpLinkFor(student);
+  if(tok?.done)return {label:"已填寫",cls:"p-green",weight:3,detail:tok.submittedAt||""};
+  if(tok)return {label:"未填寫",cls:"p-amber",weight:2,detail:tok.createdAt||""};
+  return {label:"未發送",cls:"p-gray",weight:1,detail:""};
+}
+function dashboardTeacherFocus(student){
+  const failed=[...(student?.subjects||[])].sort((a,b)=>(+a.score||999)-(+b.score||999));
+  const lowest=[...(student?.allSubjects||[])].filter(x=>Number.isFinite(Number(x.score))).sort((a,b)=>(+a.score)-(+b.score)).slice(0,3);
+  const rows=failed.length?failed:lowest;
+  const reasons=[...new Set(rows.flatMap(x=>splitReasonParts(x.reason)))].slice(0,2);
+  const strategies=[...new Set(rows.flatMap(x=>String(x.strategy||"").split(/[；;、,，\n]+/).map(v=>v.trim()).filter(Boolean)))].slice(0,2);
+  const support=[...new Set(rows.flatMap(x=>teacherGuidanceParts(x.reason)))].slice(0,2);
+  const out=[];
+  if(failed.length){
+    out.push("追蹤不及格科目：" + failed.slice(0,2).map(x=>x.subject).join("、"));
+    out.push("確認是否已開始執行原本承諾的複習調整");
+    out.push(reasons.length ? "釐清目前是否仍卡在：" + reasons.join("、") : "釐清目前卡住的是讀不懂、背不起來或時間安排");
+  }else if(lowest.length){
+    out.push("追蹤最低三科是否維持複習：" + lowest.map(x=>x.subject).join("、"));
+    out.push("確認目前有效的讀書方法能否持續");
+  }else{
+    out.push("確認目前讀書方法與作息是否穩定");
+  }
+  if((+student?.stressIndex||0)>=7)out.push("追蹤壓力來源與睡眠狀況");
+  if(strategies.length)out.push("確認改進策略是否做到：" + strategies.join("、"));
+  if(support.length)out.push("確認是否仍需要老師協助：" + support.join("、"));
+  return [...new Set(out)].slice(0,4);
+}
+async function loadFollowUpTokens(){
+  if(followUpTokensLoading || followUpTokensLoaded)return;
+  followUpTokensLoading=true;
+  const hint=document.getElementById("followTokenHint");
+  if(hint)hint.textContent="追蹤問卷狀態載入中…";
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"getFollowUpTokens",dashToken:DTOK})}).then(r=>r.json());
+    if(d.ok){
+      FOLLOWUP_TOKENS=normalizeFollowUpTokens(d.tokens||[]);
+      followUpTokensLoaded=true;
+      renderFLinks();
+    }else if(hint){
+      hint.textContent="尚未接上追蹤問卷狀態查詢";
+    }
+  }catch(e){
+    if(hint)hint.textContent="追蹤問卷狀態暫時無法載入";
+  }finally{
+    followUpTokensLoading=false;
+  }
+}
 function getCounselingLevelWeight(level){return ({"優先面談":1,"建議關懷":2,"一般追蹤":3,"穩定":4})[level]||99;}
 function overviewFilterMeta(type){
-  const meta={all:{title:"所有學生",desc:"顯示目前系統內所有學生。"},allFilled:{title:"已填寫問卷學生",desc:"以下學生已完成學生問卷，可查看自評、成績與追問資料。"},parentReplied:{title:"家長已回填學生",desc:"以下學生已有家長問卷回覆，可與學生自述進行對照。"},pressureOverview:{title:"壓力指數排序",desc:"依壓力指數由高到低排序，方便找出需關注學生。"},priorityInterview:{title:"優先面談學生",desc:"此類學生建議導師近期優先處理。"},careSuggested:{title:"建議關懷學生",desc:"此類學生可先透過課堂提醒、Line 關心或短談方式追蹤。"},generalFollowUp:{title:"一般追蹤學生",desc:"目前未達優先面談標準，建議持續觀察。"},stable:{title:"穩定學生",desc:"目前成績與壓力狀態相對穩定。"}};
+  const meta={all:{title:"所有學生",desc:"顯示目前系統內所有學生。"},allFilled:{title:"已填寫問卷學生",desc:"以下學生已完成學生問卷，可查看自評、成績與追問資料。"},parentReplied:{title:"家長已回覆學生",desc:"以下學生已有家長問卷回覆，可與學生自述進行對照。"},pressureOverview:{title:"壓力指數排序",desc:"依壓力指數由高到低排序，方便找出需關注學生。"},priorityInterview:{title:"優先面談學生",desc:"此類學生建議導師近期優先處理。"},careSuggested:{title:"建議關懷學生",desc:"此類學生可先透過課堂提醒、Line 關心或短談方式追蹤。"},generalFollowUp:{title:"一般追蹤學生",desc:"目前未達優先面談標準，建議持續觀察。"},stable:{title:"穩定學生",desc:"目前成績與壓力狀態相對穩定。"}};
   return meta[type]||meta.all;
 }
 function filterStudentsByOverviewCard(students, filterType){
   const arr=[...(students||[])];
   if(filterType==="allFilled")return arr.filter(s=>s.hasFeedback);
-  if(filterType==="parentReplied")return arr.filter(s=>s.hasFeedback&&hasParentFeedback(s));
+  if(filterType==="parentReplied")return arr.filter(s=>s.hasFeedback&&parentFor(s.studentId));
   if(filterType==="pressureOverview")return arr.filter(s=>s.hasFeedback).sort((a,b)=>((+b.stressIndex||-1)-(+a.stressIndex||-1))||String(a.studentId).localeCompare(String(b.studentId)));
   if(filterType==="priorityInterview")return arr.filter(s=>s.hasFeedback&&getCounselingLevel(s)==="優先面談");
   if(filterType==="careSuggested")return arr.filter(s=>s.hasFeedback&&getCounselingLevel(s)==="建議關懷");
@@ -689,7 +1003,10 @@ function answerQualityResultInfo(s){
 }
 function counselingAnalysisInfo(s){
   const hasSaved=!!(s?.savedReport && String(s.savedReportType||"").indexOf("答題品質分析")!==0);
-  if(hasSaved)return {label:"已保存輔導報告",cls:"p-purple",detail:s.savedReportType||"輔導報告"};
+  if(hasSaved){
+    const t=String(s.savedReportType||"輔導報告");
+    return {label:t.indexOf("面談紀錄")>=0?"已保存面談紀錄":"已保存輔導報告",cls:"p-purple",detail:t};
+  }
   if(s?.analysisText)return {label:"未回填輔導報告",cls:"p-gray",detail:"尚未保存外部 AI 輔導報告"};
   return {label:"資料不足",cls:"p-gray",detail:"尚無可用資料"};
 }
@@ -701,7 +1018,7 @@ function generateAnswerQualityPromptText(s){
 }
 async function copyAnswerQualityText(studentId, btn){const s=SMAP[sid(studentId)];if(!s?.hasFeedback){alert('學生尚未填寫，無法複製答題品質分析文字。');return false;}const text=generateAnswerQualityPromptText(s);try{await navigator.clipboard.writeText(text);if(btn){const old=btn.textContent;btn.textContent='已複製';setTimeout(()=>btn.textContent=old||'複製文字',1600);}const status=document.getElementById('answerQualityStatus_'+sid(studentId));if(status)status.textContent='已複製答題品質分析文字';return true;}catch(e){prompt('請手動複製以下文字：',text);return false;}}
 function refreshAnswerQualityText(studentId){const s=SMAP[sid(studentId)];const ta=document.getElementById('answerQualityText_'+sid(studentId));const status=document.getElementById('answerQualityStatus_'+sid(studentId));if(ta&&s)ta.value=generateAnswerQualityPromptText(s);if(status)status.textContent='已重新整理文字';}
-function answerQualityPanel(s){const id=esc(s.studentId);const text=esc(generateAnswerQualityPromptText(s));return '<div class="card"><div class="card-head"><span class="card-title">答題品質分析用文字</span></div><div class="card-body"><div style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px">以下內容可直接複製到 ChatGPT、Gemini 或 NotebookLM，請 AI 協助判斷學生問卷回答是否具體、是否敷衍、是否需要補充。本系統不會在導師端自動呼叫 API。</div><textarea id="answerQualityText_'+id+'" class="copy-textarea">'+text+'</textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button class="btn-act teal" onclick="copyAnswerQualityText(\''+id+'\',this)">複製答題品質分析文字</button><button class="btn-act" onclick="refreshAnswerQualityText(\''+id+'\')">重新整理文字</button><span id="answerQualityStatus_'+id+'" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div><div style="margin-top:18px;border-top:1px solid var(--border);padding-top:16px"><div style="font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px">外部 AI 答題品質分析回填紀錄</div><div style="font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:10px">把外部 AI 產出的答題品質等級、判斷依據與建議貼在這裡，並由導師手動選定最後結果。按保存後會寫入 Google Sheet 的手動 AI 報告紀錄，類型為「答題品質分析」。</div><label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">導師手動判定結果</label><select class="sel" id="answerQualityLevel_'+id+'" style="margin-bottom:10px"><option value="">請選擇...</option><option value="良好">良好</option><option value="普通">普通</option><option value="待加強">待加強</option><option value="明顯敷衍">明顯敷衍</option><option value="需進一步確認">需進一步確認</option><option value="建議重新填寫">建議重新填寫</option></select><textarea id="answerQualityResult_'+id+'" placeholder="貼上外部 AI 產生的答題品質分析結果..." class="copy-textarea" style="min-height:140px;background:white"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button class="btn-act teal" onclick="saveAnswerQualityResult(\''+id+'\',this)">保存答題品質紀錄</button><span id="answerQualitySaveStatus_'+id+'" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div></div></div></div>';}
+function answerQualityPanel(s){const id=esc(s.studentId);const text=esc(generateAnswerQualityPromptText(s));return '<div class="card" id="answerQualitySection"><div class="card-head"><span class="card-title">答題品質分析用文字</span></div><div class="card-body"><div style="font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:12px">以下內容可直接複製到 ChatGPT、Gemini 或 NotebookLM，請 AI 協助判斷學生問卷回答是否具體、是否敷衍、是否需要補充。本系統不會在導師端自動呼叫 API。</div><textarea id="answerQualityText_'+id+'" class="copy-textarea">'+text+'</textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button class="btn-act teal" onclick="copyAnswerQualityText(\''+id+'\',this)">複製答題品質分析文字</button><button class="btn-act" onclick="refreshAnswerQualityText(\''+id+'\')">重新整理文字</button><span id="answerQualityStatus_'+id+'" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div><div style="margin-top:18px;border-top:1px solid var(--border);padding-top:16px"><div style="font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px">外部 AI 答題品質分析回填紀錄</div><div style="font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:10px">把外部 AI 產出的答題品質等級、判斷依據與建議貼在這裡，並由導師手動選定最後結果。按保存後會寫入 Google Sheet 的手動 AI 報告紀錄，類型為「答題品質分析」。</div><label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">導師手動判定結果</label><select class="sel" id="answerQualityLevel_'+id+'" style="margin-bottom:10px"><option value="">請選擇...</option><option value="良好">良好</option><option value="普通">普通</option><option value="待加強">待加強</option><option value="明顯敷衍">明顯敷衍</option><option value="需進一步確認">需進一步確認</option><option value="建議重新填寫">建議重新填寫</option></select><textarea id="answerQualityResult_'+id+'" placeholder="貼上外部 AI 產生的答題品質分析結果..." class="copy-textarea" style="min-height:140px;background:white"></textarea><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button class="btn-act teal" onclick="saveAnswerQualityResult(\''+id+'\',this)">保存答題品質紀錄</button><span id="answerQualitySaveStatus_'+id+'" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div></div></div></div>';}
 async function saveAnswerQualityResult(studentId, btn){
   const id=sid(studentId); const st=SMAP[id];
   const ta=document.getElementById('answerQualityResult_'+id);
@@ -718,7 +1035,8 @@ async function saveAnswerQualityResult(studentId, btn){
     if(!d.ok)throw new Error(d.msg||'保存失敗');
     if(status)status.textContent='已保存到 Google Sheet';
     if(ta)ta.value=''; const levelEl=document.getElementById('answerQualityLevel_'+id); if(levelEl)levelEl.value='';
-    if(st){st.answerQualityLevel=qualityLevel;st.answerQualityReportAt=d.timestamp||'';st.answerQualityReport=d.reportText||finalReportText;}
+    if(st){st.answerQualityLevel=qualityLevel;st.answerQualityReportAt=d.timestamp||'';st.answerQualityReport=d.reportText||finalReportText;rememberManualReport(id,{timestamp:d.timestamp||'',reportType:d.reportType||('答題品質分析｜'+qualityLevel),reportText:d.reportText||finalReportText,promptText:d.promptText||generateAnswerQualityPromptText(st),aiModel:d.aiModel||settings.aiModel});}
+    if(CURRENT_STUDENT_ID===id)renderStudentPage();
   }catch(e){if(status)status.textContent='保存失敗：'+e.message;}
   finally{if(btn){btn.disabled=false;btn.textContent=old||'保存答題品質紀錄';}}
 }
@@ -748,11 +1066,11 @@ function renderOverview(){
   const avgS=filled.length?(filled.reduce((a,s)=>a+(+s.stressIndex||0),0)/filled.length).toFixed(1):0;
   const levelCounts={"優先面談":0,"建議關懷":0,"一般追蹤":0,"穩定":0};
   filled.forEach(s=>{const lv=getCounselingLevel(s);levelCounts[lv]=(levelCounts[lv]||0)+1;});
-  const parentCount=filled.filter(hasParentFeedback).length;
+  const parentCount=filled.filter(s=>parentFor(s.studentId)).length;
   document.getElementById("overviewMetrics").innerHTML=
     '<div><div class="metric-group-title">班級狀態</div><div class="metric-row">'+
       overviewMetricCard('allFilled','已填寫',filled.length+' / '+ss.length,'點擊查看已填寫學生','blue')+
-      overviewMetricCard('parentReplied','家長已回填',parentCount,'點擊查看家長已回覆學生','teal')+
+      overviewMetricCard('parentReplied','家長已回覆',parentCount,'點擊查看家長已回覆學生','teal')+
       overviewMetricCard('pressureOverview','平均壓力',avgS+' / 10','點擊查看壓力分布','orange')+
     '</div></div>'+
     '<div><div class="metric-group-title">輔導優先</div><div class="metric-row">'+
@@ -766,23 +1084,24 @@ function renderOverview(){
   drawChart("cSubject","bar",sb2.map(x=>x[0]),[{data:sb2.map(x=>x[1]),backgroundColor:"#3b82f6",borderRadius:5}],{indexAxis:"y"});
   const rc=countParts(ALL, r=>splitReasonParts(r.reason));
   const rk=Object.keys(rc);
-  document.getElementById("rLegend").innerHTML=rk.map((l,i)=>`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:${COLORS[i%COLORS.length]};display:inline-block"></span>${l.length>12?l.slice(0,12)+"…":l} ${rc[l]}</span>`).join("");
+  document.getElementById("rLegend").innerHTML=rk.map((l,i)=>`<span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:3px;background:${COLORS[i%COLORS.length]};display:inline-block"></span>${reasonTag(l,"p-blue",rc[l]+"人：")}</span>`).join("");
   drawChart("cReason","doughnut",rk,[{data:rk.map(k=>rc[k]),backgroundColor:COLORS,borderWidth:0}],{cutout:"55%"});
   const meta=overviewFilterMeta(activeOverviewFilter);
-  const rows=filterStudentsByOverviewCard(ss,activeOverviewFilter);
+  const rows=applyStudentSort(filterStudentsByOverviewCard(ss,activeOverviewFilter),"overview");
   document.getElementById("overviewFilterNote").innerHTML='<div><strong>目前查看：'+esc(meta.title)+'</strong><br><span>共 '+rows.length+' 人｜'+esc(meta.desc)+'</span></div><button class="btn-act" onclick="setOverviewFilter(\'all\')">清除篩選 / 顯示全部</button>';
   document.getElementById("overviewProblemBody").innerHTML=!rows.length?`<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--ink2)">無符合條件的學生</td></tr>`
     :rows.map(s=>{
       const level=counselingInfo(s);
-      const parentDone=hasParentFeedback(s);
+      const parentStatus=parentStatusInfo(s);
+      const qInfo=answerQualityResultInfo(s);
       return `<tr>
         <td>${studentNameCell(s)}</td>
         <td style="font-size:12px;color:var(--ink2);font-family:monospace">${esc(s.studentId)}</td>
         <td>${pill(level.label,level.cls)}</td>
         <td>${pill((s.subjects?.length||0)+"科",(s.subjects?.length||0)>=4?"p-red":(s.subjects?.length||0)>=2?"p-orange":"p-amber")}</td>
         <td>${s.hasFeedback?sb(s.stressIndex):`<span class="muted">無資料</span>`}</td>
-        <td>${parentDone?pill("已回饋","p-green"):pill("未回饋","p-gray")}</td>
-        <td style="font-size:12px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.learningBlindSpot)||"—"}</td>
+        <td>${pill(parentStatus.label,parentStatus.cls)}</td>
+        <td><div>${reportPill('答題品質：'+qInfo.label,qInfo.cls,"showAnswerQualityReport('"+esc(s.studentId)+"')")}</div><div style="margin-top:6px;font-size:12px;color:var(--ink3)">${qInfo.at?esc(String(qInfo.at).slice(0,16)):'尚未回填'}</div></td>
         <td>${trackingSelect(s.studentId)}</td>
         <td>${overviewActionButtons(s)}</td>
       </tr>`;
@@ -790,6 +1109,7 @@ function renderOverview(){
   const warns=filled.filter(s=>getCounselingLevel(s)==="優先面談");
   document.getElementById("warningList").innerHTML=!warns.length?`<div class="empty">✅ 目前無高風險學生</div>`
     :`<div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>科數</th><th>壓力</th><th>盲點</th></tr></thead><tbody>${warns.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td>${studentNameCell(s)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td>${sb(s.stressIndex)}</td><td style="font-size:12px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.learningBlindSpot)||"—"}</td></tr>`).join("")}</tbody></table></div>`;
+  updateSortHeaders();
 }
 
 function getPromptSettingsFromForm(){
@@ -822,6 +1142,120 @@ function showCounselingReport(studentId){
   if(st?.savedReport && String(st.savedReportType||"").indexOf("答題品質分析")!==0){showReportModal("輔導分析報告", (st.name||"")+"・"+(st.savedReportType||"輔導報告")+(st.savedReportAt?"・"+String(st.savedReportAt).slice(0,16):""), st.savedReport);return;}
   openStudent(studentId);
 }
+function rememberManualReport(studentId, item){
+  const st=SMAP[sid(studentId)];
+  if(!st||!item)return;
+  const record={
+    timestamp:String(item.timestamp||item.savedReportAt||""),
+    studentId:sid(studentId),
+    name:String(st.name||item.name||""),
+    reportType:String(item.reportType||"紀錄"),
+    reportText:String(item.reportText||""),
+    promptText:String(item.promptText||""),
+    aiModel:String(item.aiModel||"")
+  };
+  st.manualReports=Array.isArray(st.manualReports)?st.manualReports:[];
+  st.manualReports.unshift(record);
+  st.manualReports=st.manualReports.filter((r,i,arr)=>arr.findIndex(x=>String(x.timestamp)===String(r.timestamp)&&String(x.reportType)===String(r.reportType)&&String(x.reportText)===String(r.reportText))===i);
+  if(record.reportType.indexOf("答題品質分析")!==0){
+    st.savedReport=record.reportText; st.savedReportAt=record.timestamp; st.savedReportType=record.reportType; st.savedPrompt=record.promptText; st.savedAiModel=record.aiModel;
+  }
+}
+function manualReportsForStudent(s){
+  const arr=Array.isArray(s?.manualReports)?s.manualReports.slice():[];
+  if(s?.savedReport&&!arr.some(r=>String(r.reportText||"")===String(s.savedReport||"")&&String(r.reportType||"")===String(s.savedReportType||""))){
+    arr.push({timestamp:s.savedReportAt||"",studentId:s.studentId||"",name:s.name||"",reportType:s.savedReportType||"紀錄",reportText:s.savedReport||"",promptText:s.savedPrompt||"",aiModel:s.savedAiModel||""});
+  }
+  return arr.filter(r=>String(r.reportText||"").trim()).sort((a,b)=>(new Date(b.timestamp||0).getTime()||0)-(new Date(a.timestamp||0).getTime()||0));
+}
+function reportTypeLabel(type){
+  const t=String(type||"紀錄");
+  if(t.indexOf("一段式")>=0)return "一段式輔導紀錄";
+  if(t.indexOf("答題品質分析")===0)return "答題品質報告";
+  if(t.indexOf("家庭聯繫")>=0)return "家庭聯繫/個別談話紀錄";
+  if(t.indexOf("面談紀錄")>=0)return "面談紀錄";
+  if(t.indexOf("家長")>=0)return "家長溝通紀錄";
+  if(t.indexOf("追蹤")>=0)return "追蹤紀錄";
+  return t;
+}
+function savedRecordTags(s){
+  const reports=manualReportsForStudent(s);
+  if(!reports.length)return jumpTag("尚無保存紀錄","p-gray","savedRecordsSection");
+  const counts={};
+  reports.forEach(r=>{const label=reportTypeLabel(r.reportType);counts[label]=(counts[label]||0)+1;});
+  return Object.keys(counts).slice(0,4).map(label=>jumpTag(label+" "+counts[label]+"筆","p-green","savedRecordsSection")).join("")+
+    (Object.keys(counts).length>4?jumpTag("全部紀錄 "+reports.length+"筆","p-purple","savedRecordsSection"):"");
+}
+async function copySavedRecord(studentId, index, btn){
+  const st=SMAP[sid(studentId)];
+  const record=manualReportsForStudent(st)[+index];
+  if(!record){alert("找不到這筆保存紀錄");return;}
+  try{
+    await navigator.clipboard.writeText(record.reportText||"");
+    if(btn){const old=btn.textContent;btn.textContent="已複製";setTimeout(()=>btn.textContent=old||"複製全文",1400);}
+  }catch(e){prompt("請手動複製以下內容：",record.reportText||"");}
+}
+function showSavedRecord(studentId, index){
+  const st=SMAP[sid(studentId)];
+  const record=manualReportsForStudent(st)[+index];
+  if(!record)return;
+  showReportModal(reportTypeLabel(record.reportType), (st?.name||"")+"・"+(record.timestamp?String(record.timestamp).slice(0,16):"未標示時間")+(record.aiModel?"・"+record.aiModel:""), record.reportText||"");
+}
+async function deleteSavedRecord(studentId, index, btn){
+  const id=sid(studentId);
+  const st=SMAP[id];
+  const record=manualReportsForStudent(st)[+index];
+  if(!record){alert("找不到這筆保存紀錄");return;}
+  const ok=confirm("確定要刪除這筆「"+reportTypeLabel(record.reportType)+"」嗎？\n\n刪除後會同步從 Google Sheet 移除。");
+  if(!ok)return;
+  const old=btn?.textContent;
+  if(btn){btn.disabled=true;btn.textContent="刪除中…";}
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"deleteManualAnalysis",dashToken:DTOK,studentId:id,timestamp:record.timestamp,reportType:record.reportType,reportText:record.reportText})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||"刪除失敗");
+    if(st){
+      st.manualReports=manualReportsForStudent(st).filter((r,i)=>i!==+index);
+      const latest=st.manualReports.find(r=>String(r.reportType||"").indexOf("答題品質分析")!==0);
+      st.savedReport=latest?.reportText||"";
+      st.savedReportAt=latest?.timestamp||"";
+      st.savedReportType=latest?.reportType||"";
+      st.savedPrompt=latest?.promptText||"";
+      st.savedAiModel=latest?.aiModel||"";
+      const q=st.manualReports.find(r=>String(r.reportType||"").indexOf("答題品質分析")===0);
+      if(q){
+        const type=String(q.reportType||"");
+        st.answerQualityLevel=type.indexOf("｜")>=0?type.split("｜").pop():st.answerQualityLevel;
+        st.answerQualityReportAt=q.timestamp||"";
+        st.answerQualityReport=q.reportText||"";
+      }else{
+        st.answerQualityLevel=""; st.answerQualityReportAt=""; st.answerQualityReport="";
+      }
+    }
+    if(document.getElementById("page-ai")?.classList.contains("on"))renderAI();
+    else renderStudentPage();
+  }catch(e){
+    alert("刪除失敗："+e.message);
+    if(btn){btn.disabled=false;btn.textContent=old||"刪除";}
+  }
+}
+function savedRecordsPanel(s){
+  const id=esc(s?.studentId||"");
+  const reports=manualReportsForStudent(s);
+  if(!reports.length){
+    return '<div class="card" id="savedRecordsSection"><div class="card-head"><span class="card-title">已保存紀錄</span></div><div class="card-body"><div class="compact-muted">目前尚未保存任何答題品質、輔導報告、家庭聯繫或面談紀錄。</div></div></div>';
+  }
+  return '<div class="card" id="savedRecordsSection"><div class="card-head"><span class="card-title">已保存紀錄</span><span class="muted">'+reports.length+' 筆</span></div><div class="card-body"><div class="saved-record-list">'+
+    reports.map((r,i)=>{
+      const title=reportTypeLabel(r.reportType);
+      const meta=[r.timestamp?String(r.timestamp).slice(0,16):"未標示時間",r.aiModel?"模型："+r.aiModel:""].filter(Boolean).join("・");
+      const preview=String(r.reportText||"").slice(0,180);
+      return '<div class="saved-record-item" id="savedRecord_'+i+'">'+
+        '<div class="saved-record-head"><div><div class="saved-record-title">'+esc(title)+'</div><div class="saved-record-meta">'+esc(meta||"無時間資料")+'</div></div>'+
+        '<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn-act" onclick="showSavedRecord(\''+id+'\','+i+')">查看全文</button><button class="btn-act teal" onclick="copySavedRecord(\''+id+'\','+i+',this)">複製全文</button><button class="btn-act danger" onclick="deleteSavedRecord(\''+id+'\','+i+',this)">刪除</button></div></div>'+
+        '<div class="saved-record-preview">'+esc(preview)+(String(r.reportText||"").length>180?"…":"")+'</div>'+
+      '</div>';
+    }).join("")+'</div></div></div>';
+}
 
 function loadPromptSettingsToForm(){
   const p=document.getElementById("customPromptInput");
@@ -843,9 +1277,9 @@ async function savePromptSettings(){
 function manualReportPanel(s){
   const id=esc(s.studentId);
   const saved=s.savedReport?`<div style="margin-top:14px"><div style="font-size:13px;color:var(--ink2);font-weight:800;margin-bottom:8px">已保存報告${s.savedReportAt?`・${esc(String(s.savedReportAt).slice(0,16))}`:""}${s.savedAiModel?`・模型：${esc(s.savedAiModel)}`:""}</div>${aiReportHtml(s.savedReport,"尚無已保存報告")}</div>`:`<div class="muted" style="margin-top:12px">尚未保存外部 AI 報告</div>`;
-  return `<div class="card"><div class="card-head"><span class="card-title">AI 報告紀錄保存</span></div><div class="card-body">
+  return `<div class="card" id="manualReportSection"><div class="card-head"><span class="card-title">AI 報告紀錄保存</span></div><div class="card-body">
     <label style="font-size:13px;font-weight:800;color:var(--ink2);display:block;margin-bottom:8px">報告類型</label>
-    <select class="sel" id="manualType_${id}" style="margin-bottom:10px"><option value="學生輔導報告">學生輔導報告</option><option value="面談紀錄">面談紀錄</option><option value="家長溝通紀錄">家長溝通紀錄</option><option value="追蹤紀錄">追蹤紀錄</option></select>
+    <select class="sel" id="manualType_${id}" style="margin-bottom:10px"><option value="一段式學生輔導紀錄">一段式學生輔導紀錄</option><option value="學生輔導報告">學生輔導報告</option><option value="面談紀錄">面談紀錄</option><option value="家長溝通紀錄">家長溝通紀錄</option><option value="追蹤紀錄">追蹤紀錄</option></select>
     <textarea id="manualReport_${id}" placeholder="把外部 AI 產生的報告貼在這裡，按下保存後會寫入 Google Sheet。" style="width:100%;min-height:160px;border:1px solid var(--border);border-radius:12px;padding:12px;font-family:inherit;font-size:14px;line-height:1.7;resize:vertical"></textarea>
     <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn-act teal" onclick="saveManualReport('${id}',this)">保存報告紀錄</button><span id="manualStatus_${id}" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
     ${saved}
@@ -863,7 +1297,7 @@ async function saveManualReport(studentId, btn){
   try{
     const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"saveManualAnalysis",dashToken:DTOK,studentId:id,name:s?.name||"",reportType:type,reportText,promptText:settings.customPrompt,aiModel:settings.aiModel})}).then(r=>r.json());
     if(!d.ok)throw new Error(d.msg||"保存失敗");
-    if(s){s.savedReport=d.reportText||reportText;s.savedReportAt=d.timestamp||"";s.savedReportType=d.reportType||type;s.savedPrompt=d.promptText||settings.customPrompt;s.savedAiModel=d.aiModel||settings.aiModel;}
+    rememberManualReport(id,{timestamp:d.timestamp||"",reportType:d.reportType||type,reportText:d.reportText||reportText,promptText:d.promptText||settings.customPrompt,aiModel:d.aiModel||settings.aiModel});
     if(status)status.textContent="已保存到 Google Sheet";
     if(ta)ta.value="";
     if(CURRENT_STUDENT_ID===id)renderStudentPage(); else renderAI();
@@ -906,8 +1340,9 @@ function renderStudents(){
     return true;
   });
   document.getElementById("stTitle").textContent=`學生列表（共 ${ss.length} 人）`;
-  document.getElementById("stBody").innerHTML=!ss.length?`<tr><td colspan="12" style="text-align:center;padding:24px;color:var(--ink2)">無符合條件的學生</td></tr>`
-    :ss.sort((a,b)=>{if(a.hasFeedback!==b.hasFeedback)return a.hasFeedback?-1:1;return String(a.studentId).localeCompare(String(b.studentId));}).map((s,i)=>{const risk=riskInfo(s), level=counselingInfo(s), qInfo=answerQualityResultInfo(s), aInfo=counselingAnalysisInfo(s); return `<tr>
+  const rows=tableSorts.students.key?applyStudentSort(ss,"students"):ss.sort((a,b)=>{if(a.hasFeedback!==b.hasFeedback)return a.hasFeedback?-1:1;return String(a.studentId).localeCompare(String(b.studentId));});
+  document.getElementById("stBody").innerHTML=!rows.length?`<tr><td colspan="12" style="text-align:center;padding:24px;color:var(--ink2)">無符合條件的學生</td></tr>`
+    :rows.map((s,i)=>{const risk=riskInfo(s), level=counselingInfo(s), qInfo=answerQualityResultInfo(s), aInfo=counselingAnalysisInfo(s); return `<tr>
       <td style="color:var(--ink3)">${i+1}</td>
       <td>${studentNameCell(s)}</td>
       <td style="font-size:12px;color:var(--ink2);font-family:monospace">${esc(s.studentId)}</td>
@@ -921,50 +1356,277 @@ function renderStudents(){
       <td><div>${reportPill('答題品質：'+qInfo.label,qInfo.cls,"showAnswerQualityReport('"+esc(s.studentId)+"')")}</div><div style="margin-top:6px;font-size:12px;color:var(--ink3)">${qInfo.at?esc(String(qInfo.at).slice(0,16)):'尚未回填'}</div></td>
       <td><div>${reportPill(aInfo.label,aInfo.cls,"showCounselingReport('"+esc(s.studentId)+"')")}</div><div style="margin-top:8px;font-size:14px;color:var(--ink2);line-height:1.5">${esc(aInfo.detail)}</div></td>
     </tr>`}).join("");
+  updateSortHeaders();
 }
 
 function showScoreModal(id, mode) { openStudent(id); }
 function closeScoreModal(){document.getElementById("scoreModal").classList.remove("on");}
 
+function subjectInterviewCards(student){
+  const all=(student?.allSubjects||[]).slice();
+  if(!all.length)return '<div class="empty">無各科資料</div>';
+  const dialogs=dialogItems(student?.dialogHistory);
+  all.sort((a,b)=>{
+    const af=a.score<60, bf=b.score<60;
+    if(af!==bf)return af?-1:1;
+    if(af&&bf)return a.score-b.score;
+    return b.score-a.score;
+  });
+  return '<div class="subject-cards">'+all.map(x=>{
+    const fail=x.score<60;
+    const own=splitReasonParts(x.reason).join('；')||x.reason||'';
+    const support=teacherGuidanceParts(x.reason).join('；');
+    const qa=dialogs.filter(d=>String(d.subject||'')===String(x.subject||''));
+    const qaHtml=qa.length
+      ?qa.map((d,i)=>'<div class="qa-line"><strong>追問'+(i+1)+'：</strong>'+esc(d.q||'無資料')+'<br><strong>回答：</strong>'+esc(d.a||'無資料')+'</div>').join('')
+      :'<span class="compact-muted">無追問資料</span>';
+    return '<div class="subject-card '+(fail?'fail':'pass')+'">'+
+      '<div class="subject-top"><div><div class="subject-name">'+esc(x.subject)+'</div><div class="subject-meta">'+(x.rank?('班排 '+esc(x.rank)+'/'+esc(x.total||'')):'班排無資料')+'</div></div><div class="subject-score '+(fail?'fail':'pass')+'">'+esc(x.score)+' 分</div></div>'+
+      '<div class="subject-detail-grid">'+
+        '<div class="info-box"><div class="info-label">學生自述原因</div>'+(splitReasonParts(x.reason).length?splitReasonParts(x.reason).map(r=>reasonTag(r)).join(' '):(own?esc(own):'<span class="compact-muted">無資料</span>'))+'</div>'+
+        '<div class="info-box"><div class="info-label">希望老師協助</div>'+(support?esc(support):'<span class="compact-muted">無資料</span>')+'</div>'+
+        '<div class="info-box"><div class="info-label">改進策略</div>'+(x.strategy?esc(x.strategy):'<span class="compact-muted">無資料</span>')+'</div>'+
+        '<div class="info-box"><div class="info-label">AI追問與學生回答</div>'+qaHtml+'</div>'+
+      '</div></div>';
+  }).join('')+'</div>';
+}
+function lifestyleInterviewPanel(student){
+  const r=student?.routine||{};
+  const rows=[
+    ['睡眠',r.sleep||'尚未填寫'],
+    ['熬夜',r.allNighter||'尚未填寫'],
+    ['娛樂',r.entertainment||'尚未填寫'],
+    ['外務',r.extracurricular||'尚未填寫'],
+    ['讀書方法',student?.studyMethod||'尚未填寫'],
+    ['學習盲點',student?.learningBlindSpot||'尚未填寫'],
+    ['行動承諾',student?.actionCommitment||'尚未填寫'],
+    ['近期狀態',student?.shortTermGoal||'尚未填寫']
+  ];
+  return rows.map(([k,v])=>'<div class="focus-item"><div class="focus-label">'+esc(k)+'</div>'+esc(v)+'</div>').join('');
+}
+function parentInterviewHtml(student){
+  const p=parentFor(student?.studentId);
+  if(!p)return '<div class="compact-muted">家長尚未填寫</div>';
+  return '<div class="focus-list" style="grid-template-columns:1fr">'+
+    '<div class="focus-item"><div class="focus-label">壓力與觀察</div>'+esc([p.stressLevel,p.observation].filter(Boolean).join('；')||'無資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">家長可支持方式</div>'+esc(p.supportMethods||'無資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">家長建議</div>'+esc(p.suggestions||p.additionalConcerns||'無資料')+'</div>'+
+  '</div>';
+}
+function todayInputValue(){
+  const d=new Date();
+  const p=n=>String(n).padStart(2,'0');
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+}
+function interviewRecordPanel(student){
+  const id=esc(student?.studentId||'');
+  const savedType=String(student?.savedReportType||'');
+  const hasInterview=student?.savedReport && savedType.indexOf('面談紀錄')>=0;
+  return '<div class="card" id="interviewRecordSection"><div class="card-head"><span class="card-title">面談紀錄</span></div><div class="card-body">'+
+    '<div class="meeting-form">'+
+      '<div class="meeting-form-row"><div><label>面談日期</label><input type="date" id="interviewDate_'+id+'" value="'+todayInputValue()+'"></div><div><label>本次重點</label><select id="interviewTopic_'+id+'"><option>多科不及格</option><option>單科補救</option><option>讀書方法</option><option>上課專注</option><option>壓力/生活作息</option><option>家長溝通</option><option>其他</option></select></div></div>'+
+      '<div><label>學生回應與共識</label><textarea id="interviewResponse_'+id+'" placeholder="簡短記錄學生說明、共同確認的問題與約定即可。"></textarea></div>'+
+      '<div class="meeting-form-row"><div><label>後續處理</label><select id="interviewNext_'+id+'"><option>一般追蹤</option><option>下次關心</option><option>安排補救</option><option>聯繫家長</option><option>轉介/通報</option><option>已完成</option></select></div><div><label>下次追蹤日期</label><input type="date" id="interviewNextDate_'+id+'"></div></div>'+
+      '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button class="btn-act teal" onclick="saveInterviewRecord(\''+id+'\',this)">保存面談紀錄</button><span id="interviewStatus_'+id+'" style="font-size:14px;color:var(--ink2);font-weight:800"></span></div>'+
+    '</div>'+ (hasInterview?'<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px"><div class="focus-label">最近保存</div>'+aiReportHtml(student.savedReport,'尚無紀錄')+'</div>':'')+
+  '</div></div>';
+}
+async function saveInterviewRecord(studentId, btn){
+  const id=sid(studentId); const s=SMAP[id];
+  const date=document.getElementById('interviewDate_'+id)?.value||'';
+  const topic=document.getElementById('interviewTopic_'+id)?.value||'';
+  const response=(document.getElementById('interviewResponse_'+id)?.value||'').trim();
+  const next=document.getElementById('interviewNext_'+id)?.value||'';
+  const nextDate=document.getElementById('interviewNextDate_'+id)?.value||'';
+  const status=document.getElementById('interviewStatus_'+id);
+  if(!response || response.length<5){if(status)status.textContent='請先輸入學生回應與共識';return;}
+  const reportText=['【面談日期】'+(date||'未填'),'【本次重點】'+(topic||'未填'),'【學生回應與共識】'+response,'【後續處理】'+(next||'未填'),'【下次追蹤日期】'+(nextDate||'未填')].join('\n');
+  const old=btn?.textContent; if(btn){btn.disabled=true;btn.textContent='保存中…';}
+  try{
+    const d=await fetch(API,{method:'POST',body:JSON.stringify({action:'saveManualAnalysis',dashToken:DTOK,studentId:id,name:s?.name||'',reportType:'面談紀錄',reportText,promptText:'導師手動面談紀錄',aiModel:'manual'})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||'保存失敗');
+    rememberManualReport(id,{timestamp:d.timestamp||'',reportType:d.reportType||'面談紀錄',reportText:d.reportText||reportText,promptText:'導師手動面談紀錄',aiModel:'manual'});
+    if(status)status.textContent='已保存到 Google Sheet';
+    const box=document.getElementById('interviewResponse_'+id); if(box)box.value='';
+    if(CURRENT_STUDENT_ID===id)renderStudentPage();
+  }catch(e){if(status)status.textContent='保存失敗：'+e.message;}
+  finally{if(btn){btn.disabled=false;btn.textContent=old||'保存面談紀錄';}}
+}
+function buildCounselingLogPrompt(student){
+  const p=parentFor(student?.studentId);
+  const parentTimestamp=p?.timestamp?String(p.timestamp):"家長尚未填寫";
+  const defaultInterviewDate=document.getElementById("counselingLogInterviewDate_"+sid(student?.studentId))?.value||todayInputValue();
+  const failed=(student?.subjects||[]).slice().sort((a,b)=>a.score-b.score);
+  const all=(student?.allSubjects||[]).slice().sort((a,b)=>a.score-b.score);
+  const own=[...new Set(failed.flatMap(x=>splitReasonParts(x.reason)))].join("；")||"無資料";
+  const support=[...new Set(failed.flatMap(x=>teacherGuidanceParts(x.reason)))].join("；")||"無資料";
+  const subjectLines=all.map(x=>{
+    const reason=splitReasonParts(x.reason).join("；")||x.reason||"無";
+    return "・"+x.subject+"："+x.score+"分"+(x.rank?"，班排"+x.rank+"/"+(x.total||""):"")+"；原因："+reason+"；策略："+(x.strategy||"無");
+  }).join("\n")||"無資料";
+  const dialogs=dialogItems(student?.dialogHistory).map(x=>"・"+x.subject+"｜問："+x.q+"｜答："+x.a).join("\n")||"無追問資料";
+  const parentText=p?[
+    "孩子對成績反應："+(p.situation||"無資料"),
+    "家長感受壓力："+(p.stressLevel||"無資料"),
+    "家長觀察："+(p.observation||"無資料"),
+    "家庭支持方式："+(p.supportMethods||"無資料"),
+    "對學校建議："+(p.suggestions||"無資料"),
+    "其他關心事項："+(p.additionalConcerns||"無資料")
+  ].join("\n"):"目前尚無家長回饋";
+  return [
+    "你是一位五專護理科導師。請根據以下學生問卷與家長回饋，協助撰寫可貼入輔導紀錄表的內容。",
+    "",
+    "重要規則：",
+    "1. 使用繁體中文。",
+    "2. 避免過度心理推論，只根據資料撰寫。",
+    "3. 語氣要像導師紀錄，客觀、簡潔、可存檔。",
+    "4. 不要寫空泛鼓勵，不要責備學生或家長。",
+    "5. 若資料不足，請寫「需後續確認」。",
+    "6. 內容以可直接貼入表格為主。",
+    "",
+    "【學生基本資料】",
+    "姓名："+(student?.name||"無資料"),
+    "學號："+(student?.studentId||"無資料"),
+    "學生問卷填寫時間："+(student?.timestamp||"無資料"),
+    "預設面談紀錄日期："+defaultInterviewDate,
+    "系統輔導判定："+getCounselingLevel(student),
+    "不及格科數："+(failed.length||0),
+    "壓力指數："+(student?.stressIndex||"無資料"),
+    "",
+    "【各科成績與學生回饋】",
+    subjectLines,
+    "",
+    "【主要學生自身因素】",
+    own,
+    "",
+    "【希望老師協助】",
+    support,
+    "",
+    "【生活與學習狀態】",
+    "睡眠："+(student?.routine?.sleep||"無資料"),
+    "熬夜："+(student?.routine?.allNighter||"無資料"),
+    "娛樂："+(student?.routine?.entertainment||"無資料"),
+    "外務："+(student?.routine?.extracurricular||"無資料"),
+    "讀書方法："+(student?.studyMethod||"無資料"),
+    "學習盲點："+(student?.learningBlindSpot||"無資料"),
+    "行動承諾："+(student?.actionCommitment||"無資料"),
+    "",
+    "【AI追問與學生回答】",
+    dialogs,
+    "",
+    "【家長回饋】",
+    "家長填表時間："+parentTimestamp,
+    parentText,
+    "",
+    "【請輸出以下格式】",
+    "一、家庭聯繫紀錄",
+    "日期："+parentTimestamp+"（請使用家長填表時間；若家長尚未填寫，請留待導師補登聯繫日期）",
+    "方式：請建議電話、Line、面談、聯絡簿或其他合適方式",
+    "聯繫對象：",
+    "內容：請用 80～150 字，整合學生狀態、家長回饋與導師可溝通重點",
+    "聯繫教師簽章：",
+    "",
+    "二、個別談話紀錄",
+    "日期："+defaultInterviewDate+"（這是面談紀錄日期，導師可依實際面談日期調整；不要使用學生問卷填寫時間）",
+    "內容：請用 100～180 字，整理導師與學生面談時可記錄的重點，包含學習問題、生活狀態、學生可執行承諾與後續追蹤",
+    "晤談教師簽章：",
+    "",
+    "三、後續追蹤建議",
+    "請列出 2～3 點具體可執行的追蹤事項。"
+  ].join("\n");
+}
+async function copyCounselingLogPrompt(studentId, btn){
+  const s=SMAP[sid(studentId)];
+  if(!s){alert("找不到學生資料");return;}
+  const text=buildCounselingLogPrompt(s);
+  try{
+    await navigator.clipboard.writeText(text);
+    if(btn){const old=btn.textContent;btn.textContent="已複製";setTimeout(()=>btn.textContent=old||"複製紀錄撰寫Prompt",1600);}
+  }catch(e){prompt("請手動複製以下文字：",text);}
+}
+function counselingLogPanel(student){
+  const id=esc(student?.studentId||"");
+  return '<div class="card" id="counselingLogSection"><div class="card-head"><span class="card-title">手動 AI 紀錄撰寫</span></div><div class="card-body">'+
+    '<div class="record-helper">依學生與家長回饋整理 prompt，貼到外部 AI 後，可產生「家庭聯繫紀錄」與「個別談話紀錄」。後台不會自動呼叫 AI。</div>'+
+    '<div class="meeting-form-row" style="margin-bottom:10px"><div><label style="font-size:14px;color:var(--ink2);font-weight:900;display:block;margin-bottom:6px">個別談話日期</label><input type="date" id="counselingLogInterviewDate_'+id+'" value="'+todayInputValue()+'" style="width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:12px;background:white;font-family:inherit;font-size:16px"></div><div><label style="font-size:14px;color:var(--ink2);font-weight:900;display:block;margin-bottom:6px">家庭聯繫日期來源</label><div class="compact-muted" style="padding:11px 0">使用家長填表時間</div></div></div>'+
+    '<button class="btn-act purple" onclick="copyCounselingLogPrompt(\''+id+'\',this)" style="margin-bottom:10px;background:var(--purple);color:white;border-color:var(--purple)">複製紀錄撰寫Prompt</button>'+
+    '<textarea id="counselingLogReport_'+id+'" class="copy-textarea" style="min-height:170px;background:white" placeholder="把外部 AI 產生的家庭聯繫紀錄／個別談話紀錄貼在這裡，按保存後會寫入 Google Sheet。"></textarea>'+
+    '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px"><button class="btn-act teal" onclick="saveCounselingLogReport(\''+id+'\',this)">保存紀錄報告</button><span id="counselingLogStatus_'+id+'" style="font-size:14px;color:var(--ink2);font-weight:800"></span></div>'+
+  '</div></div>';
+}
+async function saveCounselingLogReport(studentId, btn){
+  const id=sid(studentId); const s=SMAP[id];
+  const ta=document.getElementById("counselingLogReport_"+id);
+  const status=document.getElementById("counselingLogStatus_"+id);
+  const reportText=(ta?.value||"").trim();
+  if(!reportText || reportText.length<20){if(status)status.textContent="請先貼上完整紀錄內容";return;}
+  const old=btn?.textContent; if(btn){btn.disabled=true;btn.textContent="保存中…";}
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"saveManualAnalysis",dashToken:DTOK,studentId:id,name:s?.name||"",reportType:"家庭聯繫與個別談話紀錄",reportText,promptText:buildCounselingLogPrompt(s),aiModel:"manual-external-ai"})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||"保存失敗");
+    rememberManualReport(id,{timestamp:d.timestamp||"",reportType:d.reportType||"家庭聯繫與個別談話紀錄",reportText:d.reportText||reportText,promptText:d.promptText||buildCounselingLogPrompt(s),aiModel:d.aiModel||"manual-external-ai"});
+    if(status)status.textContent="已保存到 Google Sheet";
+    if(ta)ta.value="";
+    if(CURRENT_STUDENT_ID===id)renderStudentPage();
+  }catch(e){if(status)status.textContent="保存失敗："+e.message;}
+  finally{if(btn){btn.disabled=false;btn.textContent=old||"保存紀錄報告";}}
+}
+
 function renderStudentPage(){
   const id=CURRENT_STUDENT_ID; const s=SMAP[id]; const el=document.getElementById("studentDetailContent");
   const btn=document.getElementById("btnCopyAnalysis");
   if(!s){el.innerHTML=`<div class="empty">請從學生列表點選姓名</div>`; if(btn)btn.style.display="none"; return;}
-  if(btn){btn.style.display=(s.hasFeedback&&s.analysisText)?"inline-block":"none";btn.onclick=()=>copyAnalysisText(id,btn);}
-  const p=parentFor(id); const risk=riskInfo(s); const level=counselingInfo(s); const suggestion=getCounselingSuggestion(s);
+  if(btn){btn.style.display="none";}
+  const risk=riskInfo(s); const level=counselingInfo(s); const qInfo=answerQualityResultInfo(s);
   const failed=(s.subjects||[]).slice().sort((a,b)=>a.score-b.score);
   const lowest=(s.allSubjects||[]).slice().sort((a,b)=>a.score-b.score).slice(0,3);
   const ownReasons=[...new Set(failed.flatMap(x=>splitReasonParts(x.reason)))];
   const supportNeeds=[...new Set(failed.flatMap(x=>teacherGuidanceParts(x.reason)))];
-  const subjectRowsHtml=(s.allSubjects||[]).map(x=>`<tr><td><strong>${esc(x.subject)}</strong><br>${rankBadge(x)}</td><td style="font-weight:900;color:${x.score<60?'var(--red)':'var(--green)'}">${x.score}</td><td>${x.reason?esc(x.reason):'<span class="muted">無資料</span>'}</td><td>${x.strategy?esc(x.strategy):'<span class="muted">無資料</span>'}</td></tr>`).join("")||`<tr><td colspan="4" class="muted">無資料</td></tr>`;
+  const parentStatus=parentStatusInfo(s);
+  const priorityText=failed.length?failed.map(x=>x.subject+' '+x.score+'分').join('、'):'目前無不及格科目';
+  const lowestText=lowest.length?lowest.map(x=>x.subject+' '+x.score+'分'+(x.rank?'（班排'+x.rank+'/'+(x.total||'')+'）':'')).join('、'):'無資料';
+  const tagRow=[
+    jumpTag(risk.label,risk.cls,'summarySection'),
+    jumpTag(level.label,level.cls,'summarySection'),
+    jumpTag('答題品質：'+qInfo.label,qInfo.cls,'answerQualitySection'),
+    jumpTag('家長狀態：'+parentStatus.label,parentStatus.cls,'parentFeedbackSection'),
+    savedRecordTags(s)
+  ].join('');
   el.innerHTML=`
-    <div class="page-title">${esc(s.name)} 個人分析</div><div class="page-sub">${esc(s.studentId)}・${s.timestamp?esc(String(s.timestamp).slice(0,16)):"尚未填寫"}</div>
-    <div class="kv-grid">
-      <div class="kv"><div class="kv-label">風險類型</div><div class="kv-val">${pill(risk.label,risk.cls)}</div></div>
-      <div class="kv"><div class="kv-label">輔導判定</div><div class="kv-val">${pill(level.label,level.cls)}</div></div>
-      <div class="kv"><div class="kv-label">不及格科目</div><div class="kv-val">${failed.length} 科</div></div>
-      <div class="kv"><div class="kv-label">壓力指數</div><div class="kv-val">${s.hasFeedback?sb(s.stressIndex):'<span class="muted">尚未填寫</span>'}</div></div>
-      <div class="kv"><div class="kv-label">導師追蹤狀態</div><div class="kv-val">${trackingSelect(id)}</div></div>
+    <div class="meeting-hero">
+      <div class="meeting-title-row">
+        <div><div class="page-title">${esc(s.name)} 面談工作台</div><div class="page-sub">${esc(s.studentId)}・${s.timestamp?esc(String(s.timestamp).slice(0,16)):"尚未填寫"}</div></div>
+        <div class="meeting-pills">${tagRow}</div>
+      </div>
+      <div class="focus-list">
+        <div class="focus-item"><div class="focus-label">不及格科目</div><strong>${failed.length} 科</strong><br>${esc(priorityText)}</div>
+        <div class="focus-item"><div class="focus-label">最低三科</div>${esc(lowestText)}</div>
+        <div class="focus-item"><div class="focus-label">壓力與追蹤</div>壓力 ${s.hasFeedback?esc(s.stressIndex):'無資料'}/10<br>${trackingSelect(id)}</div>
+      </div>
     </div>
-    <div class="detail-grid">
+    <div class="meeting-grid">
       <div>
-        <div class="card"><div class="card-head"><span class="card-title">成績與問卷摘要</span></div><div class="card-body">
-          <div style="margin-bottom:14px"><strong>不及格科目：</strong>${failed.length?failed.map(x=>pill(`${esc(x.subject)} ${x.score}`,x.score<40?'p-red':'p-orange')).join(' '):pill('無','p-green')}</div>
-          <div style="margin-bottom:14px"><strong>最低三科：</strong>${lowest.length?lowest.map(x=>`${esc(x.subject)} ${x.score}${x.rank?`（班排${x.rank}/${x.total}）`:''}`).join('｜'):'無資料'}</div>
-          <div style="margin-bottom:14px"><strong>學生自身因素：</strong><div class="reason-cloud" style="margin-top:8px">${ownReasons.length?ownReasons.map(x=>pill(esc(x),'p-blue')).join(''): '<span class="muted">無資料</span>'}</div></div>
-          <div style="margin-bottom:14px"><strong>希望老師協助：</strong><div class="reason-cloud" style="margin-top:8px">${supportNeeds.length?supportNeeds.map(x=>pill(esc(x),'p-amber')).join(''): '<span class="muted">無資料</span>'}</div></div>
-          <div style="margin-bottom:14px"><strong>學習盲點：</strong><br>${formatMissing(s.learningBlindSpot)}</div>
-          <div style="margin-top:14px;background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:10px;padding:12px 14px"><strong>系統建議：</strong>${esc(suggestion)}</div>
+        <div class="card" id="summarySection"><div class="card-head"><span class="card-title">面談前快速摘要</span></div><div class="card-body">
+          <div class="focus-list">
+            <div class="focus-item"><div class="focus-label">學生自身因素</div>${ownReasons.length?ownReasons.map(x=>reasonTag(x)).join(' '):'<span class="compact-muted">無資料</span>'}</div>
+            <div class="focus-item"><div class="focus-label">希望老師協助</div>${supportNeeds.length?supportNeeds.map(x=>pill(esc(x),'p-amber')).join(' '):'<span class="compact-muted">無資料</span>'}</div>
+            <div class="focus-item"><div class="focus-label">系統建議</div>${esc(getCounselingSuggestion(s))}</div>
+          </div>
         </div></div>
-        <div class="card" style="padding:0"><div class="card-head"><span class="card-title">各科明細</span></div><div class="tbl-wrap"><table><thead><tr><th>科目</th><th>分數</th><th>不及格原因</th><th>改進策略</th></tr></thead><tbody>${subjectRowsHtml}</tbody></table></div></div>
+        <div class="card" id="subjectsSection"><div class="card-head"><span class="card-title">各科回答一覽</span></div><div class="card-body">${subjectInterviewCards(s)}</div></div>
+        <div class="card" id="lifeSection"><div class="card-head"><span class="card-title">生活與學習狀態</span></div><div class="card-body"><div class="focus-list">${lifestyleInterviewPanel(s)}</div></div></div>
       </div>
       <div>
-        <div class="card"><div class="card-head"><span class="card-title">自評雷達圖</span></div><div class="card-body"><div style="position:relative;height:260px"><canvas id="cStudentRadar"></canvas></div></div></div>
-        <div class="card"><div class="card-head"><span class="card-title">家長回饋</span></div><div class="card-body" style="font-size:14px;line-height:1.8">${p?`<strong>反應：</strong>${formatMissing(p.situation)}<br><strong>壓力：</strong>${formatMissing(p.stressLevel)}<br><strong>觀察：</strong>${formatMissing(p.observation)}<br><strong>支持：</strong>${formatMissing(p.supportMethods)}<br><strong>建議：</strong>${formatMissing(p.suggestions)}`:'<span class="muted">尚未填寫</span>'}</div></div>
-        <div class="card"><div class="card-head"><span class="card-title">AI 分析用整理文字</span></div><div class="card-body">${s.analysisText?`<button class="btn-act purple" onclick="copyAnalysisText('${esc(id)}',this)" style="margin-bottom:10px;background:var(--purple);color:white;border-color:var(--purple)">📋 複製 AI 分析用整理文字</button>${aiReportHtml(s.analysisText,"尚無分析文字")}`:'<span class="muted">尚無分析文字</span>'}</div></div>${answerQualityPanel(s)}${manualReportPanel(s)}
+        <div class="card" id="parentFeedbackSection"><div class="card-head"><span class="card-title">家長回饋</span></div><div class="card-body">${parentInterviewHtml(s)}</div></div>
+        ${interviewRecordPanel(s)}
+        ${counselingLogPanel(s)}
+        ${savedRecordsPanel(s)}
+        <details class="advanced-wrap" id="advancedSection"><summary>進階資料與複製文字</summary>
+          <div class="card" id="analysisTextSection"><div class="card-head"><span class="card-title">AI 分析用整理文字</span></div><div class="card-body">${s.analysisText?`<button class="btn-act purple" onclick="copyAnalysisText('${esc(id)}',this)" style="margin-bottom:10px;background:var(--purple);color:white;border-color:var(--purple)">複製 AI 分析用整理文字</button>${aiReportHtml(s.analysisText,"尚無分析文字")}`:'<span class="muted">尚無分析文字</span>'}</div></div>
+          ${answerQualityPanel(s)}${manualReportPanel(s)}
+        </details>
       </div>
     </div>`;
-  drawChart("cStudentRadar","radar",["上課專注","課後落實","專業理解","考試應對"],[{data:[s.selfRating.focus||0,s.selfRating.review||0,s.selfRating.understanding||0,s.selfRating.examCoping||0],backgroundColor:"rgba(59,130,246,0.15)",borderColor:"#3b82f6",pointBackgroundColor:"#3b82f6"}],{scales:{r:{min:0,max:5,ticks:{stepSize:1}}}});
 }
 
 function renderSubjects(){
@@ -979,12 +1641,14 @@ function renderSubjects(){
 function showSubjDetail(subj){
   const rows=subjectRows(subj);
   document.getElementById("subjDetail").dataset.active=subj;
+  const curSort=subjectSortType(subj);
+  tableSorts.subject={key:curSort,dir:(/Desc$/.test(curSort)||curSort==="pressureDesc"||curSort==="failCountDesc"||curSort==="parentNoReplyFirst"||curSort==="counselingLevel")?"desc":"asc"};
   const denom=Object.values(SMAP).filter(s=>s.hasFeedback&&s.allSubjects.some(x=>x.subject===subj)).length||rows.length;
   const avgStress=rows.length?(rows.reduce((a,r)=>a+(+SMAP[sid(r.studentId)]?.stressIndex||0),0)/rows.length).toFixed(1):"0";
   const hi=rows.filter(r=>(+SMAP[sid(r.studentId)]?.stressIndex||0)>=8).length;
   const rc=countParts(rows, r=>splitReasonParts(r.reason));
   const tg=countParts(rows, r=>teacherGuidanceParts(r.reason));
-  const reasonHtml=Object.entries(rc).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span class="pill p-blue" style="margin:0 8px 8px 0"><strong>${n}</strong>人：${esc(r)}</span>`).join("")||'<span class="muted">無資料</span>';
+  const reasonHtml=Object.entries(rc).sort((a,b)=>b[1]-a[1]).map(([r,n])=>reasonTag(r,"p-blue",n+"人：")).join("")||'<span class="muted">無資料</span>';
   const teacherHtml=Object.entries(tg).sort((a,b)=>b[1]-a[1]).map(([r,n])=>`<span class="pill p-amber" style="margin:0 8px 8px 0"><strong>${n}</strong>人：${esc(r)}</span>`).join("")||'<span class="muted">無資料</span>';
   const rowById={};rows.forEach(r=>rowById[sid(r.studentId)]=r);
   const subjectStudents=rows.map(r=>SMAP[sid(r.studentId)]).filter(Boolean);
@@ -1000,9 +1664,9 @@ function showSubjDetail(subj){
       <td>${pill((s.subjects?.length||0)+"科",(s.subjects?.length||0)>=4?"p-red":(s.subjects?.length||0)>=2?"p-orange":"p-amber")}</td>
       <td>${s.stressIndex?sb(s.stressIndex):'<span class="muted">無資料</span>'}</td>
       <td>${pill(level.label,level.cls)}</td>
-      <td style="max-width:260px;font-size:13px">${splitReasonParts(r.reason).map(esc).join('；')||'無資料'}</td>
+      <td style="max-width:260px;font-size:13px">${splitReasonParts(r.reason).map(x=>reasonTag(x)).join(' ')||'無資料'}</td>
       <td>${s.followUpStatus?pill(esc(s.followUpStatus),String(s.followUpStatus).includes('Failed')?'p-amber':'p-teal'):pill('無資料','p-gray')}</td>
-      <td>${hasParentFeedback(s)?pill('已回覆','p-green'):pill('未回覆','p-gray')}</td>
+      <td>${pill(parentStatusInfo(s).label,parentStatusInfo(s).cls)}</td>
       <td style="font-size:12px;color:var(--ink3)">${s.timestamp?esc(String(s.timestamp).slice(0,16)):'無資料'}</td>
       <td><div>${reportPill('答題品質：'+q.label,q.cls,"showAnswerQualityReport('"+esc(s.studentId)+"')")}</div><div style="margin-top:6px;font-size:12px;color:var(--ink3)">${q.at?esc(String(q.at).slice(0,16)):'未分析'}</div></td>
       <td>${s.analysisText?`<button class="btn-act purple" onclick="copyAnalysisText('${esc(s.studentId)}',this)" style="padding:5px 8px;font-size:11px;background:var(--purple);color:white;border-color:var(--purple)">複製文字</button>`:'<span class="muted">資料不足</span>'}</td>
@@ -1017,8 +1681,9 @@ function showSubjDetail(subj){
       <div class="metric red"><div class="m-label">高壓學生</div><div class="m-val red">${hi}</div><div class="m-sub">壓力 ≥ 8</div></div>
     </div>
     <div class="grid2"><div class="card"><div class="card-head"><span class="card-title">學生自身因素</span></div><div class="card-body reason-cloud">${reasonHtml}</div></div><div class="card"><div class="card-head"><span class="card-title">教學支持需求</span></div><div class="card-body reason-cloud">${teacherHtml}</div></div></div>
-    <div class="card" style="padding:0"><div class="card-head"><span class="card-title">目前科目：${esc(subj)}｜不及格人數：${rows.length} 人</span><div>${subjectSortSelect(subj)}</div></div><div class="tbl-wrap"><table><thead><tr><th>姓名</th><th>學號</th><th>該科分數</th><th>不及格科數</th><th>壓力指數</th><th>輔導判定</th><th>學生主要原因</th><th>AI追問狀態</th><th>家長是否回覆</th><th>填寫時間</th><th>答題品質</th><th>AI分析用整理文字</th></tr></thead><tbody>${list}</tbody></table></div></div>
+    <div class="card" style="padding:0"><div class="card-head"><span class="card-title">目前科目：${esc(subj)}｜不及格人數：${rows.length} 人</span><div>${subjectSortSelect(subj)}</div></div><div class="tbl-wrap"><table><thead><tr><th>${sortHeader('subject','nameAsc','姓名')}</th><th>${sortHeader('subject','studentIdAsc','學號')}</th><th>${sortHeader('subject','scoreAsc','該科分數')}</th><th>${sortHeader('subject','failCountDesc','不及格科數')}</th><th>${sortHeader('subject','pressureDesc','壓力指數')}</th><th>${sortHeader('subject','counselingLevel','輔導判定')}</th><th>學生主要原因</th><th>AI追問狀態</th><th>${sortHeader('subject','parentNoReplyFirst','家長是否回覆')}</th><th>${sortHeader('subject','submittedDesc','填寫時間')}</th><th>答題品質</th><th>AI分析用整理文字</th></tr></thead><tbody>${list}</tbody></table></div></div>
     <div class="card"><div class="card-head"><span class="card-title">科目輔導整理建議</span></div><div class="card-body">${aiReportHtml(advice)}</div></div>`;
+  updateSortHeaders();
 }
 
 function renderStress(){
@@ -1036,24 +1701,96 @@ function renderStress(){
     {label:"高壓低風險",cls:"p-purple",cond:s=>(+s.stressIndex)>=8&&(s.subjects?.length||0)<=1,rule:"壓力 ≥ 8 但不及格 ≤ 1科",advice:"提供情緒支持與肯定"}
   ];
   document.getElementById("stressCrossBody").innerHTML=groups.map(g=>{const list=ss.filter(g.cond);return `<tr><td>${pill(g.label,g.cls)}</td><td>${g.rule}</td><td><strong>${list.length}</strong></td><td>${g.advice}</td><td style="font-size:13px">${list.length?list.map(s=>studentNameCell(s)).join('、'):'<span class="muted">無</span>'}</td></tr>`}).join("");
-  document.getElementById("stressBody").innerHTML=!hi.length?`<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--ink2)">無高壓學生</td></tr>`
-    :hi.sort((a,b)=>b.stressIndex-a.stressIndex).map(s=>`<tr><td>${studentNameCell(s)}</td><td>${sb(s.stressIndex)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td style="font-size:13px;max-width:160px">${esc(s.learningBlindSpot)||"—"}</td><td style="font-size:13px;max-width:160px">${esc(s.actionCommitment)||"—"}</td></tr>`).join("");
+  const hiRows=applyStudentSort(hi,"stressHigh");
+  document.getElementById("stressBody").innerHTML=!hiRows.length?`<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--ink2)">無高壓學生</td></tr>`
+    :hiRows.map(s=>`<tr><td>${studentNameCell(s)}</td><td>${sb(s.stressIndex)}</td><td>${pill(s.subjects.length+"科",s.subjects.length>=4?"p-red":"p-orange")}</td><td style="font-size:13px;max-width:160px">${esc(s.learningBlindSpot)||"—"}</td><td style="font-size:13px;max-width:160px">${esc(s.actionCommitment)||"—"}</td></tr>`).join("");
+  updateSortHeaders();
 }
 
+function setAIWorkTab(tab){
+  AI_WORKTAB=tab||"write";
+  renderAI();
+}
+function defaultOneParagraphPrompt(){
+  return [
+    "你是一位五專護理科導師。",
+    "請根據下列學生資料、問卷回答、AI追問、家長回饋與導師面談資訊，撰寫一段式學生輔導紀錄。",
+    "規則：使用繁體中文；語氣客觀、可存檔；避免過度心理推論；不要責備學生或家長；若資料不足請寫需後續確認；字數約150到300字。",
+    "內容需包含：學生目前學習狀態、主要困難、家長回饋重點、導師已做或將做的處理，以及下次追蹤重點。",
+    "請只輸出一段完整文字，不要使用 Markdown，不要分點。"
+  ].join("\n");
+}
+function useDefaultPrompt(){
+  const p=document.getElementById("customPromptInput");
+  if(p&&!p.value.trim())p.value=defaultOneParagraphPrompt();
+  else if(p&&confirm("要用預設的一段式學生輔導紀錄 Prompt 覆蓋目前內容嗎？"))p.value=defaultOneParagraphPrompt();
+}
 function renderAI(){
-  loadPromptSettingsToForm();
+  document.querySelectorAll(".work-tab").forEach(b=>b.classList.remove("on"));
+  const active=document.getElementById("aiTab_"+AI_WORKTAB); if(active)active.classList.add("on");
+  const el=document.getElementById("aiWorkbenchContent");
+  if(!el)return;
+  if(AI_WORKTAB==="settings"){renderAIPromptSettings(el);return;}
+  if(AI_WORKTAB==="records"){renderAISavedRecords(el);return;}
+  renderAIReportWriter(el);
+}
+function renderAIReportWriter(el){
   const q=(document.getElementById("srchAI")?.value||"").toLowerCase();
-  const ss=Object.values(SMAP).filter(s=>s.hasFeedback&&s.analysisText&&(!q||s.name.toLowerCase().includes(q)));
-  const el=document.getElementById("aiContainer");
-  if(!ss.length){el.innerHTML=`<div class="empty">尚無可複製的分析文字；學生填完問卷後會自動整理。</div>`;return}
-  el.innerHTML=ss.map(s=>{const level=counselingInfo(s);return `<div class="ai-card">
-    <div class="ai-name">${esc(s.name)} <span style="font-size:13px;font-weight:700;color:var(--ink2)">壓力${s.stressIndex||"—"}/10・${s.subjects.length}科・${pill(level.label,level.cls)}</span><button class="btn-act purple" style="font-size:11px;padding:6px 12px;background:var(--purple);color:white;border-color:var(--purple)" onclick="copyAnalysisText('${esc(s.studentId)}',this)">複製分析文字</button></div>
-    <div class="ai-sec"><span class="ai-tag ai-tag-t">📋 可貼到外部 AI 的分析文字</span><div class="ai-text">${aiReportHtml(s.analysisText,"尚無分析文字")}</div></div>${manualReportPanel(s)}
+  const ss=Object.values(SMAP).filter(s=>s.hasFeedback&&s.analysisText&&(!q||s.name.toLowerCase().includes(q)||String(s.studentId).includes(q)));
+  el.innerHTML=`
+    <div class="toolbar">
+      <input class="search-inp" id="srchAI" placeholder="搜尋學生或學號…" value="${esc(q)}" oninput="renderAI()">
+      <button class="btn-act" onclick="clearLegacyAiAnalysis()" style="border-color:var(--red-bd);color:var(--red-dk)">清除舊 AI 欄位</button>
+      <span id="analyzeStatusAi" style="font-size:13px;color:var(--ink2);font-weight:700"></span>
+    </div>
+    <div class="record-helper">流程：複製整理文字 → 貼到外部 AI → 將 AI 回覆貼回下方保存。Prompt 請到「Prompt 設定」分頁管理。</div>
+    <div id="aiReportList"></div>`;
+  const list=document.getElementById("aiReportList");
+  if(!ss.length){list.innerHTML=`<div class="empty">尚無可複製的分析文字；學生填完問卷後會自動整理。</div>`;return;}
+  list.innerHTML=ss.map(s=>{const level=counselingInfo(s);return `<div class="ai-card">
+    <div class="ai-name">${esc(s.name)} <span style="font-size:13px;font-weight:700;color:var(--ink2)">壓力${s.stressIndex||"—"}/10・${s.subjects.length}科・${pill(level.label,level.cls)}</span><button class="btn-act purple" style="font-size:12px;padding:7px 12px;background:var(--purple);color:white;border-color:var(--purple)" onclick="copyAnalysisText('${esc(s.studentId)}',this)">複製給外部 AI 的整理文字</button></div>
+    <div class="ai-sec"><span class="ai-tag ai-tag-t">可貼到外部 AI 的整理文字</span><div class="ai-text">${aiReportHtml(s.analysisText,"尚無分析文字")}</div></div>${manualReportPanel(s)}
   </div>`}).join("");
+}
+function renderAIPromptSettings(el){
+  el.innerHTML=`
+    <div class="settings-grid">
+      <div class="card"><div class="card-head"><span class="card-title">Prompt 設定</span></div><div class="card-body">
+        <label style="font-size:14px;font-weight:900;color:var(--ink2);display:block;margin-bottom:8px">一段式學生輔導紀錄 Prompt</label>
+        <textarea id="customPromptInput" class="settings-textarea" placeholder="在這裡填你想給外部 AI 的指令。報告撰寫分頁按「複製整理文字」時，會自動放在學生資料前面。"></textarea>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap"><button class="btn-act teal" onclick="savePromptSettings()">保存 Prompt 設定</button><button class="btn-act" onclick="loadPromptSettingsToForm()">還原已保存設定</button><button class="btn-act purple" onclick="useDefaultPrompt()" style="background:var(--purple);color:white;border-color:var(--purple)">套用預設一段式 Prompt</button><span id="promptSaveStatus" style="font-size:13px;color:var(--ink2);font-weight:700"></span></div>
+      </div></div>
+      <div class="card"><div class="card-head"><span class="card-title">模型與使用方式</span></div><div class="card-body">
+        <label style="font-size:14px;font-weight:900;color:var(--ink2);display:block;margin-bottom:8px">AI 模型名稱</label>
+        <input class="search-inp" id="aiModelInput" placeholder="例如：ChatGPT、Gemini、NotebookLM…" style="width:100%;margin-bottom:14px">
+        <div class="record-helper" style="margin-bottom:0">此處只做紀錄與複製文字使用。後台不會呼叫 Gemini 或其他 AI API。</div>
+      </div></div>
+    </div>`;
+  loadPromptSettingsToForm();
+}
+function renderAISavedRecords(el){
+  const q=(document.getElementById("srchAIRecords")?.value||"").toLowerCase();
+  const rows=[];
+  Object.values(SMAP).forEach(s=>manualReportsForStudent(s).forEach((r,i)=>rows.push({student:s,record:r,index:i})));
+  const filtered=rows.filter(x=>!q||String(x.student.name||"").toLowerCase().includes(q)||String(x.student.studentId||"").includes(q)||String(x.record.reportType||"").toLowerCase().includes(q));
+  el.innerHTML=`
+    <div class="toolbar"><input class="search-inp" id="srchAIRecords" placeholder="搜尋學生、學號或紀錄類型…" value="${esc(q)}" oninput="renderAI()"><span class="muted">共 ${filtered.length} 筆保存紀錄</span></div>
+    <div class="card" style="padding:0"><div class="card-head"><span class="card-title">已保存紀錄</span></div><div class="tbl-wrap"><table><thead><tr><th>學生</th><th>學號</th><th>類型</th><th>保存時間</th><th>模型</th><th>內容預覽</th><th>操作</th></tr></thead><tbody>${filtered.length?filtered.map(x=>{
+      const r=x.record, s=x.student;
+      return `<tr>
+        <td>${studentNameCell(s)}</td>
+        <td style="font-family:monospace;color:var(--ink2)">${esc(s.studentId)}</td>
+        <td>${pill(reportTypeLabel(r.reportType),"p-purple")}</td>
+        <td style="color:var(--ink2);font-size:13px">${r.timestamp?esc(String(r.timestamp).slice(0,16)):"未標示"}</td>
+        <td style="color:var(--ink2);font-size:13px">${esc(r.aiModel||"未填")}</td>
+        <td style="max-width:360px;font-size:13px;line-height:1.6">${esc(String(r.reportText||"").slice(0,90))}${String(r.reportText||"").length>90?"…":""}</td>
+        <td><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn-act" onclick="showSavedRecord('${esc(s.studentId)}',${x.index})">查看</button><button class="btn-act teal" onclick="copySavedRecord('${esc(s.studentId)}',${x.index},this)">複製</button><button class="btn-act danger" onclick="deleteSavedRecord('${esc(s.studentId)}',${x.index},this)">刪除</button></div></td>
+      </tr>`;
+    }).join(""):`<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--ink2)">目前尚無保存紀錄</td></tr>`}</tbody></table></div></div>`;
 }
 
 function renderPLinks(){
-  const ss=Object.values(SMAP);
+  const ss=applyStudentSort(Object.values(SMAP),"plinks");
   document.getElementById("plBody").innerHTML=!ss.length?`<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--ink2)">尚無學生問卷資料</td></tr>`
     :ss.map(s=>{const tok=TOKENS.filter(t=>sid(t.studentId)===sid(s.studentId)).pop();const parentDone=PARENT_DATA.some(p=>sid(p.studentId)===sid(s.studentId));const sent=!!tok||parentDone;const done=!!(tok?.done||parentDone);return`<tr>
       <td><strong>${esc(s.name)}</strong></td>
@@ -1063,6 +1800,30 @@ function renderPLinks(){
       <td>${done?pill("已填寫","p-green"):sent?pill("待填寫","p-amber"):pill("—","p-gray")}</td>
       <td><button class="btn-act teal" onclick="genLink('${s.studentId}','${esc(s.name)}')">${sent?"重新產生":"產生連結"}</button></td>
     </tr>`}).join("");
+  updateSortHeaders();
+}
+
+function renderFLinks(){
+  if(!followUpTokensLoaded)loadFollowUpTokens();
+  const hint=document.getElementById("followTokenHint");
+  if(hint)hint.textContent=followUpTokensLoaded?"追蹤問卷狀態已同步":"追蹤問卷狀態載入中…";
+  const ss=applyStudentSort(Object.values(SMAP).filter(s=>s.hasFeedback),"flinks");
+  document.getElementById("flBody").innerHTML=!ss.length?`<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--ink2)">尚無已完成期中問卷的學生</td></tr>`
+    :ss.map(s=>{
+      const st=followUpStatusInfo(s);
+      const focus=dashboardTeacherFocus(s);
+      return `<tr>
+        <td>${studentNameCell(s)}</td>
+        <td style="font-size:12px;color:var(--ink3);font-family:monospace">${esc(s.studentId)}</td>
+        <td>${pill(getCounselingLevel(s),counselingInfo(s).cls)}</td>
+        <td>${pill((s.subjects?.length||0)+"科",(s.subjects?.length||0)>=3?"p-orange":"p-amber")}</td>
+        <td style="font-weight:900;color:${(+s.stressIndex||0)>=8?'var(--red)':(+s.stressIndex||0)>=6?'var(--orange)':'var(--green)'}">${s.stressIndex||"無資料"}</td>
+        <td>${pill(st.label,st.cls)}${st.detail?`<div style="font-size:12px;color:var(--ink3);margin-top:5px">${esc(String(st.detail).slice(0,16))}</div>`:""}</td>
+        <td style="min-width:260px;max-width:420px;font-size:14px;line-height:1.65">${focus.map(x=>`<div>・${esc(x)}</div>`).join("")}</td>
+        <td><button class="btn-act teal" onclick="genFollowUpLink('${esc(s.studentId)}',${attrJson(s.name)})">${st.weight>1?"重新產生":"產生連結"}</button></td>
+      </tr>`;
+    }).join("");
+  updateSortHeaders();
 }
 
 async function genLink(studentId, studentName){
@@ -1070,10 +1831,27 @@ async function genLink(studentId, studentName){
     const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"generateParentLink",dashToken:DTOK,studentId,studentName})}).then(r=>r.json());
     if(!d.ok){alert("產生失敗："+d.msg);return}
     currentLink=d.link;
+    document.getElementById("modalTitle").textContent="🔗 家長專屬連結已產生";
     document.getElementById("modalStudentName").textContent=studentName+" 同學的家長連結";
     document.getElementById("modalLink").textContent=d.link;
+    document.getElementById("modalHelpText").textContent="連結不會過期，家長只能填寫一次";
     document.getElementById("linkModal").classList.add("on");
     loadData();
+  }catch(e){alert("產生失敗："+e.message)}
+}
+
+async function genFollowUpLink(studentId, studentName){
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"generateFollowUpLink",dashToken:DTOK,studentId,studentName})}).then(r=>r.json());
+    if(!d.ok){alert("產生失敗："+(d.msg||"請確認後端是否已加入 FollowUpBackend.gs"));return}
+    currentLink=d.link;
+    document.getElementById("modalTitle").textContent="↻ 學生追蹤問卷連結已產生";
+    document.getElementById("modalStudentName").textContent=studentName+" 同學的期中後追蹤問卷";
+    document.getElementById("modalLink").textContent=d.link;
+    document.getElementById("modalHelpText").textContent="此連結供學生回報期中後目前執行情況與需要協助的地方";
+    document.getElementById("linkModal").classList.add("on");
+    followUpTokensLoaded=false;
+    loadFollowUpTokens();
   }catch(e){alert("產生失敗："+e.message)}
 }
 
