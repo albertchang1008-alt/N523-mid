@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>114-2 學期成績反思問卷｜N523</title>
+<style>
+:root{--blue:#2563eb;--blue2:#1e3a8a;--paper:#f8fafc;--ink:#172033;--muted:#64748b;--line:#dbe3ef;--red:#dc2626;--orange:#d97706;--green:#059669;--purple:#7c3aed}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+.hero{background:linear-gradient(120deg,rgba(30,58,138,.92),rgba(37,99,235,.78)),url("image.png") center 58%/cover;padding:42px 18px;color:white;text-align:center}.hero h1{margin:0 0 8px;font-size:27px}.hero p{margin:0;line-height:1.7}
+.wrap{max-width:850px;margin:0 auto;padding:22px 15px 60px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 5px 18px rgba(15,23,42,.05)}
+h2{font-size:20px;margin:0 0 8px}.desc{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:18px}.field{margin-bottom:17px}.field label{display:block;font-weight:800;margin-bottom:7px;line-height:1.5}.req{color:var(--red)}
+input[type=text],textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font:inherit;color:var(--ink);background:#fff}textarea{resize:vertical;line-height:1.65}input:focus,textarea:focus,select:focus{outline:2px solid #bfdbfe;border-color:var(--blue)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{border:0;border-radius:10px;padding:13px 17px;font:inherit;font-weight:850;cursor:pointer}.btn.primary{background:var(--blue);color:white;width:100%}.btn.follow{background:#ede9fe;color:#5b21b6}.btn:disabled{opacity:.55;cursor:not-allowed}
+.alert{border-radius:10px;padding:13px 15px;line-height:1.6;margin-bottom:14px}.danger{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.info{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}.done{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}
+.student-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.student-name{font-size:22px;font-weight:900}.metrics{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.metric{padding:8px 12px;border-radius:999px;background:#f1f5f9;font-size:13px;font-weight:800}
+.score-table{width:100%;border-collapse:collapse;font-size:14px}.score-table th,.score-table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left}.score-table th{color:var(--muted);font-size:12px}.up{color:var(--green);font-weight:850}.down,.fail{color:var(--red);font-weight:850}
+.reflect{border:1px solid var(--line);border-radius:13px;padding:18px;margin-top:14px}.reflect-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.reflect-title{font-weight:900;font-size:18px}.tag{font-size:12px;font-weight:850;border-radius:999px;padding:5px 9px;background:#f1f5f9}.tag.failed{background:#fee2e2;color:#991b1b}.tag.declined{background:#ffedd5;color:#9a3412}.tag.improved{background:#d1fae5;color:#065f46}.tag.stable{background:#dbeafe;color:#1e40af}
+.follow-box{display:none;background:#f5f3ff;border-left:4px solid var(--purple);padding:14px;border-radius:9px;margin-top:12px}.follow-q{font-weight:850;line-height:1.65;margin-bottom:10px}.muted{color:var(--muted);font-size:13px}.loading{text-align:center;padding:40px;color:var(--muted)}.hidden{display:none!important}
+.commitment-box{margin:12px 0 16px;padding:15px 17px;border-radius:11px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a5f;line-height:1.7}.commitment-item+.commitment-item{border-top:1px solid #bfdbfe;margin-top:12px;padding-top:12px}.commitment-box .title{font-size:13px;font-weight:850;color:#64748b;margin-bottom:4px}.commitment-box .text{font-size:16px;font-weight:800;white-space:pre-wrap}
+@media(max-width:620px){.grid2{grid-template-columns:1fr}.card{padding:17px}.score-table{font-size:12px}.score-table th,.score-table td{padding:8px 5px}}
+</style>
+</head>
+<body>
+<header class="hero"><h1>114-2 學期成績反思問卷</h1><p>回顧這學期的努力，找出值得保留的方法與下一步。</p></header>
+<main class="wrap">
+  <section id="verifyCard" class="card">
+    <h2>學生身分確認</h2><div class="desc">請輸入學號與姓名，系統會載入你的學期成績。</div>
+    <div id="verifyErr"></div>
+    <div class="grid2">
+      <div class="field"><label>學號<span class="req">*</span></label><input id="studentId" type="text"></div>
+      <div class="field"><label>姓名<span class="req">*</span></label><input id="studentName" type="text"></div>
+    </div>
+    <button id="verifyBtn" class="btn primary" onclick="verifyStudent()">查看學期成績</button>
+  </section>
+
+  <section id="loadingCard" class="card hidden"><div class="loading">正在讀取資料…</div></section>
+  <section id="doneCard" class="card hidden"><div class="alert done"><strong>問卷已完成</strong><br>謝謝你的認真反思，老師會依需要提供後續協助。</div></section>
+
+  <div id="survey" class="hidden">
+    <section class="card">
+      <div class="student-head"><div><div id="bannerName" class="student-name"></div><div id="bannerId" class="muted"></div></div></div>
+      <div id="metrics" class="metrics"></div>
+      <div style="overflow:auto;margin-top:16px"><table class="score-table"><thead><tr><th>科目</th><th>期中</th><th>學期</th><th>變化</th></tr></thead><tbody id="scoreBody"></tbody></table></div>
+    </section>
+
+    <section class="card">
+      <h2>重點科目反思</h2>
+      <div class="desc">系統選出不及格、明顯退步，以及一科進步或優勢科目。每科回答後，老師會再詢問一個問題，協助你把想法說得更完整。</div>
+      <div id="reflectionList"></div>
+    </section>
+
+    <section class="card">
+      <h2>整體回顧與下一步</h2>
+      <div id="submitErr"></div>
+      <div id="midtermCommitmentBox" class="commitment-box"></div>
+      <div class="field"><label>期中時寫下的承諾，這學期做到什麼程度？<span class="req">*</span></label>
+        <select id="commitmentCompletion"><option value="">請選擇</option><option>大部分做到，而且有持續</option><option>有做到一部分，但不穩定</option><option>有開始，但很快中斷</option><option>幾乎沒有執行</option><option>不記得當時的承諾</option></select></div>
+      <div class="field"><label>你如何看待自己這學期的整體成績？<span class="req">*</span></label><textarea id="overallReflection" rows="3" placeholder="請寫下滿意或不滿意的地方，以及主要原因"></textarea></div>
+      <div class="field"><label>本學期最有效、下學期值得保留的學習方法<span class="req">*</span></label><textarea id="effectiveMethod" rows="3"></textarea></div>
+      <div class="grid2">
+        <div class="field"><label>目前課業壓力（1–10）<span class="req">*</span></label><select id="stressIndex"><option value="">請選擇</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+        <div class="field"><label>近期作息狀況</label><select id="routine"><option value="">請選擇</option><option>規律，睡眠大致足夠</option><option>偶爾晚睡，但尚可調整</option><option>常熬夜或睡眠不足</option><option>作息混亂，已影響精神</option></select></div>
+      </div>
+      <div class="field"><label>暑假最需要完成的補強計畫<span class="req">*</span></label><textarea id="summerPlan" rows="3" placeholder="請寫出科目、頻率或具體做法"></textarea></div>
+      <div class="field"><label>下學期給自己的一項具體承諾<span class="req">*</span></label><textarea id="nextCommitment" rows="3" placeholder="例如：每週二、四各複習藥理30分鐘"></textarea></div>
+      <div class="field"><label>希望老師提供哪些協助？</label><textarea id="supportNeeds" rows="2"></textarea></div>
+      <button id="submitBtn" class="btn primary" onclick="submitSurvey()">送出學期問卷</button>
+    </section>
+  </div>
+</main>
+<script>
+const API="https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
+let STUDENT=null;
+const REFLECTIONS={};
+function esc(v){const d=document.createElement("div");d.textContent=String(v??"");return d.innerHTML}
+function show(id){document.getElementById(id).classList.remove("hidden")}
+function hide(id){document.getElementById(id).classList.add("hidden")}
+function alertHtml(msg){return msg?`<div class="alert danger">${esc(msg)}</div>`:""}
+async function post(action,body){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});return r.json()}
+function categoryLabel(s){return s.category==="failed"?"學期不及格":s.category==="declined"?"明顯退步":s.category==="improved"?"明顯進步":"穩定優勢"}
+function fixedPrompt(s){if(s.category==="failed")return"這科未達及格，請說明主要困難，以及你曾經嘗試過什麼方法。";if(s.category==="declined")return"這科和期中相比退步較多，你認為造成變化的主要原因是什麼？";if(s.category==="improved")return"這科有明顯進步，請說明你做了哪些有效調整。";return"這科表現相對穩定，你認為最有幫助的學習方法是什麼？"}
+function localFallback(s){if(s.category==="failed")return`針對「${s.subject}」，如果暑假只能先做一個補強行動，你會選什麼？`;if(s.category==="declined")return`「${s.subject}」退步較多，你最需要先調整的習慣是什麼？`;if(s.category==="improved")return`「${s.subject}」有進步，哪個做法最值得下學期繼續保留？`;return`你能把「${s.subject}」的哪個有效方法用到較弱的科目？`}
+async function verifyStudent(){
+  const studentId=document.getElementById("studentId").value.trim(),name=document.getElementById("studentName").value.trim();
+  document.getElementById("verifyErr").innerHTML="";
+  if(!studentId||!name){document.getElementById("verifyErr").innerHTML=alertHtml("請輸入學號與姓名");return}
+  hide("verifyCard");show("loadingCard");
+  try{
+    const d=await post("verifySemesterStudent",{studentId,name});
+    hide("loadingCard");
+    if(!d.ok){show("verifyCard");document.getElementById("verifyErr").innerHTML=alertHtml(d.msg);return}
+    if(d.alreadyDone){show("doneCard");return}
+    STUDENT=d.student;renderSurvey();show("survey");
+  }catch(e){hide("loadingCard");show("verifyCard");document.getElementById("verifyErr").innerHTML=alertHtml("連線失敗，請稍後重試")}
+}
+function renderSurvey(){
+  document.getElementById("bannerName").textContent=STUDENT.name+" 同學";
+  document.getElementById("bannerId").textContent="學號："+STUDENT.studentId;
+  const avgDelta=(Number(STUDENT.average)-Number(STUDENT.midtermAverage)).toFixed(1);
+  document.getElementById("metrics").innerHTML=`<span class="metric">期中平均 ${esc(STUDENT.midtermAverage||"—")}</span><span class="metric">學期平均 ${esc(STUDENT.average||"—")}</span><span class="metric">平均變化 ${avgDelta>=0?"+":""}${esc(avgDelta)}</span><span class="metric">學期排名 ${esc(STUDENT.rank||"—")}</span><span class="metric">不及格 ${esc(STUDENT.failedCount)} 科</span>`;
+  document.getElementById("scoreBody").innerHTML=STUDENT.subjects.map(s=>{const delta=s.delta===null?"—":`${s.delta>0?"+":""}${s.delta}`;const cls=s.score<60?"fail":s.delta<=-10?"down":s.delta>=10?"up":"";return`<tr><td>${esc(s.subject)}</td><td>${esc(s.midtermScore??"—")}</td><td class="${s.score<60?"fail":""}">${esc(s.score)}</td><td class="${cls}">${esc(delta)}</td></tr>`}).join("");
+  const commitment=String(STUDENT.midtermCommitment||"").trim(),followCommitment=String(STUDENT.followUpCommitment||"").trim();
+  document.getElementById("midtermCommitmentBox").innerHTML=`<div class="commitment-item"><div class="title">期中問卷｜行動承諾</div><div class="text">${commitment?esc(commitment):"查無紀錄"}</div></div><div class="commitment-item"><div class="title">學生追蹤問卷｜本週承諾</div><div class="text">${followCommitment?esc(followCommitment):"查無紀錄"}</div></div>`;
+  document.getElementById("reflectionList").innerHTML=STUDENT.selectedSubjects.map(s=>`<div class="reflect" data-key="${esc(s.courseKey)}"><div class="reflect-head"><div><div class="reflect-title">${esc(s.subject)}</div><div class="muted">期中 ${esc(s.midtermScore??"—")} → 學期 ${esc(s.score)} ${s.delta===null?"":`（${s.delta>0?"+":""}${esc(s.delta)}）`}</div></div><span class="tag ${esc(s.category)}">${categoryLabel(s)}</span></div><div class="field"><label>${esc(fixedPrompt(s))}<span class="req">*</span></label><textarea id="initial_${esc(s.courseKey)}" rows="3"></textarea></div><button id="ask_${esc(s.courseKey)}" class="btn follow" onclick="askFollowUp('${esc(s.courseKey)}')">送出</button><div class="follow-box" id="followBox_${esc(s.courseKey)}"><div class="muted">老師想再了解</div><div class="follow-q" id="question_${esc(s.courseKey)}"></div><textarea id="follow_${esc(s.courseKey)}" rows="3" placeholder="請回答這一題"></textarea><button id="followSubmit_${esc(s.courseKey)}" class="btn follow" onclick="submitFollowUpAnswer('${esc(s.courseKey)}')" style="margin-top:10px">送出回答</button><div class="muted" id="followStatus_${esc(s.courseKey)}" style="margin-top:7px">回答後請按「送出回答」</div></div></div>`).join("");
+}
+async function askFollowUp(key){
+  const s=STUDENT.selectedSubjects.find(x=>x.courseKey===key),answer=document.getElementById("initial_"+key).value.trim(),btn=document.getElementById("ask_"+key);
+  if(answer.length<4){alert("請先寫下較具體的反思（至少4個字）");return}
+  btn.disabled=true;btn.textContent="送出中…";
+  let result;
+  try{result=await post("askSemesterFollowUp",{studentId:STUDENT.studentId,name:STUDENT.name,courseKey:key,category:s.category,initialAnswer:answer});if(!result.ok)throw new Error(result.msg)}
+  catch(e){result={question:localFallback(s),source:"frontend-fallback",needsHumanCare:false}}
+  REFLECTIONS[key]={question:result.question,source:result.source||"fallback",needsHumanCare:!!result.needsHumanCare};
+  document.getElementById("question_"+key).textContent=result.question;
+  document.getElementById("initial_"+key).disabled=true;
+  document.getElementById("followBox_"+key).style.display="block";
+  btn.textContent="已送出";
+}
+function submitFollowUpAnswer(key){
+  const state=REFLECTIONS[key],input=document.getElementById("follow_"+key),btn=document.getElementById("followSubmit_"+key);
+  const answer=input.value.trim();
+  if(!state){alert("請先送出前一題");return}
+  if(answer.length<2){alert("請先回答這一題");return}
+  state.followUpAnswer=answer;state.answerSubmitted=true;
+  input.disabled=true;btn.disabled=true;btn.textContent="已送出";
+  document.getElementById("followStatus_"+key).textContent="回答已送出";
+}
+async function submitSurvey(){
+  document.getElementById("submitErr").innerHTML="";
+  const reflections=[];
+  for(const s of STUDENT.selectedSubjects){
+    const state=REFLECTIONS[s.courseKey],initial=document.getElementById("initial_"+s.courseKey).value.trim();
+    if(!state||!state.answerSubmitted||initial.length<4||String(state.followUpAnswer||"").length<2){document.getElementById("submitErr").innerHTML=alertHtml(`請完成並送出「${s.subject}」的反思與追問`);document.querySelector(`[data-key="${s.courseKey}"]`).scrollIntoView({behavior:"smooth"});return}
+    reflections.push({courseKey:s.courseKey,initialAnswer:initial,followUpQuestion:state.question,followUpAnswer:state.followUpAnswer,aiSource:state.source,needsHumanCare:state.needsHumanCare});
+  }
+  const body={studentId:STUDENT.studentId,name:STUDENT.name,reflections,commitmentCompletion:document.getElementById("commitmentCompletion").value,overallReflection:document.getElementById("overallReflection").value.trim(),effectiveMethod:document.getElementById("effectiveMethod").value.trim(),stressIndex:document.getElementById("stressIndex").value,routine:document.getElementById("routine").value,summerPlan:document.getElementById("summerPlan").value.trim(),nextCommitment:document.getElementById("nextCommitment").value.trim(),supportNeeds:document.getElementById("supportNeeds").value.trim()};
+  if([body.commitmentCompletion,body.overallReflection,body.effectiveMethod,body.stressIndex,body.summerPlan,body.nextCommitment].some(v=>String(v).trim().length<1)){document.getElementById("submitErr").innerHTML=alertHtml("請完成所有必填欄位");return}
+  const btn=document.getElementById("submitBtn");btn.disabled=true;btn.textContent="送出中…";
+  try{const d=await post("submitSemesterStudent",body);if(!d.ok)throw new Error(d.msg);hide("survey");show("doneCard");window.scrollTo({top:0,behavior:"smooth"})}
+  catch(e){btn.disabled=false;btn.textContent="送出學期問卷";document.getElementById("submitErr").innerHTML=alertHtml(e.message||"提交失敗，請重試")}
+}
+</script>
+</body>
+</html>

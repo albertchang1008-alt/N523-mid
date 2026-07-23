@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>114-2 學期成績家長問卷｜N523</title>
+<style>
+:root{--teal:#0f766e;--teal2:#115e59;--paper:#f8fafc;--ink:#172033;--muted:#64748b;--line:#dbe3ef;--red:#b91c1c}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
+.hero{background:linear-gradient(120deg,rgba(15,118,110,.92),rgba(17,94,89,.75)),url("image.png") center/cover;color:white;text-align:center;padding:42px 18px}.hero h1{margin:0 0 8px;font-size:26px}.hero p{margin:0;line-height:1.7}
+.wrap{max-width:780px;margin:0 auto;padding:22px 15px 60px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 5px 18px rgba(15,23,42,.05)}
+h2{font-size:20px;margin:0 0 8px}.desc,.muted{color:var(--muted);font-size:14px;line-height:1.7}.field{margin:18px 0}.field label{display:block;font-weight:850;line-height:1.55;margin-bottom:8px}.req{color:var(--red)}
+textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font:inherit;background:white;line-height:1.6}.btn{width:100%;border:0;border-radius:10px;padding:14px;background:var(--teal);color:white;font:inherit;font-weight:900;cursor:pointer}.btn:disabled{opacity:.55}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}.metric{background:#f0fdfa;border:1px solid #99f6e4;border-radius:11px;padding:12px;text-align:center}.metric b{display:block;font-size:20px;color:var(--teal2)}.metric span{font-size:12px;color:var(--muted)}
+.info{background:#f8fafc;border:1px solid var(--line);padding:14px;border-radius:10px;margin-top:10px}.info strong{display:block;color:var(--teal2);margin-bottom:6px}.info div{white-space:pre-line;line-height:1.7}
+.score-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}.score-table th,.score-table td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:left}.score-table th{font-size:12px;color:var(--muted)}.score-table .down{color:#b91c1c;font-weight:800}.score-table .up{color:#047857;font-weight:800}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.checks label{display:flex;gap:8px;border:1px solid var(--line);border-radius:9px;padding:11px;font-weight:500;margin:0}
+.alert{border-radius:10px;padding:13px 15px;margin-bottom:14px;line-height:1.6}.danger{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.done{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}.hidden{display:none!important}.loading{text-align:center;padding:42px;color:var(--muted)}
+@media(max-width:620px){.summary{grid-template-columns:1fr 1fr}.checks{grid-template-columns:1fr}.card{padding:17px}}
+</style>
+</head>
+<body>
+<header class="hero"><h1>114-2 學期成績家長問卷</h1><p>感謝您陪孩子一起回顧本學期，您的觀察將協助導師安排支持。</p></header>
+<main class="wrap">
+  <section id="loading" class="card"><div class="loading">正在載入學生資料…</div></section>
+  <section id="error" class="card hidden"><div id="errorText" class="alert danger"></div></section>
+  <section id="done" class="card hidden"><div class="alert done"><strong>家長問卷已完成</strong><br>謝謝您的回饋，資料已送交班級導師。</div></section>
+  <div id="form" class="hidden">
+    <section class="card">
+      <h2 id="studentTitle"></h2><div id="studentIdText" class="muted"></div>
+      <div id="metrics" class="summary"></div>
+      <div class="info"><strong>各科成績變化</strong><div style="overflow:auto"><table class="score-table"><thead><tr><th>科目</th><th>期中</th><th>學期</th><th>變化</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
+      <div class="info"><strong>期中問卷｜行動承諾</strong><div id="midtermCommitment"></div></div>
+      <div class="info"><strong>學生追蹤問卷｜本週承諾</strong><div id="followUpCommitment"></div></div>
+      <div class="info"><strong>學生的整體反思</strong><div id="reflection"></div></div>
+      <div class="info"><strong>學生認為有效的方法</strong><div id="method"></div></div>
+      <div class="info"><strong>暑假補強計畫</strong><div id="summer"></div></div>
+      <div class="info"><strong>下學期承諾</strong><div id="commitment"></div></div>
+    </section>
+    <section class="card">
+      <h2>家長觀察與支持</h2><div class="desc">您的回饋僅供班級導師了解學生狀況與安排後續支持。</div>
+      <div id="submitErr"></div>
+      <div class="field"><label>1. 孩子看到學期成績後的主要反應<span class="req">*</span></label>
+        <select id="reaction"><option value="">請選擇</option><option>願意面對，也主動思考改善</option><option>在意成績，但需要提醒才願意談</option><option>情緒低落或明顯挫折</option><option>反應平淡，不太願意談</option><option>家長不清楚孩子的反應</option></select></div>
+      <div class="field"><label>2. 您觀察孩子本學期進步或退步的主要原因是什麼？<span class="req">*</span></label><textarea id="observedReason" rows="4"></textarea></div>
+      <div class="field"><label>3. 暑假期間家中可提供哪些支持？</label><div id="supports" class="checks">
+        <label><input type="checkbox" value="協助安排固定複習時間">協助安排固定複習時間</label>
+        <label><input type="checkbox" value="減少手機或娛樂干擾">減少手機或娛樂干擾</label>
+        <label><input type="checkbox" value="關心睡眠與生活作息">關心睡眠與生活作息</label>
+        <label><input type="checkbox" value="協助尋找補救或學習資源">協助尋找補救或學習資源</label>
+        <label><input type="checkbox" value="傾聽與鼓勵，不過度責備">傾聽與鼓勵，不過度責備</label>
+        <label><input type="checkbox" value="目前需要和孩子再討論">目前需要和孩子再討論</label>
+      </div></div>
+      <div class="field"><label>4. 目前最擔心的事情</label><textarea id="concerns" rows="3"></textarea></div>
+      <div class="field"><label>5. 希望學校或導師提供的協助</label><textarea id="schoolHelp" rows="3"></textarea></div>
+      <div class="field"><label>6. 是否希望導師主動聯繫？</label><select id="contactRequest"><option>目前不需要</option><option>希望以電話聯繫</option><option>希望以訊息聯繫</option><option>希望安排面談</option></select></div>
+      <button id="submitBtn" class="btn" onclick="submitParent()">送出家長回饋</button>
+    </section>
+  </div>
+</main>
+<script>
+const API="https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
+const TOKEN=new URLSearchParams(location.search).get("semester_parent_token")||"";
+function esc(v){const d=document.createElement("div");d.textContent=String(v??"");return d.innerHTML}
+function show(id){document.getElementById(id).classList.remove("hidden")}
+function hide(id){document.getElementById(id).classList.add("hidden")}
+function err(msg){return msg?`<div class="alert danger">${esc(msg)}</div>`:""}
+async function post(action,body){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});return r.json()}
+async function init(){
+  if(!TOKEN){hide("loading");show("error");document.getElementById("errorText").textContent="連結無效，請向班級導師重新取得。";return}
+  try{
+    const d=await post("getSemesterParentInfo",{token:TOKEN});hide("loading");
+    if(!d.ok){show("error");document.getElementById("errorText").textContent=d.msg;return}
+    if(d.alreadyDone){show("done");return}
+    const s=d.student;
+    document.getElementById("studentTitle").textContent=s.name+" 同學的學期回顧";
+    document.getElementById("studentIdText").textContent="學號："+s.studentId;
+    document.getElementById("metrics").innerHTML=`<div class="metric"><b>${esc(s.midtermAverage||"—")}</b><span>期中平均</span></div><div class="metric"><b>${esc(s.average||"—")}</b><span>學期平均</span></div><div class="metric"><b>${esc(s.midtermRank||"—")}</b><span>期中排名</span></div><div class="metric"><b>${esc(s.rank||"—")}</b><span>學期排名</span></div>`;
+    document.getElementById("scoreRows").innerHTML=(s.subjects||[]).map(x=>{const delta=x.delta===null||x.delta===undefined?"—":`${x.delta>0?"+":""}${x.delta}`;const cls=x.delta>0?"up":x.delta<0?"down":"";return`<tr><td>${esc(x.subject)}</td><td>${esc(x.midtermScore??"—")}</td><td>${esc(x.score??"—")}</td><td class="${cls}">${esc(delta)}</td></tr>`}).join("")||`<tr><td colspan="4">查無成績資料</td></tr>`;
+    document.getElementById("midtermCommitment").textContent=s.midtermCommitment||"查無紀錄";
+    document.getElementById("followUpCommitment").textContent=s.followUpCommitment||"查無紀錄";
+    document.getElementById("reflection").textContent=s.overallReflection||"未填寫";
+    document.getElementById("method").textContent=s.effectiveMethod||"未填寫";
+    document.getElementById("summer").textContent=s.summerPlan||"未填寫";
+    document.getElementById("commitment").textContent=s.nextCommitment||"未填寫";
+    show("form");
+  }catch(e){hide("loading");show("error");document.getElementById("errorText").textContent="網路連線失敗，請稍後重試。"}
+}
+async function submitParent(){
+  const reaction=document.getElementById("reaction").value,observedReason=document.getElementById("observedReason").value.trim();
+  if(!reaction||observedReason.length<4){document.getElementById("submitErr").innerHTML=err("請完成前兩題必填欄位");return}
+  const btn=document.getElementById("submitBtn");btn.disabled=true;btn.textContent="送出中…";
+  const supportMethods=[...document.querySelectorAll("#supports input:checked")].map(x=>x.value);
+  try{
+    const d=await post("submitSemesterParent",{token:TOKEN,reaction,observedReason,supportMethods,concerns:document.getElementById("concerns").value.trim(),schoolHelp:document.getElementById("schoolHelp").value.trim(),contactRequest:document.getElementById("contactRequest").value});
+    if(!d.ok)throw new Error(d.msg);hide("form");show("done");window.scrollTo({top:0,behavior:"smooth"});
+  }catch(e){btn.disabled=false;btn.textContent="送出家長回饋";document.getElementById("submitErr").innerHTML=err(e.message||"提交失敗，請重試")}
+}
+init();
+</script>
+</body>
+</html>
