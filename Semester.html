@@ -80,7 +80,7 @@ function alertHtml(msg){return msg?`<div class="alert danger">${esc(msg)}</div>`
 async function post(action,body){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});return r.json()}
 function categoryLabel(s){return s.category==="failed"?"學期不及格":s.category==="declined"?"明顯退步":s.category==="improved"?"明顯進步":"穩定優勢"}
 function fixedPrompt(s){if(s.category==="failed")return"這科未達及格，請說明主要困難，以及你曾經嘗試過什麼方法。";if(s.category==="declined")return"這科和期中相比退步較多，你認為造成變化的主要原因是什麼？";if(s.category==="improved")return"這科有明顯進步，請說明你做了哪些有效調整。";return"這科表現相對穩定，你認為最有幫助的學習方法是什麼？"}
-function localFallback(s){if(s.category==="failed")return`針對「${s.subject}」，如果暑假只能先做一個補強行動，你會選什麼？`;if(s.category==="declined")return`「${s.subject}」退步較多，你最需要先調整的習慣是什麼？`;if(s.category==="improved")return`「${s.subject}」有進步，哪個做法最值得下學期繼續保留？`;return`你能把「${s.subject}」的哪個有效方法用到較弱的科目？`}
+function localFallback(s,answer){const t=String(answer||"").replace(/\s+/g,""),weak=t.length<=10||/(沒有|沒試過|不知道|不清楚|不想|懶得|忘了|隨便|都不會|沒辦法|沒時間|不會讀|不想念)/.test(t);if(weak&&s.category==="failed")return`你目前沒有開始準備「${s.subject}」，最主要是看不懂、不知道從哪開始、時間不足，還是缺乏動力？請選一項並寫出本週願意完成的第一步。`;if(weak&&s.category==="declined")return`「${s.subject}」退步後仍未調整，主因是複習太晚、練習不足、上課沒跟上，還是缺乏動力？請選一項並提出一個本週能完成的改變。`;if(weak)return`對「${s.subject}」暫時沒有具體想法，是因為不確定有效方法、沒有安排時間，還是缺乏動力？請選一項並提出一個下週可執行的小行動。`;if(s.category==="failed")return`你提到的困難中，哪一項最直接造成「${s.subject}」未達及格？請提出一個有時間、次數或完成量的暑假補強行動。`;if(s.category==="declined")return`「${s.subject}」退步較多，請指出最需要先改的習慣，並寫出你下週會在什麼時間開始執行。`;if(s.category==="improved")return`「${s.subject}」有進步，請說出最有效的具體做法，以及下學期要用什麼頻率繼續維持。`;return`「${s.subject}」表現穩定，請選一個有效做法，並說明要如何具體套用到目前最弱的科目。`}
 async function verifyStudent(){
   const studentId=document.getElementById("studentId").value.trim(),name=document.getElementById("studentName").value.trim();
   document.getElementById("verifyErr").innerHTML="";
@@ -110,7 +110,7 @@ async function askFollowUp(key){
   btn.disabled=true;btn.textContent="送出中…";
   let result;
   try{result=await post("askSemesterFollowUp",{studentId:STUDENT.studentId,name:STUDENT.name,courseKey:key,category:s.category,initialAnswer:answer});if(!result.ok)throw new Error(result.msg)}
-  catch(e){result={question:localFallback(s),source:"frontend-fallback",needsHumanCare:false}}
+  catch(e){result={question:localFallback(s,answer),source:"frontend-fallback",needsHumanCare:false}}
   REFLECTIONS[key]={question:result.question,source:result.source||"fallback",needsHumanCare:!!result.needsHumanCare};
   document.getElementById("question_"+key).textContent=result.question;
   document.getElementById("initial_"+key).disabled=true;
