@@ -272,6 +272,7 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
       <div class="nav-item" onclick="goto('stress')">◉ 壓力風險分析</div>
       <div class="nav-item" onclick="goto('ai')">◈ AI報告工作台</div>
       <div class="nav-item" onclick="goto('flinks')">↻ 發送追蹤問卷</div>
+      <div class="nav-item" onclick="goto('semester')">◎ 學期成績問卷</div>
       <div class="nav-sec">家長問卷</div>
       <div class="nav-item teal" onclick="goto('plinks')">🔗 發送家長連結</div>
       <div class="nav-item teal" onclick="goto('pfeedback')">📋 家長問卷回饋 <span class="nav-badge" id="pbadge" style="display:none">0</span></div>
@@ -361,6 +362,29 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
         <div id="counselingRecordResult" style="display:none;margin-bottom:16px;background:white;border:1px solid var(--teal-bd);border-radius:var(--r);padding:20px;color:var(--ink);font-size:14px;line-height:1.8;white-space:pre-wrap;box-shadow:0 4px 12px rgba(20,184,166,0.05)"></div>
         <div id="cmpContent"><div class="empty">請從上方選擇學生</div></div>
       </div>
+
+      <div class="page" id="page-semester">
+        <div class="page-title">114-2 學期成績問卷</div>
+        <div class="page-sub">查看學生學期反思、Gemini 追問狀態，並為完成者產生家長問卷連結</div>
+        <div class="toolbar">
+          <button class="btn-act" onclick="loadSemesterData(true)">⟳ 重新整理</button>
+          <button class="btn-act purple" onclick="copySemesterStudentLink(this)">📋 複製學生問卷網址</button>
+          <button class="btn-act teal" onclick="testGeminiConnection(this)">測試 Gemini</button>
+          <span id="semesterLoadStatus" style="font-size:13px;color:var(--ink2)"></span>
+        </div>
+        <div class="metrics" id="semesterMetrics"></div>
+        <div class="card" style="padding:0">
+          <div class="card-head"><span class="card-title">學生學期問卷狀態</span></div>
+          <div class="tbl-wrap"><table>
+            <thead><tr><th>姓名</th><th>平均</th><th>排名</th><th>不及格</th><th>問卷</th><th>AI追問</th><th>人工關懷</th><th>家長問卷</th><th>操作</th></tr></thead>
+            <tbody id="semesterBody"><tr><td colspan="9" class="empty">尚未載入</td></tr></tbody>
+          </table></div>
+        </div>
+        <div class="card" style="padding:0">
+          <div class="card-head"><span class="card-title">已收到的學期家長回饋</span></div>
+          <div id="semesterParentFeedback" class="card-body"><div class="empty">尚未載入</div></div>
+        </div>
+      </div>
       
       <!-- ✅ 新增 Looker Studio 報表頁面 -->
       <div class="page" id="page-report">
@@ -417,6 +441,7 @@ table{font-size:16px}thead th{font-size:14px;padding:14px 18px}tbody td{padding:
 const API = "https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
 const DTOK = new URLSearchParams(location.search).get("token") || "teacher2025";
 let ALL=[], STUDENTS=[], SMAP={}, TOKENS=[], FOLLOWUP_TOKENS=[], PARENT_DATA=[];
+let SEMESTER_DATA=null,SEMESTER_LOADING=false;
 let teacherName="", currentLink="", PROMPT_SETTINGS={customPrompt:"",aiModel:""}, AI_WORKTAB="write";
 let activeOverviewFilter="all";
 let followUpTokensLoaded=false, followUpTokensLoading=false;
@@ -511,7 +536,7 @@ function buildMap(){
       selfRating:{focus:0,review:0,understanding:0,examCoping:0},
       learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
       routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
-      analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",manualReports:st.manualReports||[],aiSubject:"",dialogHistory:"",qualityFlag:"",
+      analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",manualReports:st.manualReports||[],latestFollowUpFeedback:st.latestFollowUpFeedback||null,followUpFeedbacks:Array.isArray(st.followUpFeedbacks)?st.followUpFeedbacks:[],aiSubject:"",dialogHistory:"",qualityFlag:"",
       allSubjects: st.allSubjects.map(x=>({...x})), subjects: st.allSubjects.filter(x=>x.score<60).map(x=>({...x})), hasFeedback:false
     };
   });
@@ -525,7 +550,7 @@ function buildMap(){
         selfRating:{focus:0,review:0,understanding:0,examCoping:0},
         learningBlindSpot:"",studyMethod:"",actionCommitment:"",stressIndex:0,shortTermGoal:"",
         routine:{sleep:"",entertainment:"",extracurricular:"", allNighter:""}, followUp:{q:"",a:""}, 
-        analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",manualReports:[],aiSubject:"",dialogHistory:"",qualityFlag:"",
+        analysisText:"",analysisStatus:"Insufficient Data",followUpStatus:"",counseling:"",savedReport:"",savedReportAt:"",savedReportType:"",savedPrompt:"",savedAiModel:"",answerQualityLevel:"",answerQualityReportAt:"",answerQualityReport:"",manualReports:[],latestFollowUpFeedback:null,followUpFeedbacks:[],aiSubject:"",dialogHistory:"",qualityFlag:"",
         allSubjects:[],subjects:[],hasFeedback:false
       };
     }
@@ -538,7 +563,7 @@ function buildMap(){
     };
     s.learningBlindSpot=r.learningBlindSpot; s.studyMethod=r.studyMethod; s.actionCommitment=r.actionCommitment; s.stressIndex=+r.stressIndex; s.shortTermGoal=r.shortTermGoal;
     s.routine=r.routine; s.followUp=r.followUp;
-    s.analysisText=r.analysisText||s.analysisText||""; s.analysisStatus=r.analysisStatus||s.analysisStatus||"Insufficient Data"; s.followUpStatus=r.followUpStatus||s.followUpStatus||""; s.counseling=r.counseling||s.counseling||""; s.savedReport=r.savedReport||s.savedReport||""; s.savedReportAt=r.savedReportAt||s.savedReportAt||""; s.savedReportType=r.savedReportType||s.savedReportType||""; s.savedPrompt=r.savedPrompt||s.savedPrompt||""; s.savedAiModel=r.savedAiModel||s.savedAiModel||""; s.answerQualityLevel=r.answerQualityLevel||s.answerQualityLevel||""; s.answerQualityReportAt=r.answerQualityReportAt||s.answerQualityReportAt||""; s.answerQualityReport=r.answerQualityReport||s.answerQualityReport||""; s.manualReports=Array.isArray(r.manualReports)?r.manualReports:(s.manualReports||[]); s.aiSubject=r.aiSubject;
+    s.analysisText=r.analysisText||s.analysisText||""; s.analysisStatus=r.analysisStatus||s.analysisStatus||"Insufficient Data"; s.followUpStatus=r.followUpStatus||s.followUpStatus||""; s.counseling=r.counseling||s.counseling||""; s.savedReport=r.savedReport||s.savedReport||""; s.savedReportAt=r.savedReportAt||s.savedReportAt||""; s.savedReportType=r.savedReportType||s.savedReportType||""; s.savedPrompt=r.savedPrompt||s.savedPrompt||""; s.savedAiModel=r.savedAiModel||s.savedAiModel||""; s.answerQualityLevel=r.answerQualityLevel||s.answerQualityLevel||""; s.answerQualityReportAt=r.answerQualityReportAt||s.answerQualityReportAt||""; s.answerQualityReport=r.answerQualityReport||s.answerQualityReport||""; s.manualReports=Array.isArray(r.manualReports)?r.manualReports:(s.manualReports||[]); s.latestFollowUpFeedback=r.latestFollowUpFeedback||s.latestFollowUpFeedback||null; s.followUpFeedbacks=Array.isArray(r.followUpFeedbacks)?r.followUpFeedbacks:(s.followUpFeedbacks||[]); s.aiSubject=r.aiSubject;
     s.dialogHistory=r.dialogHistory||""; s.qualityFlag=r.qualityFlag||"";
     if(r.subject){
       let exA=s.allSubjects.find(x=>x.subject===r.subject); if(exA){exA.reason=r.reason;exA.strategy=r.strategy}else s.allSubjects.push({subject:r.subject,score:r.score,reason:r.reason,strategy:r.strategy});
@@ -562,7 +587,7 @@ function goto(name){
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("on"));
   const nav=document.querySelector(`[onclick="goto('${name}')"]`);if(nav)nav.classList.add("on");
   const pg=document.getElementById("page-"+name);if(pg)pg.classList.add("on");
-  ({overview:renderOverview,student:renderStudentPage,subjects:renderSubjects,stress:renderStress,ai:renderAI,flinks:renderFLinks,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare,report:renderReport}[name]||(() => {}))();
+  ({overview:renderOverview,student:renderStudentPage,subjects:renderSubjects,stress:renderStress,ai:renderAI,flinks:renderFLinks,plinks:renderPLinks,pfeedback:renderPF,compare:renderCompare,semester:renderSemester,report:renderReport}[name]||(() => {}))();
 }
 
 // ── 圖表 ────────────────────────────────────────────────────
@@ -1413,6 +1438,22 @@ function parentInterviewHtml(student){
     '<div class="focus-item"><div class="focus-label">家長建議</div>'+esc(p.suggestions||p.additionalConcerns||'無資料')+'</div>'+
   '</div>';
 }
+function followUpFeedbackHtml(student){
+  const f=student?.latestFollowUpFeedback;
+  if(!f)return '<div class="compact-muted">學生尚未填寫期中後追蹤問卷</div>';
+  const historyCount=(student.followUpFeedbacks||[]).length;
+  return '<div class="focus-list" style="grid-template-columns:1fr">'+
+    '<div class="focus-item"><div class="focus-label">回填時間</div>'+esc(f.timestamp||'無資料')+(historyCount>1?'<br><span class="compact-muted">共有 '+historyCount+' 筆追蹤回饋，目前顯示最新一筆</span>':'')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">目前執行情況</div>'+esc(f.executionStatus||'無資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">目前壓力</div>'+esc(f.stressIndex||'無資料')+'/10<br>'+esc(f.pressureSources||'無壓力來源資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">已執行項目</div>'+esc(f.completedItems||'無資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">最難做到項目</div>'+esc(f.difficulties||'無資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">目前最需協助科目</div>'+esc(f.needSubjects||'無資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">希望老師協助</div>'+esc(f.teacherHelp||'無資料')+'</div>'+
+    '<div class="focus-item"><div class="focus-label">本週承諾</div>'+esc(f.weeklyCommitment||'無資料')+'</div>'+
+    (f.additionalNote?'<div class="focus-item"><div class="focus-label">補充說明</div>'+esc(f.additionalNote)+'</div>':'')+
+  '</div>';
+}
 function todayInputValue(){
   const d=new Date();
   const p=n=>String(n).padStart(2,'0');
@@ -1618,6 +1659,7 @@ function renderStudentPage(){
       </div>
       <div>
         <div class="card" id="parentFeedbackSection"><div class="card-head"><span class="card-title">家長回饋</span></div><div class="card-body">${parentInterviewHtml(s)}</div></div>
+        <div class="card" id="followUpFeedbackSection"><div class="card-head"><span class="card-title">最新追蹤回饋</span></div><div class="card-body">${followUpFeedbackHtml(s)}</div></div>
         ${interviewRecordPanel(s)}
         ${counselingLogPanel(s)}
         ${savedRecordsPanel(s)}
@@ -1940,6 +1982,99 @@ function renderCompare(){
   el.innerHTML=`<div class="card" style="padding:0"><div class="card-head"><span class="card-title">${esc(s?.name||id)} 雙方對照</span></div>
     <div class="card-body"><div class="compare-grid"><div class="compare-col"><div class="compare-head blue">📝 學生自填</div>${sHtml}</div><div class="compare-sep"></div><div class="compare-col"><div class="compare-head teal">👨‍👩‍👧 家長回饋</div>${pHtml}</div></div></div></div>
     ${s?.analysisText?`<div class="card" style="padding:0"><div class="card-head"><span class="card-title">📋 分析文字</span></div><div class="card-body"><button class="btn-act purple" onclick="copyAnalysisText('${esc(id)}',this)" style="margin-bottom:10px;background:var(--purple);color:white;border-color:var(--purple)">複製分析文字</button><div>${aiReportHtml(s.analysisText,"尚無分析文字")}</div></div></div>`:""}${s?manualReportPanel(s):""}`;
+}
+
+// ── 114-2 學期成績問卷 ──────────────────────────────────────
+function renderSemester(){
+  if(!SEMESTER_DATA&&!SEMESTER_LOADING)loadSemesterData(false);
+  else if(SEMESTER_DATA)paintSemester();
+}
+async function copySemesterStudentLink(btn){
+  const link=API+"?page=semester";
+  try{
+    await navigator.clipboard.writeText(link);
+    const old=btn.textContent;btn.textContent="已複製";
+    setTimeout(()=>btn.textContent=old,1500);
+  }catch(e){prompt("請複製學生學期問卷網址：",link)}
+}
+async function testGeminiConnection(btn){
+  const status=document.getElementById("semesterLoadStatus"),old=btn.textContent;
+  btn.disabled=true;btn.textContent="測試中…";
+  if(status)status.textContent="";
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"testGeminiConnection",dashToken:DTOK})}).then(r=>r.json());
+    if(d.ok){
+      if(status)status.textContent=`✓ ${d.msg}（${d.model}／${d.keyType}）`;
+    }else{
+      if(status)status.textContent=`Gemini 失敗：${d.code||""} ${d.msg||"未知錯誤"}`;
+    }
+  }catch(e){
+    if(status)status.textContent="Gemini 測試失敗："+e.message;
+  }finally{btn.disabled=false;btn.textContent=old}
+}
+async function loadSemesterData(force){
+  if(SEMESTER_LOADING)return;
+  if(SEMESTER_DATA&&!force){paintSemester();return}
+  SEMESTER_LOADING=true;
+  const status=document.getElementById("semesterLoadStatus");
+  if(status)status.textContent="載入中…";
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"getSemesterDashboardData",dashToken:DTOK})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg||"載入失敗");
+    SEMESTER_DATA=d;paintSemester();
+    if(status)status.textContent="更新時間："+new Date().toLocaleTimeString("zh-TW",{hour:"2-digit",minute:"2-digit"});
+  }catch(e){
+    if(status)status.textContent="載入失敗："+e.message;
+    const body=document.getElementById("semesterBody");
+    if(body)body.innerHTML=`<tr><td colspan="9" style="padding:24px;text-align:center;color:var(--red)">${esc(e.message)}</td></tr>`;
+  }finally{SEMESTER_LOADING=false}
+}
+function semesterTokenFor(id){return (SEMESTER_DATA?.tokens||[]).find(t=>sid(t.studentId)===sid(id))}
+function semesterParentFor(id){return (SEMESTER_DATA?.parentFeedback||[]).find(p=>sid(p.studentId)===sid(id))}
+function paintSemester(){
+  const students=SEMESTER_DATA?.students||[];
+  const realStudents=students.filter(s=>!s.isTest);
+  const completed=realStudents.filter(s=>s.feedback).length;
+  const care=realStudents.filter(s=>s.feedback?.needsHumanCare).length;
+  const parentDone=(SEMESTER_DATA?.parentFeedback||[]).filter(p=>sid(p.studentId)!=="test1").length;
+  const failed=realStudents.filter(s=>(s.failedCount||0)>0).length;
+  const m=document.getElementById("semesterMetrics");
+  if(m)m.innerHTML=[
+    ["學生人數",realStudents.length,"學期成績名冊","blue"],
+    ["完成問卷",completed,realStudents.length?Math.round(completed/realStudents.length*100)+"%":"0%","green"],
+    ["有不及格",failed,"至少一科","orange"],
+    ["人工關懷",care,"高風險文字","red"],
+    ["家長完成",parentDone,"學期家長問卷","purple"]
+  ].map(x=>`<div class="metric"><div class="m-label">${x[0]}</div><div class="m-val" style="color:var(--${x[3]})">${x[1]}</div><div class="m-sub">${x[2]}</div></div>`).join("");
+  const body=document.getElementById("semesterBody");
+  if(body)body.innerHTML=students.map(s=>{
+    const f=s.feedback,t=semesterTokenFor(s.studentId),p=semesterParentFor(s.studentId);
+    const parentStatus=p?pill("已填寫","p-green"):t?pill("已發送","p-blue"):pill("未產生","p-gray");
+    const actions=f?`<button class="btn-act" onclick="showSemesterReflection('${esc(s.studentId)}')">查看反思</button> <button class="btn-act teal" onclick="genSemesterParentLink('${esc(s.studentId)}','${esc(s.name)}')">${t?"查看連結":"產生家長連結"}</button>`:`<span style="color:var(--ink3)">等待學生填寫</span>`;
+    return `<tr><td>${esc(s.name)} ${s.isTest?pill("測試","p-purple"):""}</td><td>${esc(s.average||"—")} <span class="muted">(${esc(s.midtermAverage||"—")})</span></td><td>${esc(s.rank||"—")} <span class="muted">(${esc(s.midtermRank||"—")})</span></td><td>${s.failedCount?pill(s.failedCount+" 科","p-red"):pill("0 科","p-green")}</td><td>${f?pill("已完成","p-green"):pill("未填寫","p-gray")}</td><td>${f?`${pill("Gemini "+f.aiSuccess,"p-purple")} ${f.fallbackCount?pill("備援 "+f.fallbackCount,"p-amber"):""}`:"—"}</td><td>${f?.needsHumanCare?pill("需關懷","p-red"):"—"}</td><td>${parentStatus}</td><td>${actions}</td></tr>`;
+  }).join("")||`<tr><td colspan="9" class="empty">114-2-final 尚無可讀取的學生資料</td></tr>`;
+  const pf=document.getElementById("semesterParentFeedback"),rows=SEMESTER_DATA?.parentFeedback||[];
+  if(pf)pf.innerHTML=rows.length?`<div class="tbl-wrap"><table><thead><tr><th>學生</th><th>孩子反應</th><th>觀察原因</th><th>家庭支持</th><th>希望聯繫</th></tr></thead><tbody>${rows.map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.reaction)}</td><td>${esc(p.observedReason)}</td><td>${esc(p.supportMethods||"—")}</td><td>${esc(p.contactRequest||"—")}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">尚未收到學期家長回饋</div>`;
+}
+function showSemesterReflection(studentId){
+  const s=(SEMESTER_DATA?.students||[]).find(x=>sid(x.studentId)===sid(studentId)),f=s?.feedback;
+  if(!f)return;
+  const subjects=(f.reflections||[]).map(r=>`【${r.subject}｜期中 ${r.midtermScore??"—"} → 學期 ${r.semesterScore}】\n反思：${r.initialAnswer}\n追問：${r.followUpQuestion}\n回答：${r.followUpAnswer}\n來源：${r.aiSource}`).join("\n\n");
+  const text=`整體反思：${f.overallReflection}\n\n有效方法：${f.effectiveMethod}\n\n期中承諾完成度：${f.commitmentCompletion}\n壓力指數：${f.stressIndex}\n作息：${f.routine||"未填"}\n\n暑假補強：${f.summerPlan}\n下學期承諾：${f.nextCommitment}\n希望協助：${f.supportNeeds||"未填"}\n\n${subjects}`;
+  showReportModal("學期成績反思",`${s.name}・${s.studentId}`,text);
+}
+async function genSemesterParentLink(studentId,studentName){
+  try{
+    const d=await fetch(API,{method:"POST",body:JSON.stringify({action:"generateSemesterParentLink",dashToken:DTOK,studentId,studentName})}).then(r=>r.json());
+    if(!d.ok)throw new Error(d.msg);
+    currentLink=d.link;
+    document.getElementById("modalTitle").textContent="學期家長問卷連結";
+    document.getElementById("modalStudentName").textContent=studentName+" 同學";
+    document.getElementById("modalLink").textContent=d.link;
+    document.getElementById("modalHelpText").textContent="學生已完成學期問卷；家長連結只能成功提交一次";
+    document.getElementById("linkModal").classList.add("on");
+    await loadSemesterData(true);
+  }catch(e){alert("產生連結失敗："+e.message)}
 }
 
 
