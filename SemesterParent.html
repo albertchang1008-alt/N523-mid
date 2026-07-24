@@ -40,7 +40,7 @@ textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;paddi
     </section>
     <section class="card">
       <h2>學生的二年級生活回顧</h2>
-      <div class="desc">以下是學生在學期問卷中寫下的生活感想，以及老師進一步了解後的補充回答。</div>
+      <div class="desc">以下是學生在學期問卷中寫下的生活感想。</div>
       <div id="lifeReflections" class="life-list"></div>
     </section>
     <section class="card">
@@ -84,7 +84,7 @@ function renderLifeReflections(items){
   const container=document.getElementById("lifeReflections");
   container.replaceChildren();
   const rows=(Array.isArray(items)?items:[])
-    .filter(x=>String(x?.questionId||"")!=="6"||[x?.initialAnswer,x?.followUpQuestion,x?.followUpAnswer].some(v=>String(v||"").trim()))
+    .filter(x=>String(x?.questionId||"")!=="6"||String(x?.initialAnswer||"").trim())
     .sort((a,b)=>Number(a?.questionId||0)-Number(b?.questionId||0));
   if(!rows.length){
     const empty=document.createElement("div");
@@ -99,9 +99,7 @@ function renderLifeReflections(items){
     title.className="life-title";
     title.textContent=`第 ${item.questionId||index+1} 題｜${item.question||"二年級生活感想"}`;
     card.appendChild(title);
-    appendLifeAnswer(card,"學生原始回答",item.initialAnswer);
-    appendLifeAnswer(card,"老師追問",item.followUpQuestion);
-    appendLifeAnswer(card,"學生補充回答",item.followUpAnswer);
+    appendLifeAnswer(card,"學生回答",item.initialAnswer);
     container.appendChild(card);
   });
 }
