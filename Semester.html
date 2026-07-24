@@ -18,6 +18,7 @@ input[type=text],textarea,select{width:100%;border:1px solid var(--line);border-
 .reflect{border:1px solid var(--line);border-radius:13px;padding:18px;margin-top:14px}.reflect-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.reflect-title{font-weight:900;font-size:18px}.tag{font-size:12px;font-weight:850;border-radius:999px;padding:5px 9px;background:#f1f5f9}.tag.failed{background:#fee2e2;color:#991b1b}.tag.declined{background:#ffedd5;color:#9a3412}.tag.improved{background:#d1fae5;color:#065f46}.tag.stable{background:#dbeafe;color:#1e40af}
 .follow-box{display:none;background:#f5f3ff;border-left:4px solid var(--purple);padding:14px;border-radius:9px;margin-top:12px}.follow-q{font-weight:850;line-height:1.65;margin-bottom:10px}.muted{color:var(--muted);font-size:13px}.loading{text-align:center;padding:40px;color:var(--muted)}.hidden{display:none!important}
 .commitment-box{margin:12px 0 16px;padding:15px 17px;border-radius:11px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a5f;line-height:1.7}.commitment-item+.commitment-item{border-top:1px solid #bfdbfe;margin-top:12px;padding-top:12px}.commitment-box .title{font-size:13px;font-weight:850;color:#64748b;margin-bottom:4px}.commitment-box .text{font-size:16px;font-weight:800;white-space:pre-wrap}
+.flow-progress{margin:10px 0 16px;color:var(--blue2);font-size:14px;font-weight:850}.step-panel{animation:stepIn .22s ease}.step-actions{display:flex;justify-content:flex-end;margin-top:12px}.step-actions .btn{min-width:130px}.step-error{margin-top:10px;color:#991b1b;font-size:14px;font-weight:750}.rule-hint{display:inline-block;margin-left:7px;padding:2px 7px;border-radius:999px;background:#fee2e2;color:#991b1b;font-size:12px;font-weight:850;vertical-align:middle}.completed-note{padding:14px;border-radius:10px;background:#ecfdf5;color:#065f46;font-weight:800}@keyframes stepIn{from{opacity:.35;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(max-width:620px){.grid2{grid-template-columns:1fr}.card{padding:17px}.score-table{font-size:12px}.score-table th,.score-table td{padding:8px 5px}}
 </style>
 </head>
@@ -44,39 +45,96 @@ input[type=text],textarea,select{width:100%;border:1px solid var(--line);border-
       <div style="overflow:auto;margin-top:16px"><table class="score-table"><thead><tr><th>科目</th><th>期中</th><th>學期</th><th>變化</th></tr></thead><tbody id="scoreBody"></tbody></table></div>
     </section>
 
-    <section class="card">
+    <section id="reflectionCard" class="card">
       <h2>重點科目反思</h2>
-      <div class="desc">系統選出不及格、明顯退步，以及一科進步或優勢科目。每科回答後，老師會再詢問一個問題，協助你把想法說得更完整。</div>
+      <div class="desc">一次完成一科。送出反思後會出現一題追問，回答完成才會進入下一科。</div>
+      <div id="subjectProgress" class="flow-progress"></div>
       <div id="reflectionList"></div>
     </section>
 
-    <section class="card">
+    <section id="overallCard" class="card hidden">
       <h2>整體回顧與下一步</h2>
+      <div id="overallProgress" class="flow-progress"></div>
       <div id="submitErr"></div>
-      <div id="midtermCommitmentBox" class="commitment-box"></div>
-      <div class="field"><label>期中時寫下的承諾，這學期做到什麼程度？<span class="req">*</span></label>
-        <select id="commitmentCompletion"><option value="">請選擇</option><option>大部分做到，而且有持續</option><option>有做到一部分，但不穩定</option><option>有開始，但很快中斷</option><option>幾乎沒有執行</option><option>不記得當時的承諾</option></select></div>
-      <div class="field"><label>你如何看待自己這學期的整體成績？<span class="req">*</span></label><textarea id="overallReflection" rows="3" placeholder="請寫下滿意或不滿意的地方，以及主要原因"></textarea></div>
-      <div class="field"><label>本學期最有效、下學期值得保留的學習方法<span class="req">*</span></label><textarea id="effectiveMethod" rows="3"></textarea></div>
-      <div class="grid2">
-        <div class="field"><label>目前課業壓力（1–10）<span class="req">*</span></label><select id="stressIndex"><option value="">請選擇</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
-        <div class="field"><label>近期作息狀況</label><select id="routine"><option value="">請選擇</option><option>規律，睡眠大致足夠</option><option>偶爾晚睡，但尚可調整</option><option>常熬夜或睡眠不足</option><option>作息混亂，已影響精神</option></select></div>
+      <div id="overallSteps">
+        <div class="step-panel" data-overall-step="0">
+          <div id="midtermCommitmentBox" class="commitment-box"></div>
+          <div class="field"><label>期中時寫下的承諾，這學期做到什麼程度？<span class="req">*</span></label>
+            <select id="commitmentCompletion"><option value="">請選擇</option><option>大部分做到，而且有持續</option><option>有做到一部分，但不穩定</option><option>有開始，但很快中斷</option><option>幾乎沒有執行</option><option>不記得當時的承諾</option></select></div>
+          <div class="step-actions"><button class="btn primary" onclick="advanceOverallStep(0)">下一題</button></div>
+          <div class="step-error" id="overallStepError_0"></div>
+        </div>
+        <div class="step-panel hidden" data-overall-step="1">
+          <div class="field"><label>你如何看待自己這學期的整體成績？<span class="req">*</span><span class="rule-hint">至少 7 個字，不含空格</span></label><textarea id="overallReflection" rows="3" minlength="7" placeholder="請寫下滿意或不滿意的地方，以及主要原因"></textarea></div>
+          <div class="step-actions"><button class="btn primary" onclick="advanceOverallStep(1)">下一題</button></div><div class="step-error" id="overallStepError_1"></div>
+        </div>
+        <div class="step-panel hidden" data-overall-step="2">
+          <div class="field"><label>本學期最有效、下學期值得保留的學習方法<span class="req">*</span><span class="rule-hint">至少 7 個字，不含空格</span></label><textarea id="effectiveMethod" rows="3" minlength="7"></textarea></div>
+          <div class="step-actions"><button class="btn primary" onclick="advanceOverallStep(2)">下一題</button></div><div class="step-error" id="overallStepError_2"></div>
+        </div>
+        <div class="step-panel hidden" data-overall-step="3">
+          <div class="field"><label>目前課業壓力（1–10）<span class="req">*</span></label><select id="stressIndex"><option value="">請選擇</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+          <div class="step-actions"><button class="btn primary" onclick="advanceOverallStep(3)">下一題</button></div><div class="step-error" id="overallStepError_3"></div>
+        </div>
+        <div class="step-panel hidden" data-overall-step="4">
+          <div class="field"><label>近期作息狀況</label><select id="routine"><option value="">請選擇</option><option>規律，睡眠大致足夠</option><option>偶爾晚睡，但尚可調整</option><option>常熬夜或睡眠不足</option><option>作息混亂，已影響精神</option></select></div>
+          <div class="step-actions"><button class="btn primary" onclick="advanceOverallStep(4)">下一題</button></div>
+        </div>
+        <div class="step-panel hidden" data-overall-step="5">
+          <div class="field"><label>暑假最需要完成的補強計畫<span class="req">*</span><span class="rule-hint">至少 7 個字，不含空格</span></label><textarea id="summerPlan" rows="3" minlength="7" placeholder="請寫出科目、頻率或具體做法"></textarea></div>
+          <div class="step-actions"><button class="btn primary" onclick="advanceOverallStep(5)">下一題</button></div><div class="step-error" id="overallStepError_5"></div>
+        </div>
+        <div class="step-panel hidden" data-overall-step="6">
+          <div class="field"><label>下學期給自己的一項具體承諾<span class="req">*</span><span class="rule-hint">至少 7 個字，不含空格</span></label><textarea id="nextCommitment" rows="3" minlength="7" placeholder="例如：每週二、四各複習藥理30分鐘"></textarea></div>
+          <div class="step-actions"><button class="btn primary" onclick="advanceOverallStep(6)">下一題</button></div><div class="step-error" id="overallStepError_6"></div>
+        </div>
+        <div class="step-panel hidden" data-overall-step="7">
+          <div class="field"><label>希望老師提供哪些協助？</label><textarea id="supportNeeds" rows="2" placeholder="若目前不需要，可直接送出"></textarea></div>
+          <button class="btn primary" onclick="startLifeReflection()">進入最後階段</button>
+        </div>
       </div>
-      <div class="field"><label>暑假最需要完成的補強計畫<span class="req">*</span></label><textarea id="summerPlan" rows="3" placeholder="請寫出科目、頻率或具體做法"></textarea></div>
-      <div class="field"><label>下學期給自己的一項具體承諾<span class="req">*</span></label><textarea id="nextCommitment" rows="3" placeholder="例如：每週二、四各複習藥理30分鐘"></textarea></div>
-      <div class="field"><label>希望老師提供哪些協助？</label><textarea id="supportNeeds" rows="2"></textarea></div>
-      <button id="submitBtn" class="btn primary" onclick="submitSurvey()">送出學期問卷</button>
+    </section>
+
+    <section id="lifeCard" class="card hidden">
+      <h2>二年級生活回顧</h2>
+      <div class="desc">請回顧這一年的學習與成長。每題回答後，老師會再詢問一個問題；完成後才會進入下一題。</div>
+      <div id="lifeProgress" class="flow-progress"></div>
+      <div id="lifeReflectionList"></div>
+      <div id="lifeSubmitPanel" class="step-panel hidden">
+        <div class="completed-note" style="margin-bottom:14px">六題回顧已完成，可以送出整份學期問卷。</div>
+        <div id="lifeSubmitErr"></div>
+        <button id="submitBtn" class="btn primary" onclick="submitSurvey()">送出學期問卷</button>
+      </div>
     </section>
   </div>
 </main>
 <script>
 const API="https://script.google.com/macros/s/AKfycbwptCFvWf37bpUx8C2gxIwjtBw0H0L08-TX-OjPkgpCn8vKuWuvKum7urvZdzcgBmIK/exec";
 let STUDENT=null;
+let VALIDATION={initialAnswerMin:7,followUpAnswerMin:7,requiredTextMin:7,lifeInitialMinSentences:2};
+let CURRENT_SUBJECT_INDEX=0;
+let CURRENT_OVERALL_STEP=0;
+let CURRENT_LIFE_INDEX=0;
 const REFLECTIONS={};
+const LIFE_REFLECTIONS={};
+const LIFE_QUESTIONS=[
+  {id:"1",question:"你認為「護理」是什麼？",required:true},
+  {id:"2",question:"你認為「好的護理人員」應具備什麼特質？",required:true},
+  {id:"3",question:"誰是你的角色模範？為什麼？",required:true},
+  {id:"4",question:"這一年學習中，你最大的收穫與省思是什麼？",required:true},
+  {id:"5",question:"對於未來的一年，你的自我期許是什麼？你希望老師給予什麼協助？",required:true},
+  {id:"6",question:"其他任何你想表達的想法。",required:false}
+];
 function esc(v){const d=document.createElement("div");d.textContent=String(v??"");return d.innerHTML}
 function show(id){document.getElementById(id).classList.remove("hidden")}
 function hide(id){document.getElementById(id).classList.add("hidden")}
 function alertHtml(msg){return msg?`<div class="alert danger">${esc(msg)}</div>`:""}
+function answerIsLowQuality(value){const text=String(value||"").normalize("NFKC").replace(/[\s，。！？!?、；;：:「」『』"'（）()～~…·._-]+/g,"");if(!text)return true;if(/^(沒有|完全沒有|都沒有|沒有耶|都沒有耶|不知道|不知道耶|不清楚|沒想法|沒意見|隨便|都可以|還好|還不錯|普通|無|不想回答)$/.test(text))return true;if(/^(我)?(沒有|沒)(念|讀|準備|複習|做)?好$/.test(text)||/^(不太好|不好|很差|很爛)$/.test(text))return true;return new Set(Array.from(text)).size<=1}
+function answerLength(value){return Array.from(String(value||"").replace(/\s/g,"")).length}
+function sentenceParts(value){return String(value||"").split(/[。！？!?；;\n]+/).map(s=>s.trim()).filter(Boolean)}
+function sentenceCount(value){return sentenceParts(value).length}
+function textValidationMessage(value,min,label){const text=String(value||"").trim(),length=answerLength(text);if(length<min)return`${label}請至少填寫 ${min} 個字（不含空格，目前 ${length} 個字）`;if(answerIsLowQuality(text))return"這個回答還不夠具體，請補充原因、做法或實際情況後再送出";return""}
+function lifeInitialValidationMessage(value){const sentences=sentenceParts(value);if(sentences.length<VALIDATION.lifeInitialMinSentences)return`請至少回答 ${VALIDATION.lifeInitialMinSentences} 個句子（目前 ${sentences.length} 句）`;const shortIndex=sentences.findIndex(sentence=>answerLength(sentence)<VALIDATION.initialAnswerMin);if(shortIndex>=0)return`第 ${shortIndex+1} 句請至少填寫 ${VALIDATION.initialAnswerMin} 個字（不含空格，目前 ${answerLength(sentences[shortIndex])} 個字）`;if(answerIsLowQuality(value))return"這個回答還不夠具體，請補充原因、做法或實際情況後再送出";return""}
 async function post(action,body){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});return r.json()}
 function categoryLabel(s){return s.category==="failed"?"學期不及格":s.category==="declined"?"明顯退步":s.category==="improved"?"明顯進步":"穩定優勢"}
 function fixedPrompt(s){if(s.category==="failed")return"這科未達及格，請說明主要困難，以及你曾經嘗試過什麼方法。";if(s.category==="declined")return"這科和期中相比退步較多，你認為造成變化的主要原因是什麼？";if(s.category==="improved")return"這科有明顯進步，請說明你做了哪些有效調整。";return"這科表現相對穩定，你認為最有幫助的學習方法是什麼？"}
@@ -91,7 +149,7 @@ async function verifyStudent(){
     hide("loadingCard");
     if(!d.ok){show("verifyCard");document.getElementById("verifyErr").innerHTML=alertHtml(d.msg);return}
     if(d.alreadyDone){show("doneCard");return}
-    STUDENT=d.student;renderSurvey();show("survey");
+    STUDENT=d.student;VALIDATION={...VALIDATION,...(d.validation||{})};renderSurvey();show("survey");
   }catch(e){hide("loadingCard");show("verifyCard");document.getElementById("verifyErr").innerHTML=alertHtml("連線失敗，請稍後重試")}
 }
 function renderSurvey(){
@@ -102,14 +160,107 @@ function renderSurvey(){
   document.getElementById("scoreBody").innerHTML=STUDENT.subjects.map(s=>{const delta=s.delta===null?"—":`${s.delta>0?"+":""}${s.delta}`;const cls=s.score<60?"fail":s.delta<=-10?"down":s.delta>=10?"up":"";return`<tr><td>${esc(s.subject)}</td><td>${esc(s.midtermScore??"—")}</td><td class="${s.score<60?"fail":""}">${esc(s.score)}</td><td class="${cls}">${esc(delta)}</td></tr>`}).join("");
   const commitment=String(STUDENT.midtermCommitment||"").trim(),followCommitment=String(STUDENT.followUpCommitment||"").trim();
   document.getElementById("midtermCommitmentBox").innerHTML=`<div class="commitment-item"><div class="title">期中問卷｜行動承諾</div><div class="text">${commitment?esc(commitment):"查無紀錄"}</div></div><div class="commitment-item"><div class="title">學生追蹤問卷｜本週承諾</div><div class="text">${followCommitment?esc(followCommitment):"查無紀錄"}</div></div>`;
-  document.getElementById("reflectionList").innerHTML=STUDENT.selectedSubjects.map(s=>`<div class="reflect" data-key="${esc(s.courseKey)}"><div class="reflect-head"><div><div class="reflect-title">${esc(s.subject)}</div><div class="muted">期中 ${esc(s.midtermScore??"—")} → 學期 ${esc(s.score)} ${s.delta===null?"":`（${s.delta>0?"+":""}${esc(s.delta)}）`}</div></div><span class="tag ${esc(s.category)}">${categoryLabel(s)}</span></div><div class="field"><label>${esc(fixedPrompt(s))}<span class="req">*</span></label><textarea id="initial_${esc(s.courseKey)}" rows="3"></textarea></div><button id="ask_${esc(s.courseKey)}" class="btn follow" onclick="askFollowUp('${esc(s.courseKey)}')">送出</button><div class="follow-box" id="followBox_${esc(s.courseKey)}"><div class="muted">老師想再了解</div><div class="follow-q" id="question_${esc(s.courseKey)}"></div><textarea id="follow_${esc(s.courseKey)}" rows="3" placeholder="請回答這一題"></textarea><button id="followSubmit_${esc(s.courseKey)}" class="btn follow" onclick="submitFollowUpAnswer('${esc(s.courseKey)}')" style="margin-top:10px">送出回答</button><div class="muted" id="followStatus_${esc(s.courseKey)}" style="margin-top:7px">回答後請按「送出回答」</div></div></div>`).join("");
+  document.getElementById("reflectionList").innerHTML=STUDENT.selectedSubjects.map((s,index)=>`<div class="reflect step-panel ${index===0?"":"hidden"}" data-key="${esc(s.courseKey)}" data-subject-index="${index}"><div class="reflect-head"><div><div class="reflect-title">${esc(s.subject)}</div><div class="muted">期中 ${esc(s.midtermScore??"—")} → 學期 ${esc(s.score)} ${s.delta===null?"":`（${s.delta>0?"+":""}${esc(s.delta)}）`}</div></div><span class="tag ${esc(s.category)}">${categoryLabel(s)}</span></div><div class="field"><label>${esc(fixedPrompt(s))}<span class="req">*</span><span class="rule-hint">至少 ${VALIDATION.initialAnswerMin} 個字，不含空格</span></label><textarea id="initial_${esc(s.courseKey)}" rows="3" minlength="${VALIDATION.initialAnswerMin}"></textarea></div><button id="ask_${esc(s.courseKey)}" class="btn follow" onclick="askFollowUp('${esc(s.courseKey)}')">送出</button><div class="step-error" id="initialError_${esc(s.courseKey)}"></div><div class="follow-box" id="followBox_${esc(s.courseKey)}"><div class="muted">老師想再了解</div><div class="follow-q" id="question_${esc(s.courseKey)}"></div><label class="muted" for="follow_${esc(s.courseKey)}">請具體回答，至少 ${VALIDATION.followUpAnswerMin} 個字（不含空格）</label><textarea id="follow_${esc(s.courseKey)}" rows="3" minlength="${VALIDATION.followUpAnswerMin}" placeholder="請回答這一題"></textarea><button id="followSubmit_${esc(s.courseKey)}" class="btn follow" onclick="submitFollowUpAnswer('${esc(s.courseKey)}')" style="margin-top:10px">送出回答</button><div class="step-error" id="followError_${esc(s.courseKey)}"></div><div class="muted" id="followStatus_${esc(s.courseKey)}" style="margin-top:7px">回答後請按「送出回答」</div></div></div>`).join("");
+  CURRENT_SUBJECT_INDEX=0;CURRENT_OVERALL_STEP=0;updateSubjectProgress();
+}
+function updateSubjectProgress(){
+  document.getElementById("subjectProgress").textContent=`重點科目第 ${CURRENT_SUBJECT_INDEX+1}／${STUDENT.selectedSubjects.length} 關`;
+}
+function showSubjectStep(index){
+  CURRENT_SUBJECT_INDEX=index;
+  document.querySelectorAll("[data-subject-index]").forEach(el=>el.classList.toggle("hidden",Number(el.dataset.subjectIndex)!==index));
+  updateSubjectProgress();
+  document.getElementById("reflectionCard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finishSubjectStep(key){
+  const next=CURRENT_SUBJECT_INDEX+1;
+  if(next<STUDENT.selectedSubjects.length){showSubjectStep(next);return}
+  hide("reflectionCard");show("overallCard");setOverallStep(0);
+  document.getElementById("overallCard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function setOverallStep(index){
+  CURRENT_OVERALL_STEP=index;
+  document.querySelectorAll("[data-overall-step]").forEach(el=>el.classList.toggle("hidden",Number(el.dataset.overallStep)!==index));
+  document.getElementById("overallProgress").textContent=`整體回顧第 ${index+1}／8 關`;
+  const panel=document.querySelector(`[data-overall-step="${index}"]`);
+  setTimeout(()=>panel?.querySelector("select,textarea")?.focus(),150);
+}
+function overallStepMessage(index){
+  if(index===0)return document.getElementById("commitmentCompletion").value?"":"請選擇期中承諾完成程度";
+  if(index===1)return textValidationMessage(document.getElementById("overallReflection").value,VALIDATION.requiredTextMin,"整體成績回顧");
+  if(index===2)return textValidationMessage(document.getElementById("effectiveMethod").value,VALIDATION.requiredTextMin,"有效學習方法");
+  if(index===3)return document.getElementById("stressIndex").value?"":"請選擇目前課業壓力（1–10）";
+  if(index===5)return textValidationMessage(document.getElementById("summerPlan").value,VALIDATION.requiredTextMin,"暑假補強計畫");
+  if(index===6)return textValidationMessage(document.getElementById("nextCommitment").value,VALIDATION.requiredTextMin,"下學期具體承諾");
+  return"";
+}
+function advanceOverallStep(index){
+  const error=overallStepMessage(index),box=document.getElementById("overallStepError_"+index);
+  if(box)box.textContent=error;
+  if(error)return;
+  setOverallStep(index+1);
+}
+function lifeFallback(item,answer){const text=String(answer||"").trim(),map={"1":`你提到「${text}」，可以舉一個具體情境，說明這如何體現在護理人員的行動中嗎？`,"2":"在你提到的特質中，你最想培養哪一項，以及選擇它的原因是什麼？","3":"你最希望向這位角色模範學習哪一個具體做法？","4":"這項收穫或省思，對你下一年的學習方式會帶來什麼改變？","5":"在這項期許中，你準備先做的第一個具體行動是什麼？","6":"你希望老師從這段想法中，最需要理解或回應的是哪一部分？"};return map[item.id]}
+function startLifeReflection(){
+  hide("overallCard");show("lifeCard");
+  if(!document.getElementById("lifeReflectionList").children.length)renderLifeReflection();
+  showLifeStep(0);
+  document.getElementById("lifeCard").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function renderLifeReflection(){
+  document.getElementById("lifeReflectionList").innerHTML=LIFE_QUESTIONS.map((item,index)=>`<div class="step-panel ${index===0?"":"hidden"}" data-life-index="${index}" data-life-id="${item.id}"><div class="field"><label>${item.id}、${esc(item.question)}${item.required?'<span class="req">*</span>':""}<span class="rule-hint">${item.required?"至少 "+VALIDATION.lifeInitialMinSentences+" 句，每句至少 "+VALIDATION.initialAnswerMin+" 個字，不含空格":"自由填寫，可略過；填寫時至少 "+VALIDATION.lifeInitialMinSentences+" 句，每句至少 "+VALIDATION.initialAnswerMin+" 個字"}</span></label><textarea id="lifeInitial_${item.id}" rows="4" ${item.required?`minlength="${VALIDATION.initialAnswerMin}"`:""} placeholder="請用至少兩個句子完整說明，每句至少七個字"></textarea></div><div class="step-actions" style="justify-content:${item.required?"flex-end":"space-between"}">${item.required?"":`<button class="btn follow" onclick="skipLifeQuestion('${item.id}')">略過這題</button>`}<button id="lifeAsk_${item.id}" class="btn primary" style="width:auto" onclick="askLifeFollowUp('${item.id}')">送出</button></div><div class="step-error" id="lifeInitialError_${item.id}"></div><div class="follow-box" id="lifeFollowBox_${item.id}"><div class="muted">老師想再了解</div><div class="follow-q" id="lifeQuestion_${item.id}"></div><label class="muted" for="lifeFollow_${item.id}">請具體回答，至少 ${VALIDATION.followUpAnswerMin} 個字（不含空格）</label><textarea id="lifeFollow_${item.id}" rows="3" minlength="${VALIDATION.followUpAnswerMin}"></textarea><button id="lifeFollowSubmit_${item.id}" class="btn follow" onclick="submitLifeFollowUp('${item.id}')" style="margin-top:10px">送出回答</button><div class="step-error" id="lifeFollowError_${item.id}"></div></div></div>`).join("");
+}
+function showLifeStep(index){
+  CURRENT_LIFE_INDEX=index;
+  document.querySelectorAll("[data-life-index]").forEach(el=>el.classList.toggle("hidden",Number(el.dataset.lifeIndex)!==index));
+  document.getElementById("lifeSubmitPanel").classList.add("hidden");
+  document.getElementById("lifeProgress").textContent=`二年級生活回顧第 ${index+1}／${LIFE_QUESTIONS.length} 關`;
+  setTimeout(()=>document.querySelector(`[data-life-index="${index}"] textarea`)?.focus(),150);
+}
+async function askLifeFollowUp(id){
+  const item=LIFE_QUESTIONS.find(q=>q.id===id),input=document.getElementById("lifeInitial_"+id),answer=input.value.trim(),btn=document.getElementById("lifeAsk_"+id);
+  const error=lifeInitialValidationMessage(answer);
+  document.getElementById("lifeInitialError_"+id).textContent=error;
+  if(error)return;
+  btn.disabled=true;btn.textContent="送出中…";
+  let result;
+  try{result=await post("askLifeReflectionFollowUp",{studentId:STUDENT.studentId,name:STUDENT.name,questionId:id,initialAnswer:answer});if(!result.ok){btn.disabled=false;btn.textContent="送出";document.getElementById("lifeInitialError_"+id).textContent=String(result.msg||"").includes("未知的 action")?"追問服務尚未更新，請通知老師完成系統部署後再試":result.msg||"請重新回答";return}}
+  catch(e){result={question:lifeFallback(item,answer),source:"frontend-fallback",needsHumanCare:false}}
+  LIFE_REFLECTIONS[id]={question:result.question,source:result.source||"fallback",needsHumanCare:!!result.needsHumanCare};
+  document.getElementById("lifeQuestion_"+id).textContent=result.question;
+  input.disabled=true;btn.textContent="已送出";
+  document.getElementById("lifeFollowBox_"+id).style.display="block";
+}
+function submitLifeFollowUp(id){
+  const state=LIFE_REFLECTIONS[id],input=document.getElementById("lifeFollow_"+id),answer=input.value.trim(),btn=document.getElementById("lifeFollowSubmit_"+id);
+  if(!state)return;
+  const error=textValidationMessage(answer,VALIDATION.followUpAnswerMin,"追問回答");
+  document.getElementById("lifeFollowError_"+id).textContent=error;
+  if(error)return;
+  state.followUpAnswer=answer;state.answerSubmitted=true;
+  input.disabled=true;btn.disabled=true;btn.textContent="已送出";
+  setTimeout(finishLifeStep,300);
+}
+function skipLifeQuestion(id){
+  LIFE_REFLECTIONS[id]={skipped:true};
+  finishLifeStep();
+}
+function finishLifeStep(){
+  const next=CURRENT_LIFE_INDEX+1;
+  if(next<LIFE_QUESTIONS.length){showLifeStep(next);return}
+  document.querySelectorAll("[data-life-index]").forEach(el=>el.classList.add("hidden"));
+  document.getElementById("lifeProgress").textContent="二年級生活回顧已完成";
+  document.getElementById("lifeSubmitPanel").classList.remove("hidden");
+  document.getElementById("lifeSubmitPanel").scrollIntoView({behavior:"smooth",block:"center"});
 }
 async function askFollowUp(key){
   const s=STUDENT.selectedSubjects.find(x=>x.courseKey===key),answer=document.getElementById("initial_"+key).value.trim(),btn=document.getElementById("ask_"+key);
-  if(answer.length<4){alert("請先寫下較具體的反思（至少4個字）");return}
+  const error=textValidationMessage(answer,VALIDATION.initialAnswerMin,"反思");
+  document.getElementById("initialError_"+key).textContent=error;
+  if(error)return;
   btn.disabled=true;btn.textContent="送出中…";
   let result;
-  try{result=await post("askSemesterFollowUp",{studentId:STUDENT.studentId,name:STUDENT.name,courseKey:key,category:s.category,initialAnswer:answer});if(!result.ok)throw new Error(result.msg)}
+  try{result=await post("askSemesterFollowUp",{studentId:STUDENT.studentId,name:STUDENT.name,courseKey:key,category:s.category,initialAnswer:answer});if(!result.ok){btn.disabled=false;btn.textContent="送出";document.getElementById("initialError_"+key).textContent=result.msg||"請重新回答";return}}
   catch(e){result={question:localFallback(s,answer),source:"frontend-fallback",needsHumanCare:false}}
   REFLECTIONS[key]={question:result.question,source:result.source||"fallback",needsHumanCare:!!result.needsHumanCare};
   document.getElementById("question_"+key).textContent=result.question;
@@ -121,24 +272,35 @@ function submitFollowUpAnswer(key){
   const state=REFLECTIONS[key],input=document.getElementById("follow_"+key),btn=document.getElementById("followSubmit_"+key);
   const answer=input.value.trim();
   if(!state){alert("請先送出前一題");return}
-  if(answer.length<2){alert("請先回答這一題");return}
+  const error=textValidationMessage(answer,VALIDATION.followUpAnswerMin,"追問回答");
+  document.getElementById("followError_"+key).textContent=error;
+  if(error)return;
   state.followUpAnswer=answer;state.answerSubmitted=true;
   input.disabled=true;btn.disabled=true;btn.textContent="已送出";
   document.getElementById("followStatus_"+key).textContent="回答已送出";
+  setTimeout(()=>finishSubjectStep(key),300);
 }
 async function submitSurvey(){
-  document.getElementById("submitErr").innerHTML="";
+  document.getElementById("submitErr").innerHTML="";document.getElementById("lifeSubmitErr").innerHTML="";
   const reflections=[];
   for(const s of STUDENT.selectedSubjects){
     const state=REFLECTIONS[s.courseKey],initial=document.getElementById("initial_"+s.courseKey).value.trim();
-    if(!state||!state.answerSubmitted||initial.length<4||String(state.followUpAnswer||"").length<2){document.getElementById("submitErr").innerHTML=alertHtml(`請完成並送出「${s.subject}」的反思與追問`);document.querySelector(`[data-key="${s.courseKey}"]`).scrollIntoView({behavior:"smooth"});return}
+    if(!state||!state.answerSubmitted||textValidationMessage(initial,VALIDATION.initialAnswerMin,"反思")||textValidationMessage(state.followUpAnswer,VALIDATION.followUpAnswerMin,"追問回答")){document.getElementById("submitErr").innerHTML=alertHtml(`請重新完成「${s.subject}」的反思與追問`);return}
     reflections.push({courseKey:s.courseKey,initialAnswer:initial,followUpQuestion:state.question,followUpAnswer:state.followUpAnswer,aiSource:state.source,needsHumanCare:state.needsHumanCare});
   }
-  const body={studentId:STUDENT.studentId,name:STUDENT.name,reflections,commitmentCompletion:document.getElementById("commitmentCompletion").value,overallReflection:document.getElementById("overallReflection").value.trim(),effectiveMethod:document.getElementById("effectiveMethod").value.trim(),stressIndex:document.getElementById("stressIndex").value,routine:document.getElementById("routine").value,summerPlan:document.getElementById("summerPlan").value.trim(),nextCommitment:document.getElementById("nextCommitment").value.trim(),supportNeeds:document.getElementById("supportNeeds").value.trim()};
-  if([body.commitmentCompletion,body.overallReflection,body.effectiveMethod,body.stressIndex,body.summerPlan,body.nextCommitment].some(v=>String(v).trim().length<1)){document.getElementById("submitErr").innerHTML=alertHtml("請完成所有必填欄位");return}
+  const lifeReflections=[];
+  for(const item of LIFE_QUESTIONS){
+    const state=LIFE_REFLECTIONS[item.id];
+    if(!item.required&&state?.skipped)continue;
+    const initial=document.getElementById("lifeInitial_"+item.id)?.value.trim()||"";
+    if(!state||!state.answerSubmitted||lifeInitialValidationMessage(initial)||textValidationMessage(state.followUpAnswer,VALIDATION.followUpAnswerMin,"追問回答")){document.getElementById("lifeSubmitErr").innerHTML=alertHtml(`請重新完成二年級生活回顧第 ${item.id} 題`);showLifeStep(Number(item.id)-1);return}
+    lifeReflections.push({questionId:item.id,initialAnswer:initial,followUpQuestion:state.question,followUpAnswer:state.followUpAnswer,aiSource:state.source,needsHumanCare:state.needsHumanCare});
+  }
+  const body={studentId:STUDENT.studentId,name:STUDENT.name,reflections,lifeReflections,commitmentCompletion:document.getElementById("commitmentCompletion").value,overallReflection:document.getElementById("overallReflection").value.trim(),effectiveMethod:document.getElementById("effectiveMethod").value.trim(),stressIndex:document.getElementById("stressIndex").value,routine:document.getElementById("routine").value,summerPlan:document.getElementById("summerPlan").value.trim(),nextCommitment:document.getElementById("nextCommitment").value.trim(),supportNeeds:document.getElementById("supportNeeds").value.trim()};
+  for(const index of [0,1,2,3,5,6]){const error=overallStepMessage(index);if(error){hide("lifeCard");show("overallCard");document.getElementById("submitErr").innerHTML=alertHtml(error);setOverallStep(index);return}}
   const btn=document.getElementById("submitBtn");btn.disabled=true;btn.textContent="送出中…";
   try{const d=await post("submitSemesterStudent",body);if(!d.ok)throw new Error(d.msg);hide("survey");show("doneCard");window.scrollTo({top:0,behavior:"smooth"})}
-  catch(e){btn.disabled=false;btn.textContent="送出學期問卷";document.getElementById("submitErr").innerHTML=alertHtml(e.message||"提交失敗，請重試")}
+  catch(e){btn.disabled=false;btn.textContent="送出學期問卷";document.getElementById("lifeSubmitErr").innerHTML=alertHtml(e.message||"提交失敗，請重試")}
 }
 </script>
 </body>
