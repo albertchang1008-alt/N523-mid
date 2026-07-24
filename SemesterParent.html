@@ -13,6 +13,7 @@ h2{font-size:20px;margin:0 0 8px}.desc,.muted{color:var(--muted);font-size:14px;
 textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font:inherit;background:white;line-height:1.6}.btn{width:100%;border:0;border-radius:10px;padding:14px;background:var(--teal);color:white;font:inherit;font-weight:900;cursor:pointer}.btn:disabled{opacity:.55}
 .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}.metric{background:#f0fdfa;border:1px solid #99f6e4;border-radius:11px;padding:12px;text-align:center}.metric b{display:block;font-size:20px;color:var(--teal2)}.metric span{font-size:12px;color:var(--muted)}
 .info{background:#f8fafc;border:1px solid var(--line);padding:14px;border-radius:10px;margin-top:10px}.info strong{display:block;color:var(--teal2);margin-bottom:6px}.info div{white-space:pre-line;line-height:1.7}
+.life-list{display:grid;gap:12px;margin-top:16px}.life-item{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:16px}.life-title{color:var(--teal2);font-weight:900;line-height:1.6;margin-bottom:12px}.life-answer{border-top:1px solid var(--line);padding-top:10px;margin-top:10px;line-height:1.7;white-space:pre-wrap;overflow-wrap:anywhere}.life-answer strong{display:block;color:var(--muted);font-size:13px;margin-bottom:3px}.life-empty{color:var(--muted);text-align:center;padding:18px 8px}
 .score-table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}.score-table th,.score-table td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:left}.score-table th{font-size:12px;color:var(--muted)}.score-table .down{color:#b91c1c;font-weight:800}.score-table .up{color:#047857;font-weight:800}
 .checks{display:grid;grid-template-columns:1fr 1fr;gap:8px}.checks label{display:flex;gap:8px;border:1px solid var(--line);border-radius:9px;padding:11px;font-weight:500;margin:0}
 .alert{border-radius:10px;padding:13px 15px;margin-bottom:14px;line-height:1.6}.danger{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.done{background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46}.hidden{display:none!important}.loading{text-align:center;padding:42px;color:var(--muted)}
@@ -36,6 +37,11 @@ textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;paddi
       <div class="info"><strong>學生認為有效的方法</strong><div id="method"></div></div>
       <div class="info"><strong>暑假補強計畫</strong><div id="summer"></div></div>
       <div class="info"><strong>下學期承諾</strong><div id="commitment"></div></div>
+    </section>
+    <section class="card">
+      <h2>學生的二年級生活回顧</h2>
+      <div class="desc">以下是學生在學期問卷中寫下的生活感想，以及老師進一步了解後的補充回答。</div>
+      <div id="lifeReflections" class="life-list"></div>
     </section>
     <section class="card">
       <h2>家長觀察與支持</h2><div class="desc">您的回饋僅供班級導師了解學生狀況與安排後續支持。</div>
@@ -66,6 +72,39 @@ function show(id){document.getElementById(id).classList.remove("hidden")}
 function hide(id){document.getElementById(id).classList.add("hidden")}
 function err(msg){return msg?`<div class="alert danger">${esc(msg)}</div>`:""}
 async function post(action,body){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action,...body})});return r.json()}
+function appendLifeAnswer(container,label,value){
+  const block=document.createElement("div"),heading=document.createElement("strong"),text=document.createElement("div");
+  block.className="life-answer";
+  heading.textContent=label;
+  text.textContent=String(value||"未填寫");
+  block.append(heading,text);
+  container.appendChild(block);
+}
+function renderLifeReflections(items){
+  const container=document.getElementById("lifeReflections");
+  container.replaceChildren();
+  const rows=(Array.isArray(items)?items:[])
+    .filter(x=>String(x?.questionId||"")!=="6"||[x?.initialAnswer,x?.followUpQuestion,x?.followUpAnswer].some(v=>String(v||"").trim()))
+    .sort((a,b)=>Number(a?.questionId||0)-Number(b?.questionId||0));
+  if(!rows.length){
+    const empty=document.createElement("div");
+    empty.className="life-empty";
+    empty.textContent="查無二年級生活回顧";
+    container.appendChild(empty);
+    return;
+  }
+  rows.forEach((item,index)=>{
+    const card=document.createElement("article"),title=document.createElement("div");
+    card.className="life-item";
+    title.className="life-title";
+    title.textContent=`第 ${item.questionId||index+1} 題｜${item.question||"二年級生活感想"}`;
+    card.appendChild(title);
+    appendLifeAnswer(card,"學生原始回答",item.initialAnswer);
+    appendLifeAnswer(card,"老師追問",item.followUpQuestion);
+    appendLifeAnswer(card,"學生補充回答",item.followUpAnswer);
+    container.appendChild(card);
+  });
+}
 async function init(){
   if(!TOKEN){hide("loading");show("error");document.getElementById("errorText").textContent="連結無效，請向班級導師重新取得。";return}
   try{
@@ -83,6 +122,7 @@ async function init(){
     document.getElementById("method").textContent=s.effectiveMethod||"未填寫";
     document.getElementById("summer").textContent=s.summerPlan||"未填寫";
     document.getElementById("commitment").textContent=s.nextCommitment||"未填寫";
+    renderLifeReflections(s.lifeReflections);
     show("form");
   }catch(e){hide("loading");show("error");document.getElementById("errorText").textContent="網路連線失敗，請稍後重試。"}
 }
