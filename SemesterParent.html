@@ -49,7 +49,7 @@ textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;paddi
       <div class="field"><label>1. 孩子看到學期成績後的主要反應<span class="req">*</span></label>
         <select id="reaction"><option value="">請選擇</option><option>願意面對，也主動思考改善</option><option>在意成績，但需要提醒才願意談</option><option>情緒低落或明顯挫折</option><option>反應平淡，不太願意談</option><option>家長不清楚孩子的反應</option></select></div>
       <div class="field"><label>2. 您觀察孩子本學期進步或退步的主要原因是什麼？<span class="req">*</span></label><textarea id="observedReason" rows="4"></textarea></div>
-      <div class="field"><label>3. 暑假期間家中可提供哪些支持？</label><div id="supports" class="checks">
+      <div class="field"><label>3. 暑假期間家中可提供哪些支持？（可複選）<span class="req">*</span></label><div id="supports" class="checks">
         <label><input type="checkbox" value="協助安排固定複習時間">協助安排固定複習時間</label>
         <label><input type="checkbox" value="減少手機或娛樂干擾">減少手機或娛樂干擾</label>
         <label><input type="checkbox" value="關心睡眠與生活作息">關心睡眠與生活作息</label>
@@ -126,9 +126,9 @@ async function init(){
 }
 async function submitParent(){
   const reaction=document.getElementById("reaction").value,observedReason=document.getElementById("observedReason").value.trim();
-  if(!reaction||observedReason.length<4){document.getElementById("submitErr").innerHTML=err("請完成前兩題必填欄位");return}
-  const btn=document.getElementById("submitBtn");btn.disabled=true;btn.textContent="送出中…";
   const supportMethods=[...document.querySelectorAll("#supports input:checked")].map(x=>x.value);
+  if(!reaction||observedReason.length<4||!supportMethods.length){document.getElementById("submitErr").innerHTML=err("請完成前三題必填欄位，暑假支持方式至少勾選一項");return}
+  const btn=document.getElementById("submitBtn");btn.disabled=true;btn.textContent="送出中…";
   try{
     const d=await post("submitSemesterParent",{token:TOKEN,reaction,observedReason,supportMethods,concerns:document.getElementById("concerns").value.trim(),schoolHelp:document.getElementById("schoolHelp").value.trim(),contactRequest:document.getElementById("contactRequest").value});
     if(!d.ok)throw new Error(d.msg);hide("form");show("done");window.scrollTo({top:0,behavior:"smooth"});
