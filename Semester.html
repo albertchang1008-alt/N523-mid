@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>114-2 學期成績反思問卷｜N523</title>
 <style>
 :root{--blue:#2563eb;--blue2:#1e3a8a;--paper:#f8fafc;--ink:#172033;--muted:#64748b;--line:#dbe3ef;--red:#dc2626;--orange:#d97706;--green:#059669;--purple:#7c3aed}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Microsoft JhengHei",sans-serif}
-.hero{background:linear-gradient(120deg,rgba(30,58,138,.92),rgba(37,99,235,.78)),url("image.png") center 58%/cover;padding:42px 18px;color:white;text-align:center}.hero h1{margin:0 0 8px;font-size:27px}.hero p{margin:0;line-height:1.7}
+.hero{background:linear-gradient(120deg,rgba(30,58,138,.92),rgba(37,99,235,.78)),url("image.png") center 58%/cover;padding:42px 18px;color:white;text-align:center}.hero h1{margin:0 0 8px;font-size:27px}.hero p{margin:0;line-height:1.7}.form-version{margin-top:8px;font-size:12px;opacity:.82}
 .wrap{max-width:850px;margin:0 auto;padding:22px 15px 60px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:16px;box-shadow:0 5px 18px rgba(15,23,42,.05)}
 h2{font-size:20px;margin:0 0 8px}.desc{color:var(--muted);font-size:14px;line-height:1.7;margin-bottom:18px}.field{margin-bottom:17px}.field label{display:block;font-weight:800;margin-bottom:7px;line-height:1.5}.req{color:var(--red)}
 input[type=text],textarea,select{width:100%;border:1px solid var(--line);border-radius:10px;padding:13px 14px;font:inherit;color:var(--ink);background:#fff}textarea{resize:vertical;line-height:1.65}input:focus,textarea:focus,select:focus{outline:2px solid #bfdbfe;border-color:var(--blue)}
@@ -23,7 +26,7 @@ input[type=text],textarea,select{width:100%;border:1px solid var(--line);border-
 </style>
 </head>
 <body>
-<header class="hero"><h1>114-2 學期成績反思問卷</h1><p>回顧這學期的努力，找出值得保留的方法與下一步。</p></header>
+<header class="hero"><h1>114-2 學期成績反思問卷</h1><p>回顧這學期的努力，找出值得保留的方法與下一步。</p><div class="form-version">表單版本 v2026.07.24.20</div></header>
 <main class="wrap">
   <section id="verifyCard" class="card">
     <h2>學生身分確認</h2><div class="desc">請輸入學號與姓名，系統會載入你的學期成績。</div>
@@ -129,7 +132,7 @@ function esc(v){const d=document.createElement("div");d.textContent=String(v??""
 function show(id){document.getElementById(id).classList.remove("hidden")}
 function hide(id){document.getElementById(id).classList.add("hidden")}
 function alertHtml(msg){return msg?`<div class="alert danger">${esc(msg)}</div>`:""}
-function answerIsLowQuality(value){const text=String(value||"").normalize("NFKC").replace(/[\s，。！？!?、；;：:「」『』"'（）()～~…·._-]+/g,"");if(!text)return true;if(/^(沒有|完全沒有|都沒有|沒有耶|都沒有耶|不知道|不知道耶|不清楚|沒想法|沒意見|隨便|都可以|還好|還不錯|普通|無|不想回答)$/.test(text))return true;if(/^(我)?(沒有|沒)(念|讀|準備|複習|做)?好$/.test(text)||/^(不太好|不好|很差|很爛)$/.test(text))return true;return new Set(Array.from(text)).size<=1}
+function answerIsLowQuality(value){const text=String(value||"").normalize("NFKC").replace(/[\s，。！？!?、；;：:「」『』"'（）()～~…·._-]+/g,"");if(!text)return true;if(/^(沒有|完全沒有|都沒有|沒有耶|都沒有耶|不知道|不知道耶|不清楚|沒想法|沒意見|隨便|都可以|還好|還不錯|普通|無|不想回答)$/.test(text))return true;if(/^(我)?(沒有|沒)(念|讀|準備|複習|做)?好$/.test(text)||/^(不太好|不好|很差|很爛)$/.test(text))return true;if(text.length>=6&&text.length%2===0&&text.slice(0,text.length/2)===text.slice(text.length/2))return true;return new Set(Array.from(text)).size<=1}
 function answerLength(value){return Array.from(String(value||"").replace(/\s/g,"")).length}
 function sentenceParts(value){return String(value||"").split(/[。！？!?；;\n]+/).map(s=>s.trim()).filter(Boolean)}
 function sentenceCount(value){return sentenceParts(value).length}
@@ -149,7 +152,14 @@ async function verifyStudent(){
     hide("loadingCard");
     if(!d.ok){show("verifyCard");document.getElementById("verifyErr").innerHTML=alertHtml(d.msg);return}
     if(d.alreadyDone){show("doneCard");return}
-    STUDENT=d.student;VALIDATION={...VALIDATION,...(d.validation||{})};renderSurvey();show("survey");
+    const serverRules=d.validation||{};
+    VALIDATION={
+      initialAnswerMin:Math.max(7,Number(serverRules.initialAnswerMin)||0),
+      followUpAnswerMin:Math.max(7,Number(serverRules.followUpAnswerMin)||0),
+      requiredTextMin:Math.max(7,Number(serverRules.requiredTextMin)||0),
+      lifeInitialMinSentences:Math.max(2,Number(serverRules.lifeInitialMinSentences)||0)
+    };
+    STUDENT=d.student;renderSurvey();show("survey");
   }catch(e){hide("loadingCard");show("verifyCard");document.getElementById("verifyErr").innerHTML=alertHtml("連線失敗，請稍後重試")}
 }
 function renderSurvey(){
@@ -160,7 +170,7 @@ function renderSurvey(){
   document.getElementById("scoreBody").innerHTML=STUDENT.subjects.map(s=>{const delta=s.delta===null?"—":`${s.delta>0?"+":""}${s.delta}`;const cls=s.score<60?"fail":s.delta<=-10?"down":s.delta>=10?"up":"";return`<tr><td>${esc(s.subject)}</td><td>${esc(s.midtermScore??"—")}</td><td class="${s.score<60?"fail":""}">${esc(s.score)}</td><td class="${cls}">${esc(delta)}</td></tr>`}).join("");
   const commitment=String(STUDENT.midtermCommitment||"").trim(),followCommitment=String(STUDENT.followUpCommitment||"").trim();
   document.getElementById("midtermCommitmentBox").innerHTML=`<div class="commitment-item"><div class="title">期中問卷｜行動承諾</div><div class="text">${commitment?esc(commitment):"查無紀錄"}</div></div><div class="commitment-item"><div class="title">學生追蹤問卷｜本週承諾</div><div class="text">${followCommitment?esc(followCommitment):"查無紀錄"}</div></div>`;
-  document.getElementById("reflectionList").innerHTML=STUDENT.selectedSubjects.map((s,index)=>`<div class="reflect step-panel ${index===0?"":"hidden"}" data-key="${esc(s.courseKey)}" data-subject-index="${index}"><div class="reflect-head"><div><div class="reflect-title">${esc(s.subject)}</div><div class="muted">期中 ${esc(s.midtermScore??"—")} → 學期 ${esc(s.score)} ${s.delta===null?"":`（${s.delta>0?"+":""}${esc(s.delta)}）`}</div></div><span class="tag ${esc(s.category)}">${categoryLabel(s)}</span></div><div class="field"><label>${esc(fixedPrompt(s))}<span class="req">*</span><span class="rule-hint">至少 ${VALIDATION.initialAnswerMin} 個字，不含空格</span></label><textarea id="initial_${esc(s.courseKey)}" rows="3" minlength="${VALIDATION.initialAnswerMin}"></textarea></div><button id="ask_${esc(s.courseKey)}" class="btn follow" onclick="askFollowUp('${esc(s.courseKey)}')">送出</button><div class="step-error" id="initialError_${esc(s.courseKey)}"></div><div class="follow-box" id="followBox_${esc(s.courseKey)}"><div class="muted">老師想再了解</div><div class="follow-q" id="question_${esc(s.courseKey)}"></div><label class="muted" for="follow_${esc(s.courseKey)}">請具體回答，至少 ${VALIDATION.followUpAnswerMin} 個字（不含空格）</label><textarea id="follow_${esc(s.courseKey)}" rows="3" minlength="${VALIDATION.followUpAnswerMin}" placeholder="請回答這一題"></textarea><button id="followSubmit_${esc(s.courseKey)}" class="btn follow" onclick="submitFollowUpAnswer('${esc(s.courseKey)}')" style="margin-top:10px">送出回答</button><div class="step-error" id="followError_${esc(s.courseKey)}"></div><div class="muted" id="followStatus_${esc(s.courseKey)}" style="margin-top:7px">回答後請按「送出回答」</div></div></div>`).join("");
+  document.getElementById("reflectionList").innerHTML=STUDENT.selectedSubjects.map((s,index)=>`<div class="reflect step-panel ${index===0?"":"hidden"}" data-key="${esc(s.courseKey)}" data-subject-index="${index}"><div class="reflect-head"><div><div class="reflect-title">${esc(s.subject)}</div><div class="muted">期中 ${esc(s.midtermScore??"—")} → 學期 ${esc(s.score)} ${s.delta===null?"":`（${s.delta>0?"+":""}${esc(s.delta)}）`}</div></div><span class="tag ${esc(s.category)}">${categoryLabel(s)}</span></div><div class="field"><label>${esc(fixedPrompt(s))}<span class="req">*</span><span class="rule-hint">至少 7 個字，不含空格</span></label><textarea id="initial_${esc(s.courseKey)}" rows="3" minlength="7"></textarea></div><button id="ask_${esc(s.courseKey)}" class="btn follow" onclick="askFollowUp('${esc(s.courseKey)}')">送出</button><div class="step-error" id="initialError_${esc(s.courseKey)}"></div><div class="follow-box" id="followBox_${esc(s.courseKey)}"><div class="muted">老師想再了解</div><div class="follow-q" id="question_${esc(s.courseKey)}"></div><label class="muted" for="follow_${esc(s.courseKey)}">請具體回答，至少 7 個字（不含空格）</label><textarea id="follow_${esc(s.courseKey)}" rows="3" minlength="7" placeholder="請回答這一題"></textarea><button id="followSubmit_${esc(s.courseKey)}" class="btn follow" onclick="submitFollowUpAnswer('${esc(s.courseKey)}')" style="margin-top:10px">送出回答</button><div class="step-error" id="followError_${esc(s.courseKey)}"></div><div class="muted" id="followStatus_${esc(s.courseKey)}" style="margin-top:7px">回答後請按「送出回答」</div></div></div>`).join("");
   CURRENT_SUBJECT_INDEX=0;CURRENT_OVERALL_STEP=0;updateSubjectProgress();
 }
 function updateSubjectProgress(){
@@ -208,7 +218,7 @@ function startLifeReflection(){
   document.getElementById("lifeCard").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function renderLifeReflection(){
-  document.getElementById("lifeReflectionList").innerHTML=LIFE_QUESTIONS.map((item,index)=>`<div class="step-panel ${index===0?"":"hidden"}" data-life-index="${index}" data-life-id="${item.id}"><div class="field"><label>${item.id}、${esc(item.question)}${item.required?'<span class="req">*</span>':""}<span class="rule-hint">${item.required?"至少 "+VALIDATION.lifeInitialMinSentences+" 句，每句至少 "+VALIDATION.initialAnswerMin+" 個字，不含空格":"自由填寫，可略過；填寫時至少 "+VALIDATION.lifeInitialMinSentences+" 句，每句至少 "+VALIDATION.initialAnswerMin+" 個字"}</span></label><textarea id="lifeInitial_${item.id}" rows="4" ${item.required?`minlength="${VALIDATION.initialAnswerMin}"`:""} placeholder="請用至少兩個句子完整說明，每句至少七個字"></textarea></div><div class="step-actions" style="justify-content:${item.required?"flex-end":"space-between"}">${item.required?"":`<button class="btn follow" onclick="skipLifeQuestion('${item.id}')">略過這題</button>`}<button id="lifeAsk_${item.id}" class="btn primary" style="width:auto" onclick="askLifeFollowUp('${item.id}')">送出</button></div><div class="step-error" id="lifeInitialError_${item.id}"></div><div class="follow-box" id="lifeFollowBox_${item.id}"><div class="muted">老師想再了解</div><div class="follow-q" id="lifeQuestion_${item.id}"></div><label class="muted" for="lifeFollow_${item.id}">請具體回答，至少 ${VALIDATION.followUpAnswerMin} 個字（不含空格）</label><textarea id="lifeFollow_${item.id}" rows="3" minlength="${VALIDATION.followUpAnswerMin}"></textarea><button id="lifeFollowSubmit_${item.id}" class="btn follow" onclick="submitLifeFollowUp('${item.id}')" style="margin-top:10px">送出回答</button><div class="step-error" id="lifeFollowError_${item.id}"></div></div></div>`).join("");
+  document.getElementById("lifeReflectionList").innerHTML=LIFE_QUESTIONS.map((item,index)=>`<div class="step-panel ${index===0?"":"hidden"}" data-life-index="${index}" data-life-id="${item.id}"><div class="field"><label>${item.id}、${esc(item.question)}${item.required?'<span class="req">*</span>':""}<span class="rule-hint">${item.required?"至少 2 句，每句至少 7 個字，不含空格":"自由填寫，可略過；填寫時至少 2 句，每句至少 7 個字"}</span></label><textarea id="lifeInitial_${item.id}" rows="4" ${item.required?'minlength="14"':""} placeholder="請用至少兩個句子完整說明，每句至少七個字"></textarea></div><div class="step-actions" style="justify-content:${item.required?"flex-end":"space-between"}">${item.required?"":`<button class="btn follow" onclick="skipLifeQuestion('${item.id}')">略過這題</button>`}<button id="lifeAsk_${item.id}" class="btn primary" style="width:auto" onclick="askLifeFollowUp('${item.id}')">送出</button></div><div class="step-error" id="lifeInitialError_${item.id}"></div><div class="follow-box" id="lifeFollowBox_${item.id}"><div class="muted">老師想再了解</div><div class="follow-q" id="lifeQuestion_${item.id}"></div><label class="muted" for="lifeFollow_${item.id}">請具體回答，至少 7 個字（不含空格）</label><textarea id="lifeFollow_${item.id}" rows="3" minlength="7"></textarea><button id="lifeFollowSubmit_${item.id}" class="btn follow" onclick="submitLifeFollowUp('${item.id}')" style="margin-top:10px">送出回答</button><div class="step-error" id="lifeFollowError_${item.id}"></div></div></div>`).join("");
 }
 function showLifeStep(index){
   CURRENT_LIFE_INDEX=index;
